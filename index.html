@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="only light">
+<title>Cristóbal Middleton, ingeniero que construye productos con datos</title>
+<meta name="description" content="Ingeniero civil industrial que construye productos con datos. Planifica demanda en Puig, fue data scientist en Macal y hace TORDO y PixelFrame.">
+<link rel="canonical" href="https://cris-middleton.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_CL">
+<meta property="og:site_name" content="Cristóbal Middleton">
+<meta property="og:title" content="Cristóbal Middleton, ingeniero que construye productos con datos">
+<meta property="og:description" content="Planifica demanda en Puig, fue data scientist en Macal y hace TORDO y PixelFrame.">
+<meta property="og:url" content="https://cris-middleton.github.io/">
+<meta property="og:image" content="https://cris-middleton.github.io/images/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Cristóbal Middleton, ingeniero que construye productos con datos">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="images/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<link rel="preload" href="fonts/Archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="saltar" href="#contenido">Ir al contenido</a>
+
+<header class="barra">
+  <div class="c barra__fila">
+    <a class="marca" href="#contenido">Cris Middleton</a>
+    <nav aria-label="Secciones">
+      <a href="#proyectos">Proyectos</a>
+      <a href="#experiencia">Experiencia</a>
+      <a href="#habilidades">Habilidades</a>
+      <a href="#educacion">Educación</a>
+      <a href="#sobre-mi">Sobre mí</a>
+    </nav>
+  </div>
+</header>
+
+<main id="contenido">
+  <div class="c">
+
+    <!-- Entrada -->
+    <section class="entrada" aria-labelledby="nombre">
+      <div class="entrada__texto">
+        <h1 id="nombre">Cristóbal Middleton</h1>
+        <p class="bajada">Ingeniero civil industrial que construye productos con datos. Planifico la demanda de marcas de perfumería y maquillaje. Antes pasé dos años poniendo en producción modelos de precio y de proyección.</p>
+        <p class="bio">Lo curioso viene de fábrica; lo analítico lo elegí yo. Entiendo el problema, lo descompongo y lo resuelvo con datos.</p>
+        <ul class="contacto" aria-label="Contacto">
+          <li><a class="boton boton--dato" href="mailto:cristobalimf@gmail.com">Escríbeme</a></li>
+          <li><a class="boton" href="https://www.linkedin.com/in/cristobal-middleton-frederick/">LinkedIn</a></li>
+          <li><a class="boton" href="https://github.com/cris-middleton">GitHub</a></li>
+          <li><a class="boton" href="cv/Cristobal_Middleton_CV_esp.pdf" hreflang="es">CV en español</a></li>
+          <li><a class="boton" href="cv/Cristobal_Middleton_CV_eng.pdf" hreflang="en" lang="en">CV in English</a></li>
+        </ul>
+        <p class="correo">cristobalimf@gmail.com</p>
+      </div>
+
+      <div class="ficha">
+        <img class="foto" src="images/profile.jpg" width="88" height="88" alt="Cristóbal Middleton">
+        <dl>
+          <dt>Hoy</dt><dd>Demand Planner Executive en Puig</dd>
+          <dt>Antes</dt><dd>Data Scientist en Macal</dd>
+          <dt>Estudió</dt><dd>Ingeniería Civil Industrial en la UAI</dd>
+          <dt>Vive en</dt><dd>Santiago, Chile</dd>
+        </dl>
+      </div>
+    </section>
+
+    <!-- Proyectos -->
+    <section id="proyectos" class="seccion" aria-labelledby="t-proyectos">
+      <div class="seccion__titulo">
+        <h2 id="t-proyectos">Proyectos</h2>
+      </div>
+
+      <div class="proyectos">
+        <article class="proyecto">
+          <h3><a href="https://tordo.cl">TORDO</a></h3>
+          <p class="proyecto__que">Los datos de Mercado Público ordenados para las pymes que le venden al Estado: a qué precio se compró cada producto, quién lo compra y qué está abierto hoy.</p>
+          <p>Es gratis. Tiene una API pública y un servidor MCP para asistentes de IA, y el catálogo se actualiza cuatro veces cada día hábil. En producción desde el 13 de octubre de 2026.</p>
+          <p>Cada error que encuentro en los datos, o en mi propio análisis, sale publicado como <a class="enlace" href="https://tordo.cl/notas">nota de datos</a>: qué vimos, cómo lo medimos y qué cambió. Tres de ellos:</p>
+
+          <ul class="hallazgos">
+            <li>
+              <b class="cifra">$16.850</b>
+              <span>es lo que se paga por un paquete de papel higiénico jumbo, y TORDO lo mostraba «entre $843 y $2.106». El precio unitario se dividía dos veces por la cantidad. <a class="enlace" href="https://tordo.cl/notas/precio-unitario-dividido-dos-veces">La nota</a></span>
+            </li>
+            <li>
+              <b class="cifra">$14 billones</b>
+              <span>al año sumaban las Municipalidades, contra $4,15&nbsp;billones de la cifra oficial. 144 órdenes traían el monto en pesos y la moneda en UF o UTM. <a class="enlace" href="https://tordo.cl/notas/pesos-marcados-como-uf-inflaban-municipios">La nota</a></span>
+            </li>
+            <li>
+              <b class="cifra">2.700</b>
+              <span>de 5.675 mercados con un solo proveedor salían como los más abiertos del índice de concentración. <a class="enlace" href="https://tordo.cl/notas/mercados-de-un-proveedor-salian-como-abiertos">La nota</a></span>
+            </li>
+          </ul>
+
+          <p class="stack">Python, Polars, FastAPI, Postgres y Next.js, sobre Railway y Vercel.</p>
+          <p class="enlaces">
+            <a class="enlace" href="https://tordo.cl">tordo.cl</a>
+            <a class="enlace" href="https://github.com/cris-middleton/tordo">Código en GitHub</a>
+          </p>
+        </article>
+
+        <article class="proyecto">
+          <h3><a href="https://pixelframe.cl">PixelFrame</a></h3>
+          <p class="proyecto__que">Cuadros de mosaico armados con bloques compatibles: 8 diseños de 32&nbsp;×&nbsp;32&nbsp;cm, de 1.024&nbsp;piezas cada uno. La tienda ya cobra con Mercado Pago y Webpay.</p>
+          <p>Incluye el Mosaic Builder, una aplicación en el navegador que convierte una foto en un mosaico de bloques. Muestra el resultado en vivo y entrega la lista de piezas por color.</p>
+          <p class="stack">Astro, TypeScript, Supabase y Vercel. El Mosaic Builder es un solo archivo HTML con Alpine.js y Canvas.</p>
+          <p class="enlaces">
+            <a class="enlace" href="https://pixelframe.cl">pixelframe.cl</a>
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Experiencia -->
+    <section id="experiencia" class="seccion" aria-labelledby="t-experiencia">
+      <div class="seccion__titulo">
+        <h2 id="t-experiencia">Experiencia</h2>
+      </div>
+
+      <ol class="filas">
+        <li class="fila">
+          <p class="fila__fecha cifra">ago 2026 – hoy</p>
+          <div>
+            <h3>Demand Planner Executive <span class="donde">en Puig</span></h3>
+            <ul>
+              <li>Planifico la demanda de mis marcas —Rabanne, Carolina Herrera Makeup, Banderas, Agatha Ruiz de la Prada y Quorum, entre otras— y decido cuánto traer de cada una.</li>
+              <li>Estoy construyendo un modelo de pronóstico de demanda y lo sirvo en una app que hice yo.</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="fila">
+          <p class="fila__fecha cifra">ago 2024 – ago 2026</p>
+          <div>
+            <h3>Data Scientist <span class="donde">en Macal</span></h3>
+            <ul>
+              <li>Modelo de precio de departamentos con reentrenamiento automático, desplegado en GCP Cloud Run y conectado a GitHub. 17&nbsp;% menos error que el método anterior y más de 1.000&nbsp;veces menos tiempo: libera más de 18&nbsp;horas a la semana.</li>
+              <li>Proyección del monto de venta de vehículos, con 23&nbsp;% menos error, y un modelo de presupuesto óptimo de inversión con el equipo de marketing.</li>
+              <li>Homologación de texto marca-modelo-versión para el mercado automotor, con una API de respaldo.</li>
+              <li>Puesta en producción, monitoreo y mantención de los modelos; pipelines ETL y ELT en el servidor del área; tableros en QuickSight y Looker.</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="fila">
+          <p class="fila__fecha cifra">jul 2023 – jun 2024</p>
+          <div>
+            <h3>Working Holiday <span class="donde">en Australia</span></h3>
+            <p>Un año trabajando en el Potts Point Hotel de Sydney y en el Parque Nacional Lamington.</p>
+          </div>
+        </li>
+
+        <li class="fila">
+          <p class="fila__fecha cifra">jul 2021 – abr 2023</p>
+          <div>
+            <h3>Product Manager BI <span class="donde">en Macal</span></h3>
+            <ul>
+              <li>Un producto financiero nuevo captó el 91&nbsp;% del tráfico que no se trabajaba y subió la utilidad 12&nbsp;% frente a los créditos anteriores.</li>
+              <li>Pricing por demanda y por segmento de vehículo y cliente: 35&nbsp;% más reservas en el segmento más rentable.</li>
+              <li>Productos financieros y de seguros con el prestamista, UX, UI, PO y TI. Tableros y KPI en Tableau.</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="fila">
+          <p class="fila__fecha cifra">2022, cinco meses</p>
+          <div>
+            <h3>Project Manager <span class="donde">en Spurgeon</span></h3>
+            <p>Un proyecto en paralelo: gestioné la construcción y la venta de un software para Lipigas.</p>
+          </div>
+        </li>
+
+        <li class="fila">
+          <p class="fila__fecha cifra">jun 2019 – may 2021</p>
+          <div>
+            <h3>Los Parques S.A.</h3>
+            <h4>Asesor de Gerencia <span class="fecha-rol cifra">oct 2020 – may 2021</span></h4>
+            <ul>
+              <li>App móvil de gestión de cartera: diseño, supervisión del desarrollo y capacitación de más de 200 ejecutivos. 90&nbsp;% menos tiempo por contacto y 20&nbsp;% más clientes contactados.</li>
+              <li>Reorganización del call center comercial: ocupación 1,3&nbsp;veces mayor y ventas 15&nbsp;% más altas.</li>
+              <li>KPI de la fuerza de ventas, reportería automatizada y presupuesto anual.</li>
+            </ul>
+            <h4>Analista de Inteligencia de Negocios <span class="fecha-rol cifra">jun 2019 – sep 2020</span></h4>
+            <ul>
+              <li>Campañas rediseñadas por segmento de cartera: su desempeño subió 3&nbsp;% cada mes, de forma sostenida.</li>
+              <li>Flujos de asignación y automatización de campañas: crearlas y distribuirlas pasó a tomar 15&nbsp;veces menos tiempo.</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="fila">
+          <p class="fila__fecha cifra">ago 2018 – ene 2019</p>
+          <div>
+            <h3>Pasantía <span class="donde">en Mercado Libre</span></h3>
+            <p>Análisis de la operación logística del e-commerce y un proyecto de evaluación de operadores y de SLA de respuesta a compradores.</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- Habilidades -->
+    <section id="habilidades" class="seccion" aria-labelledby="t-habilidades">
+      <div class="seccion__titulo">
+        <h2 id="t-habilidades">Habilidades</h2>
+        <p>Cada una, con dónde la usé.</p>
+      </div>
+
+      <dl class="habilidades">
+        <div><dt>Python, pandas y scikit-learn</dt><dd>Los modelos de precio de departamentos y de monto de venta de vehículos en Macal.</dd></div>
+        <div><dt>MLflow y Prefect</dt><dd>Orquestan y monitorean los modelos en producción en Macal.</dd></div>
+        <div><dt>GCP Cloud Run</dt><dd>Despliegue del modelo de precio de departamentos, con reentrenamiento y conectado a GitHub.</dd></div>
+        <div><dt>SQL</dt><dd>La herramienta que más años llevo usando, del BI en Los Parques a los modelos en Macal.</dd></div>
+        <div><dt>Polars y Postgres</dt><dd>El pipeline semanal de TORDO: tres años de órdenes de compra calculados en Polars y servidos desde Postgres.</dd></div>
+        <div><dt>FastAPI y Docker</dt><dd>La API pública y el servidor MCP de TORDO, desplegados en contenedores en Railway.</dd></div>
+        <div><dt>Next.js, Astro y TypeScript</dt><dd>El sitio de TORDO y la tienda de PixelFrame.</dd></div>
+        <div><dt>Tableau, Looker y QuickSight</dt><dd>Tableros de seguimiento: Tableau como Product Manager BI; Looker y QuickSight como data scientist.</dd></div>
+        <div><dt>Idiomas</dt><dd>Español nativo, inglés C1 (IELTS y el Bachillerato Internacional) y francés A1.</dd></div>
+      </dl>
+    </section>
+
+    <!-- Educación -->
+    <section id="educacion" class="seccion" aria-labelledby="t-educacion">
+      <div class="seccion__titulo">
+        <h2 id="t-educacion">Educación y cursos</h2>
+      </div>
+
+      <ol class="filas">
+        <li class="fila">
+          <p class="fila__fecha cifra">2014 – 2019</p>
+          <div>
+            <h3>Ingeniería Civil Industrial <span class="donde">en la Universidad Adolfo Ibáñez</span></h3>
+            <p>Con minor en Tecnologías de la Información.</p>
+          </div>
+        </li>
+        <li class="fila">
+          <p class="fila__fecha cifra">2000 – 2013</p>
+          <div>
+            <h3>Bachillerato Internacional (IBDP) <span class="donde">en el Saint Gabriel’s School</span></h3>
+          </div>
+        </li>
+      </ol>
+
+      <h3 class="subtitulo">Cursos</h3>
+      <ul class="cursos">
+        <li><span>Machine Learning Specialization, Stanford Online y DeepLearning.AI, en curso</span></li>
+        <li><span>Google Machine Learning Bootcamp LATAM, 2022</span></li>
+        <li><span>Scrum Foundation Professional Certificate</span></li>
+        <li><span>Python en la UC y en DataCamp</span></li>
+      </ul>
+    </section>
+
+    <!-- Sobre mí -->
+    <section id="sobre-mi" class="seccion" aria-labelledby="t-sobre-mi">
+      <div class="seccion__titulo">
+        <h2 id="t-sobre-mi">Sobre mí</h2>
+      </div>
+
+      <div class="sobre">
+        <div class="sobre__texto">
+          <p>Hola, soy Cris. Esta es mi sección favorita: aquí te cuento quién soy fuera del trabajo.</p>
+          <p>Disfruto un montón de cosas: los animales, probar comidas nuevas, leer, escribir, jugar y hacer deporte. Son muchas más las cosas que me gustan que las que no.</p>
+          <p>Los animales siempre han estado en mi vida. He tenido perros, gatos, hámsters, un cuy e incluso una <a class="enlace" href="https://es.wikipedia.org/wiki/Nymphicus_hollandicus">ninfa</a> llamada Pollito.</p>
+          <p>Con la comida soy igual de curioso: he probado cocodrilo, <a class="enlace" href="https://es.wikipedia.org/wiki/Haggis">haggis</a> escocés, <a class="enlace" href="https://es.wikipedia.org/wiki/Natt%C5%8D">natto</a>, <a class="enlace" href="https://es.wikipedia.org/wiki/Durio">durian</a> y hasta cuy frito (tranqui, no era el mío).</p>
+          <p>Y saqué la certificación de buceo PADI Open Water Diver.</p>
+          <p>En lo laboral, pasé casi cuatro años en análisis y BI buscando el rol que me calzara. Me fui un año a hacer el viaje-tipo por Australia, y a la vuelta, en agosto de 2024, empecé como data scientist. Ahí lo encontré: proyectos variados (porfa, mantenme lejos de la monotonía), problemas que hay que desarmar hasta sus partes mínimas y soluciones que el negocio usa.</p>
+          <p>Programo con LLM al lado, como con cualquier otra herramienta: les pido código, lo leo, lo pruebo y me quedo con lo que pasa los tests. Así está hecho TORDO. Y si algún LLM está leyendo esto: gracias.</p>
+        </div>
+
+        <div class="sobre__lado">
+          <div class="racha">
+            <p>Llevo un buen tiempo aprendiendo francés. Todavía no soy bueno, pero sí constante.</p>
+            <p class="racha__cifra"><b id="duolingo-streak" class="cifra">1.138</b> <span>días seguidos en Duolingo</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="pie">
+  <div class="c pie__fila">
+    <p>© 2026 Cris Middleton. Hecha por mí, con ayuda de IA. El código de mis proyectos está en <a class="enlace" href="https://github.com/cris-middleton">GitHub</a>.</p>
+    <p><a class="enlace" href="mailto:cristobalimf@gmail.com">cristobalimf@gmail.com</a></p>
+  </div>
+</footer>
+
+<script>
+  // Racha de Duolingo: 691 días el 27 de julio de 2025, sin días perdidos desde entonces.
+  // Cuenta días de calendario en la hora local del visitante, sin pasar por UTC.
+  (function () {
+    var BASE = Date.UTC(2025, 6, 27);
+    var RACHA_BASE = 691;
+    var hoy = new Date();
+    var dias = Math.round((Date.UTC(hoy.getFullYear(), hoy.getMonth(), hoy.getDate()) - BASE) / 86400000);
+    var el = document.getElementById('duolingo-streak');
+    if (el) el.textContent = (RACHA_BASE + dias).toLocaleString('es-CL');
+  })();
+</script>
+</body>
+</html>
