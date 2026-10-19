@@ -217,16 +217,20 @@ h1 {
   margin-bottom: var(--e-4);
   text-wrap: balance;
 }
-/* El punto final es una pieza del mosaico, en el cobre de las cifras. Con el
-   modo oscuro de Samsung Internet (que oscurece los fondos) casi no se ve, y el
-   nombre queda en marfil liso. */
-h1 .punto {
-  display: inline-block;
-  width: 0.17em;
-  height: 0.17em;
-  margin-left: 0.05em;
-  border-radius: 1px;
-  background: var(--cobre);
+/* El punto de la i es el de PixelFrame: un cuadrado del ancho del palo, girado
+   23°, en el cobre de las cifras. La letra es una ı sin punto. Las medidas salen
+   de Schibsted Grotesk en 800 (palo de 350 de 2048 unidades, altura x 1080) y de
+   la proporción del logo de PixelFrame. Es un SVG con currentColor porque el modo
+   oscuro de Samsung Internet respeta el color del texto y oscurece los fondos. */
+.i-pixel { position: relative; }
+.i-pixel-punto {
+  position: absolute;
+  left: 0.0247em;
+  top: 0.2056em;
+  width: 0.1711em;
+  height: 0.1711em;
+  transform: rotate(-23.09deg);
+  color: var(--cobre);
 }
 
 .bajada {
@@ -694,7 +698,16 @@ h3 {
   color: var(--cobre);
   font-variant-numeric: tabular-nums;
 }
+.racha-llamas {
+  display: inline-block;
+  width: 1.15em;
+  height: 1.15em;
+  margin-left: 0.15em;
+  vertical-align: -0.2em;
+}
 .racha p { margin-top: var(--e-1); }
+.datos p + p { margin-top: var(--e-3); }
+.datos b { color: var(--tinta); font-weight: 600; }
 .anios { list-style: none; display: grid; gap: var(--e-2); margin-top: var(--e-4); }
 .anio {
   display: grid;
@@ -790,6 +803,15 @@ h3 {
   .periodo span { display: inline; }
   .periodo span::before { content: ' – '; }
   .frederick { display: none; }
+
+  /* En el celular la ola va después del texto: una franja que no tapa la
+     página, con su pie y sin la barra de colores. */
+  .cuadro { padding: var(--e-3); border-radius: var(--radio-3); }
+  .mosaico-marco { aspect-ratio: 32 / 11; }
+  .mosaico-img { object-fit: cover; }
+  .cuadro figcaption { margin-top: var(--e-3); }
+  .cuadro .pie-titulo { margin-bottom: 0; }
+  .barra-colores, .lectura-colores { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
