@@ -22,6 +22,7 @@
    Espacios en una escala de 4 y 8 px.
    ------------------------------------------------------------------ */
 :root {
+  color-scheme: dark;
   --fondo: #0f1622;
   --fondo-2: #141c29;
   --superficie: #172030;
