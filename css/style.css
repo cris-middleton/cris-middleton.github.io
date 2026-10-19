@@ -214,12 +214,19 @@ h1 {
   font-weight: 800;
   letter-spacing: -0.025em;
   color: var(--tinta);
-  background: linear-gradient(120deg, var(--tinta) 45%, var(--cobre) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
   margin-bottom: var(--e-4);
   text-wrap: balance;
+}
+/* El punto final es una pieza del mosaico, en el cobre de las cifras. Con el
+   modo oscuro de Samsung Internet (que oscurece los fondos) casi no se ve, y el
+   nombre queda en marfil liso. */
+h1 .punto {
+  display: inline-block;
+  width: 0.17em;
+  height: 0.17em;
+  margin-left: 0.05em;
+  border-radius: 1px;
+  background: var(--cobre);
 }
 
 .bajada {
@@ -286,7 +293,10 @@ h1 {
 .boton--suave:hover { color: var(--tinta); background: var(--acero-velo); border-color: transparent; }
 .boton--suave svg { color: var(--acero); }
 
-/* El mosaico de la portada */
+/* El mosaico de la portada. La ola es una imagen: Samsung Internet recolorea
+   los SVG y los fondos con su modo oscuro, y no hay forma de impedirlo desde la
+   página; las imágenes las deja como están. Encima va un SVG transparente que
+   sólo pinta de gris las piezas apagadas al elegir un color. */
 .cuadro {
   background: var(--superficie);
   border: 1px solid var(--borde);
@@ -294,16 +304,28 @@ h1 {
   padding: var(--e-5);
   box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.6);
 }
-.mosaico {
-  width: 100%;
-  height: auto;
+.mosaico-marco {
+  position: relative;
   border-radius: var(--radio-1);
+  overflow: hidden;
   aspect-ratio: 1;
 }
-.mosaico .pieza { transition: fill 0.25s var(--curva); }
+.mosaico-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.mosaico {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.mosaico .pieza { fill: transparent; }
 /* Al elegir un color, el resto del cuadro pasa a gris: claro si el color
    elegido es oscuro, oscuro si es claro (lo decide el script). */
-.mosaico.resaltando .pieza:not(.activa) { fill: var(--apagado, #4f5b6d); }
+.mosaico .gris { fill: var(--apagado, #4f5b6d); }
+.mosaico.resaltando .pieza:not(.activa) { fill: url(#apagadas); }
 
 .cuadro figcaption { margin-top: var(--e-4); }
 .cuadro .pie-titulo {
@@ -319,26 +341,36 @@ h1 {
 .cuadro .pie-titulo a { color: var(--acero); text-decoration: none; white-space: nowrap; }
 .cuadro .pie-titulo a:hover { text-decoration: underline; text-underline-offset: 3px; }
 
-/* La barra se ve de 12 px, pero cada color se puede pulsar en 28 px de alto */
+/* La barra se ve de 12 px, pero cada color se puede pulsar en 28 px de alto.
+   Los colores los pinta una imagen (por lo mismo que la ola) y los botones,
+   transparentes y del mismo ancho que su color, van encima. */
 .barra-colores {
+  position: relative;
   display: flex;
   height: 28px;
-  gap: 2px;
   margin: var(--e-1) 0;
 }
+.barra-img {
+  position: absolute;
+  top: 8px;
+  left: 0;
+  width: 100%;
+  height: 12px;
+  pointer-events: none;
+}
 .barra-colores button {
+  position: relative;
   border: 0;
   padding: 8px 0;
+  background: transparent;
   background-clip: content-box;
   border-radius: 3px;
   cursor: pointer;
   height: 100%;
-  min-width: 6px;
-  transition: opacity 0.2s;
+  transition: background-color 0.2s;
 }
 .barra-colores button:focus-visible { outline-offset: 2px; }
-.barra-colores.resaltando button { opacity: 0.35; }
-.barra-colores.resaltando button.activa { opacity: 1; }
+.barra-colores.resaltando button:not(.activa) { background-color: rgba(23, 32, 48, 0.7); }
 .lectura-colores {
   font-size: 13px;
   color: var(--tenue);
@@ -483,7 +515,6 @@ h3 {
   flex-shrink: 0;
 }
 .insignia svg { width: 32px; height: 32px; }
-.insignia--tordo { background: #e9eef8; }
 .insignia--pixelframe { background: #282828; border: 1px solid #3a3a3a; color: #f5f0e8; }
 .insignia--pixelframe svg { width: 26px; height: 26px; }
 
