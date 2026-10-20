@@ -67,7 +67,7 @@
             <img class="foto" src="images/profile.jpg" alt="Foto de Cristóbal Middleton" width="72" height="72">
             <p>Hoy, <b>Demand Planner Executive en Puig</b></p>
           </div>
-          <h1>Cristóbal M<span class="i-pixel">ı<svg class="i-pixel-punto" viewBox="0 0 1 1" aria-hidden="true"><rect width="1" height="1" fill="currentColor"/></svg></span>ddleton<span class="frederick"> Frederick</span></h1>
+          <h1 aria-label="Cristóbal Middleton Frederick">Cr<span class="i-pixel">ı<svg class="i-pixel-punto" viewBox="0 0 1 1" aria-hidden="true"><rect width="1" height="1" fill="currentColor"/></svg></span>stóbal M<span class="i-pixel i-pixel--cobre">ı<svg class="i-pixel-punto" viewBox="0 0 1 1" aria-hidden="true"><rect width="1" height="1" fill="currentColor"/></svg></span>ddleton<span class="frederick"> Freder<span class="i-pixel">ı<svg class="i-pixel-punto" viewBox="0 0 1 1" aria-hidden="true"><rect width="1" height="1" fill="currentColor"/></svg></span>ck</span></h1>
           <p class="bajada">Construyo productos con datos.<span>Ingeniero civil industrial.</span></p>
           <p class="bio">
             Lo curioso viene de fábrica, lo analítico lo elegí yo. He trabajado en rubros variados,
@@ -118,7 +118,7 @@
             <div>
               <h3>Demand Planner Executive</h3>
               <p class="empresa">Puig</p>
-              <p>Planifico la demanda de mis marcas —Rabanne, Carolina Herrera Makeup, Banderas, Agatha Ruiz de la Prada y Quorum, entre otras—: decido cuánto traer de cada una. Automaticé la reportería, la ingesta y el procesamiento de los datos. Como la empresa no tenía base de datos, armé una en DuckDB que junta SharePoint, archivos descargables y el complemento de SAP para Excel, entre otras fuentes, y que se consulta al instante. Todo eso lo reúne una aplicación que construí yo, junto con un modelo de proyección de demanda.</p>
+              <p>Planifico la demanda de mis marcas —Rabanne, Carolina Herrera Makeup, Banderas, Agatha Ruiz de la Prada y Quorum, entre otras—: decido cuánto traer de cada una. Como la empresa no tenía base de datos, armé una en DuckDB que junta el forecast de SAP IBP, la venta de SAP BW, la cartera de pedidos, el sell-out de los clientes y archivos de SharePoint, y que se consulta al instante. Automaticé la ingesta, el procesamiento y la reportería: cada mañana la carga baja sola los reportes del portal de SAP, refresca el complemento de IBP en Excel y valida cada archivo antes de cargarlo. Todo eso lo reúne una aplicación que construí yo, en Python y Streamlit, con el panel de la reunión de consenso, una torre de control de la demanda, el Forecast Accuracy y un modelo de proyección de demanda. Tiene además un servidor MCP para hacerle preguntas a la base desde un asistente de IA.</p>
             </div>
           </li>
           <li class="hito">
@@ -330,19 +330,19 @@
             <div class="tarjeta habilidad">
               <h3>Ciencia de datos, automatización y orquestación</h3>
               <ul class="chips">
-                <li>Python</li><li>Pandas</li><li>Polars</li><li>NumPy</li><li>Scikit-learn</li><li>Modelos predictivos</li><li>Evaluación de modelos</li><li>MLOps</li><li>MLflow</li><li>Prefect</li><li>GCP Cloud Run</li><li>APIs REST</li><li>Git</li>
+                <li>Python</li><li>Pandas</li><li>Polars</li><li>NumPy</li><li>Scikit-learn</li><li>Modelos predictivos</li><li>Evaluación de modelos</li><li>MLOps</li><li>MLflow</li><li>Prefect</li><li>GCP Cloud Run</li><li>APIs REST</li><li>Playwright</li><li>Git</li>
               </ul>
-              <p class="detalle">Los modelos de precio de departamentos y de monto de venta de vehículos en Macal, orquestados y monitoreados con MLflow y Prefect; el de departamentos, desplegado en Cloud Run. Polars calcula el pipeline semanal de TORDO.</p>
+              <p class="detalle">Los modelos de precio de departamentos y de monto de venta de vehículos en Macal, orquestados y monitoreados con MLflow y Prefect; el de departamentos, desplegado en Cloud Run. En Puig, la carga de cada mañana maneja el portal de SAP con Playwright y Excel desde Python. Polars calcula el pipeline semanal de TORDO.</p>
             </div>
             <div class="tarjeta habilidad">
               <h3>Desarrollo de productos</h3>
-              <ul class="chips"><li>PostgreSQL</li><li>DuckDB</li><li>FastAPI</li><li>Docker</li><li>Next.js</li><li>TypeScript</li><li>Astro</li></ul>
-              <p class="detalle">TORDO: tres años de órdenes de compra servidos desde PostgreSQL, con una API pública en FastAPI, en contenedores en Railway, y el sitio en Next.js. PixelFrame: la tienda, en Astro y TypeScript.</p>
+              <ul class="chips"><li>PostgreSQL</li><li>DuckDB</li><li>FastAPI</li><li>Streamlit</li><li>Servidores MCP</li><li>Docker</li><li>Next.js</li><li>TypeScript</li><li>Astro</li></ul>
+              <p class="detalle">TORDO: tres años de órdenes de compra servidos desde PostgreSQL, con una API pública en FastAPI, en contenedores en Railway, y el sitio en Next.js. En Puig, la base de demanda en DuckDB, con su esquema versionado en más de 120 migraciones, la app del equipo en Streamlit y un servidor MCP. PixelFrame: la tienda, en Astro y TypeScript.</p>
             </div>
             <div class="tarjeta habilidad">
               <h3>Visualización y BI</h3>
-              <ul class="chips"><li>SQL</li><li>Amazon QuickSight</li><li>Looker</li><li>Tableau</li><li>Power BI</li><li>Excel</li><li>Storytelling con datos</li></ul>
-              <p class="detalle">SQL es la herramienta que más años llevo usando, del BI en Los Parques a los modelos en Macal. Tableros en Tableau como Product Manager BI; en QuickSight y Looker como data scientist.</p>
+              <ul class="chips"><li>SQL</li><li>Amazon QuickSight</li><li>Looker</li><li>Tableau</li><li>Power BI</li><li>Excel</li><li>SAP IBP</li><li>Storytelling con datos</li></ul>
+              <p class="detalle">SQL es la herramienta que más años llevo usando, del BI en Los Parques a los modelos en Macal. Tableros en Tableau como Product Manager BI; en QuickSight y Looker como data scientist. En Puig, el forecast vive en SAP IBP y se trabaja desde Excel.</p>
             </div>
             <div class="tarjeta habilidad">
               <h3>Con personas</h3>

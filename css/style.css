@@ -217,21 +217,24 @@ h1 {
   margin-bottom: var(--e-4);
   text-wrap: balance;
 }
-/* El punto de la i es el de PixelFrame: un cuadrado del ancho del palo, girado
-   23°, en el cobre de las cifras. La letra es una ı sin punto. Las medidas salen
-   de Schibsted Grotesk en 800 (palo de 350 de 2048 unidades, altura x 1080) y de
-   la proporción del logo de PixelFrame. Es un SVG con currentColor porque el modo
-   oscuro de Samsung Internet respeta el color del texto y oscurece los fondos. */
+/* Los puntos de las i son el de PixelFrame: un cuadrado del ancho del palo,
+   girado 23° hacia la derecha. La letra es una ı sin punto. Las medidas salen de
+   Schibsted Grotesk en 800 (palo de 350 de 2048 unidades, altura x 1080) y de la
+   proporción del logo de PixelFrame, pero centrado sobre el palo: corrido a la
+   derecha, como en el logo en espejo, se leía como una tilde. El de Middleton va
+   en el cobre de las cifras. Es un SVG con currentColor porque el modo oscuro de
+   Samsung Internet respeta el color del texto y oscurece los fondos. */
 .i-pixel { position: relative; }
 .i-pixel-punto {
   position: absolute;
-  left: 0.0247em;
+  left: 0.0650em;
   top: 0.2056em;
   width: 0.1711em;
   height: 0.1711em;
-  transform: rotate(-23.09deg);
-  color: var(--cobre);
+  transform: rotate(23.09deg);
+  color: var(--tinta);
 }
+.i-pixel--cobre .i-pixel-punto { color: var(--cobre); }
 
 .bajada {
   font-size: clamp(20px, 2.2vw, 24px);
