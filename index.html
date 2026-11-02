@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="es-CL">
+<html lang="es-CL" data-etapa="puig">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#0f1622">
   <title>Cristóbal Middleton, ingeniero que construye productos con datos</title>
-  <meta name="description" content="Ingeniero civil industrial que construye productos con datos. Planifica demanda en Puig, fue data scientist en Macal y hace TORDO y PixelFrame.">
+  <meta name="description" content="Ingeniero civil industrial que construye productos con datos: TORDO, PixelFrame y tableros con datos públicos de Chile.">
   <link rel="canonical" href="https://cris-middleton.github.io/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_CL">
   <meta property="og:site_name" content="Cristóbal Middleton">
   <meta property="og:title" content="Cristóbal Middleton, ingeniero que construye productos con datos">
-  <meta property="og:description" content="Planifica demanda en Puig, fue data scientist en Macal y hace TORDO y PixelFrame.">
+  <meta property="og:description" content="TORDO, PixelFrame y tableros con datos públicos de Chile. Siete años entre BI, producto y ciencia de datos.">
   <meta property="og:url" content="https://cris-middleton.github.io/">
   <meta property="og:image" content="https://cris-middleton.github.io/images/og.png">
   <meta property="og:image:width" content="1200">
@@ -20,408 +20,204 @@
   <meta property="og:image:alt" content="Cristóbal Middleton, ingeniero que construye productos con datos">
   <meta name="twitter:card" content="summary_large_image">
 
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="icon" href="images/favicon-32.png" type="image/png" sizes="32x32">
-  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/images/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
 
-  <link rel="preload" href="fonts/Inter.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="fonts/SchibstedGrotesk.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/style.css?v=2026-10-20">
+  <link rel="preload" href="/fonts/Inter.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/SchibstedGrotesk.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/style.css?v=2026-10-28">
+  <link rel="stylesheet" href="/css/portada.css?v=2026-10-28">
+  <script>
+    // Experiencia, proyectos, habilidades y educación se mudaron a /cv/: los enlaces viejos siguen llegando
+    (function () {
+      var h = location.hash.slice(1);
+      if (['experiencia', 'proyectos', 'habilidades', 'educacion'].indexOf(h) > -1) location.replace('/cv/#' + h);
+    })();
+  </script>
 </head>
 <body>
   <a class="saltar" href="#contenido">Ir al contenido</a>
 
-  <!-- Iconos: se dibujan una vez y se reutilizan con <use> -->
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-    <symbol id="i-correo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></symbol>
-    <symbol id="i-linkedin" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4V21H3V9.75Zm6.5 0h3.83v1.54h.05c.53-1 1.84-2.06 3.79-2.06 4.05 0 4.8 2.66 4.8 6.12V21h-4v-5.02c0-1.2-.02-2.74-1.67-2.74-1.67 0-1.93 1.3-1.93 2.65V21h-4V9.75Z"/></symbol>
-    <symbol id="i-github" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.93.36.31.68.92.68 1.85v2.75c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></symbol>
-    <symbol id="i-documento" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></symbol>
-    <symbol id="i-salir" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></symbol>
-    <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
-  </svg>
-
   <header class="cabecera">
     <div class="contenedor">
-      <a class="marca" href="#arriba">Cris Middleton</a>
-      <button class="boton-menu" aria-expanded="false" aria-controls="menu">
-        <svg width="18" height="18" aria-hidden="true"><use href="#i-menu"/></svg>Menú
-      </button>
-      <nav id="menu" class="menu" aria-label="Secciones">
-        <a href="#experiencia">Experiencia</a>
-        <a href="#proyectos">Proyectos</a>
-        <a href="#habilidades">Habilidades</a>
-        <a href="#educacion">Educación</a>
-        <a href="#sobre-mi">Sobre mí</a>
+      <a class="marca" href="/"><span class="marca-punto" aria-hidden="true"></span>Cris Middleton</a>
+      <nav class="menu" aria-label="Secciones">
+        <a href="/tableros/">Tableros</a>
+        <a class="menu-ocultable" href="#lo-que-hago">Proyectos</a>
+        <a class="menu-ocultable" href="#sobre-mi">Sobre mí</a>
+        <a class="menu-cv" href="/cv/">CV</a>
       </nav>
     </div>
   </header>
 
   <main id="contenido">
-    <div class="contenedor">
-
-      <!-- Portada: quién soy a la izquierda, La Gran Ola a la derecha -->
-      <section class="portada" id="arriba" aria-label="Presentación">
-        <div>
-          <div class="quien">
-            <img class="foto" src="images/profile.jpg" alt="Foto de Cristóbal Middleton" width="72" height="72">
-            <p>Hoy, <b>Demand Planner Executive en Puig</b></p>
-          </div>
-          <h1 aria-label="Cristóbal Middleton Frederick">Cr<span class="i-pixel">ı<svg class="i-pixel-punto" viewBox="0 0 1 1" aria-hidden="true"><rect width="1" height="1" fill="currentColor"/></svg></span>stóbal M<span class="i-pixel i-pixel--cobre">ı<svg class="i-pixel-punto" viewBox="0 0 1 1" aria-hidden="true"><rect width="1" height="1" fill="currentColor"/></svg></span>ddleton<span class="frederick"> Freder<span class="i-pixel">ı<svg class="i-pixel-punto" viewBox="0 0 1 1" aria-hidden="true"><rect width="1" height="1" fill="currentColor"/></svg></span>ck</span></h1>
-          <p class="bajada">Construyo productos con datos.<span>Ingeniero civil industrial.</span></p>
-          <p class="bio">
-            Lo curioso viene de fábrica, lo analítico lo elegí yo. He trabajado en rubros variados,
-            siempre con el mismo enfoque: entender el problema, descomponerlo y resolverlo con datos.
-            Me encantan los proyectos, las ideas nuevas y automatizar lo que se repite, y la IA es
-            parte de mi día a día. Hoy planifico la demanda de marcas de perfumería y maquillaje en Puig, y en paralelo
-            construyo <a class="enlace" href="#proyectos">TORDO y PixelFrame</a>.
+    <section class="contenedor portada" aria-label="Presentación">
+      <div>
+        <div class="quien">
+          <img class="foto" src="/images/profile.jpg" alt="Foto de Cristóbal Middleton" width="64" height="64">
+          <p class="ahora">
+            <span data-solo="puig">Hoy, <b>Demand Planner en Puig</b></span>
+            <span data-solo="propio">Hoy, <b>armando lo mío</b></span>
           </p>
-          <div class="acciones">
-            <a class="boton boton--cv" href="cv/Cristobal_Middleton_CV_esp.pdf" hreflang="es">
-              <svg aria-hidden="true"><use href="#i-documento"/></svg>CV <span class="idioma">en español</span>
-            </a>
-            <a class="boton boton--cv" href="cv/Cristobal_Middleton_CV_eng.pdf" hreflang="en" lang="en">
-              <svg aria-hidden="true"><use href="#i-documento"/></svg>CV <span class="idioma">in English</span>
-            </a>
-          </div>
-          <div class="redes">
-            <a class="boton boton--suave" href="mailto:cristobalimf@gmail.com"><svg aria-hidden="true"><use href="#i-correo"/></svg>Email</a>
-            <a class="boton boton--suave" href="https://www.linkedin.com/in/cristobal-middleton-frederick/"><svg aria-hidden="true"><use href="#i-linkedin"/></svg>LinkedIn</a>
-            <a class="boton boton--suave" href="https://github.com/cris-middleton"><svg aria-hidden="true"><use href="#i-github"/></svg>GitHub</a>
-          </div>
         </div>
-
-        <figure class="cuadro">
-          <div class="mosaico-marco"><img class="mosaico-img" src="images/gran-ola.png" width="1024" height="1024" alt="La Gran Ola de Hokusai armada en 1024 piezas de PixelFrame"><svg class="mosaico" viewBox="0 0 32 32" preserveAspectRatio="xMidYMid slice" aria-hidden="true" shape-rendering="crispEdges"><defs><pattern id="apagadas" width="1" height="1" patternUnits="userSpaceOnUse"><rect class="gris" width="1" height="1"/><circle cx=".5" cy=".5" r=".31" fill="#fff" fill-opacity=".16"/><circle cx=".5" cy=".5" r=".31" fill="none" stroke="#000" stroke-opacity=".28" stroke-width=".07"/><circle cx=".5" cy=".5" r=".22" fill="none" stroke="#fff" stroke-opacity=".18" stroke-width=".05"/></pattern></defs><path class="pieza" data-color="0" d="M29 0h1v1h-1zM30 0h1v1h-1zM31 0h1v1h-1zM30 1h1v1h-1zM1 2h1v1h-1zM2 2h1v1h-1zM3 2h1v1h-1zM0 3h1v1h-1zM1 3h1v1h-1zM2 3h1v1h-1zM3 3h1v1h-1zM4 3h1v1h-1zM31 3h1v1h-1zM0 4h1v1h-1zM1 4h1v1h-1zM2 4h1v1h-1zM3 4h1v1h-1zM4 4h1v1h-1zM5 4h1v1h-1zM9 4h1v1h-1zM10 4h1v1h-1zM11 4h1v1h-1zM12 4h1v1h-1zM13 4h1v1h-1zM14 4h1v1h-1zM31 4h1v1h-1zM7 5h1v1h-1zM8 5h1v1h-1zM9 5h1v1h-1zM10 5h1v1h-1zM11 5h1v1h-1zM12 5h1v1h-1zM13 5h1v1h-1zM17 5h1v1h-1zM18 5h1v1h-1zM30 5h1v1h-1zM31 5h1v1h-1zM5 6h1v1h-1zM6 6h1v1h-1zM7 6h1v1h-1zM8 6h1v1h-1zM9 6h1v1h-1zM10 6h1v1h-1zM11 6h1v1h-1zM16 6h1v1h-1zM19 6h1v1h-1zM26 6h1v1h-1zM27 6h1v1h-1zM28 6h1v1h-1zM29 6h1v1h-1zM30 6h1v1h-1zM31 6h1v1h-1zM4 7h1v1h-1zM5 7h1v1h-1zM6 7h1v1h-1zM7 7h1v1h-1zM11 7h1v1h-1zM12 7h1v1h-1zM15 7h1v1h-1zM20 7h1v1h-1zM27 7h1v1h-1zM28 7h1v1h-1zM29 7h1v1h-1zM30 7h1v1h-1zM31 7h1v1h-1zM3 8h1v1h-1zM4 8h1v1h-1zM5 8h1v1h-1zM6 8h1v1h-1zM11 8h1v1h-1zM17 8h1v1h-1zM29 8h1v1h-1zM30 8h1v1h-1zM31 8h1v1h-1zM1 9h1v1h-1zM2 9h1v1h-1zM3 9h1v1h-1zM4 9h1v1h-1zM5 9h1v1h-1zM6 9h1v1h-1zM7 9h1v1h-1zM12 9h1v1h-1zM18 9h1v1h-1zM20 9h1v1h-1zM25 9h1v1h-1zM26 9h1v1h-1zM27 9h1v1h-1zM28 9h1v1h-1zM29 9h1v1h-1zM30 9h1v1h-1zM31 9h1v1h-1zM0 10h1v1h-1zM1 10h1v1h-1zM2 10h1v1h-1zM3 10h1v1h-1zM4 10h1v1h-1zM5 10h1v1h-1zM7 10h1v1h-1zM14 10h1v1h-1zM19 10h1v1h-1zM21 10h1v1h-1zM26 10h1v1h-1zM27 10h1v1h-1zM28 10h1v1h-1zM29 10h1v1h-1zM30 10h1v1h-1zM0 11h1v1h-1zM1 11h1v1h-1zM2 11h1v1h-1zM3 11h1v1h-1zM4 11h1v1h-1zM5 11h1v1h-1zM11 11h1v1h-1zM18 11h1v1h-1zM22 11h1v1h-1zM24 11h1v1h-1zM30 11h1v1h-1zM31 11h1v1h-1zM0 12h1v1h-1zM1 12h1v1h-1zM2 12h1v1h-1zM3 12h1v1h-1zM4 12h1v1h-1zM5 12h1v1h-1zM17 12h1v1h-1zM19 12h1v1h-1zM23 12h1v1h-1zM0 13h1v1h-1zM1 13h1v1h-1zM4 13h1v1h-1zM5 13h1v1h-1zM6 13h1v1h-1zM7 13h1v1h-1zM8 13h1v1h-1zM14 13h1v1h-1zM20 13h1v1h-1zM22 13h1v1h-1zM3 14h1v1h-1zM4 14h1v1h-1zM5 14h1v1h-1zM12 14h1v1h-1zM23 15h1v1h-1zM19 16h1v1h-1zM29 16h1v1h-1zM4 17h1v1h-1zM3 18h1v1h-1zM5 18h1v1h-1zM6 18h1v1h-1zM13 18h1v1h-1zM17 18h1v1h-1zM22 18h1v1h-1zM4 19h1v1h-1zM7 19h1v1h-1zM12 19h1v1h-1zM0 20h1v1h-1zM14 20h1v1h-1zM23 20h1v1h-1zM11 21h1v1h-1zM12 21h1v1h-1zM17 21h1v1h-1zM19 21h1v1h-1zM4 22h1v1h-1zM8 22h1v1h-1zM10 22h1v1h-1zM11 22h1v1h-1zM12 22h1v1h-1zM13 22h1v1h-1zM14 22h1v1h-1zM9 23h1v1h-1zM10 23h1v1h-1zM11 23h1v1h-1zM12 23h1v1h-1zM13 23h1v1h-1zM14 23h1v1h-1zM15 23h1v1h-1zM8 24h1v1h-1zM9 24h1v1h-1zM10 24h1v1h-1zM11 24h1v1h-1zM12 24h1v1h-1zM13 24h1v1h-1zM14 24h1v1h-1zM19 24h1v1h-1zM28 24h1v1h-1zM7 25h1v1h-1zM8 25h1v1h-1zM9 25h1v1h-1zM11 25h1v1h-1zM13 25h1v1h-1zM14 25h1v1h-1zM18 25h1v1h-1zM27 25h1v1h-1zM28 25h1v1h-1zM29 25h1v1h-1zM5 26h1v1h-1zM6 26h1v1h-1zM7 26h1v1h-1zM9 26h1v1h-1zM13 26h1v1h-1zM14 26h1v1h-1zM15 26h1v1h-1zM19 26h1v1h-1zM20 26h1v1h-1zM26 26h1v1h-1zM27 26h1v1h-1zM28 26h1v1h-1zM29 26h1v1h-1zM30 26h1v1h-1zM1 27h1v1h-1zM2 27h1v1h-1zM3 27h1v1h-1zM4 27h1v1h-1zM5 27h1v1h-1zM6 27h1v1h-1zM7 27h1v1h-1zM15 27h1v1h-1zM16 27h1v1h-1zM20 27h1v1h-1zM21 27h1v1h-1zM0 28h1v1h-1zM1 28h1v1h-1zM2 28h1v1h-1zM5 28h1v1h-1zM6 28h1v1h-1zM7 28h1v1h-1zM13 28h1v1h-1zM18 28h1v1h-1zM21 28h1v1h-1zM22 28h1v1h-1zM23 28h1v1h-1zM24 28h1v1h-1zM25 28h1v1h-1zM31 28h1v1h-1zM1 29h1v1h-1zM2 29h1v1h-1zM3 29h1v1h-1zM6 29h1v1h-1zM9 29h1v1h-1zM14 29h1v1h-1zM24 29h1v1h-1zM25 29h1v1h-1zM26 29h1v1h-1zM27 29h1v1h-1zM28 29h1v1h-1zM29 29h1v1h-1zM30 29h1v1h-1zM31 29h1v1h-1zM1 30h1v1h-1zM7 30h1v1h-1zM10 30h1v1h-1zM11 30h1v1h-1zM12 30h1v1h-1zM13 30h1v1h-1zM25 30h1v1h-1zM28 30h1v1h-1zM31 30h1v1h-1zM1 31h1v1h-1zM6 31h1v1h-1zM7 31h1v1h-1zM8 31h1v1h-1zM12 31h1v1h-1zM13 31h1v1h-1zM14 31h1v1h-1zM15 31h1v1h-1zM25 31h1v1h-1zM26 31h1v1h-1z"/><path class="pieza" data-color="1" d="M0 0h1v1h-1zM1 0h1v1h-1zM2 0h1v1h-1zM3 0h1v1h-1zM4 0h1v1h-1zM5 0h1v1h-1zM6 0h1v1h-1zM7 0h1v1h-1zM8 0h1v1h-1zM9 0h1v1h-1zM10 0h1v1h-1zM11 0h1v1h-1zM12 0h1v1h-1zM13 0h1v1h-1zM14 0h1v1h-1zM15 0h1v1h-1zM16 0h1v1h-1zM17 0h1v1h-1zM18 0h1v1h-1zM19 0h1v1h-1zM20 0h1v1h-1zM21 0h1v1h-1zM22 0h1v1h-1zM23 0h1v1h-1zM24 0h1v1h-1zM25 0h1v1h-1zM26 0h1v1h-1zM27 0h1v1h-1zM28 0h1v1h-1zM0 1h1v1h-1zM1 1h1v1h-1zM2 1h1v1h-1zM3 1h1v1h-1zM4 1h1v1h-1zM5 1h1v1h-1zM6 1h1v1h-1zM7 1h1v1h-1zM8 1h1v1h-1zM9 1h1v1h-1zM10 1h1v1h-1zM11 1h1v1h-1zM12 1h1v1h-1zM13 1h1v1h-1zM14 1h1v1h-1zM15 1h1v1h-1zM16 1h1v1h-1zM17 1h1v1h-1zM18 1h1v1h-1zM19 1h1v1h-1zM20 1h1v1h-1zM21 1h1v1h-1zM22 1h1v1h-1zM23 1h1v1h-1zM24 1h1v1h-1zM29 1h1v1h-1zM31 1h1v1h-1zM0 2h1v1h-1zM4 2h1v1h-1zM5 2h1v1h-1zM6 2h1v1h-1zM7 2h1v1h-1zM8 2h1v1h-1zM9 2h1v1h-1zM10 2h1v1h-1zM11 2h1v1h-1zM12 2h1v1h-1zM13 2h1v1h-1zM14 2h1v1h-1zM15 2h1v1h-1zM16 2h1v1h-1zM17 2h1v1h-1zM18 2h1v1h-1zM19 2h1v1h-1zM20 2h1v1h-1zM21 2h1v1h-1zM22 2h1v1h-1zM23 2h1v1h-1zM30 2h1v1h-1zM31 2h1v1h-1zM5 3h1v1h-1zM6 3h1v1h-1zM7 3h1v1h-1zM8 3h1v1h-1zM9 3h1v1h-1zM10 3h1v1h-1zM11 3h1v1h-1zM12 3h1v1h-1zM13 3h1v1h-1zM14 3h1v1h-1zM15 3h1v1h-1zM16 3h1v1h-1zM17 3h1v1h-1zM18 3h1v1h-1zM19 3h1v1h-1zM20 3h1v1h-1zM21 3h1v1h-1zM22 3h1v1h-1zM6 4h1v1h-1zM7 4h1v1h-1zM8 4h1v1h-1zM16 4h1v1h-1zM17 4h1v1h-1zM18 4h1v1h-1zM19 4h1v1h-1zM20 4h1v1h-1zM21 4h1v1h-1zM22 4h1v1h-1zM0 5h1v1h-1zM1 5h1v1h-1zM2 5h1v1h-1zM3 5h1v1h-1zM4 5h1v1h-1zM19 5h1v1h-1zM20 5h1v1h-1zM21 5h1v1h-1zM22 5h1v1h-1zM0 6h1v1h-1zM1 6h1v1h-1zM20 6h1v1h-1zM21 6h1v1h-1zM22 6h1v1h-1zM0 7h1v1h-1zM21 7h1v1h-1zM22 7h1v1h-1zM23 7h1v1h-1zM21 8h1v1h-1zM22 8h1v1h-1zM23 8h1v1h-1zM24 8h1v1h-1zM21 9h1v1h-1zM22 9h1v1h-1zM23 9h1v1h-1zM24 9h1v1h-1zM24 10h1v1h-1zM25 10h1v1h-1zM31 10h1v1h-1zM25 11h1v1h-1zM26 11h1v1h-1zM27 11h1v1h-1zM28 11h1v1h-1zM29 11h1v1h-1zM25 12h1v1h-1zM26 12h1v1h-1zM27 12h1v1h-1zM28 12h1v1h-1zM29 12h1v1h-1zM30 12h1v1h-1zM31 12h1v1h-1zM18 13h1v1h-1zM25 13h1v1h-1zM26 13h1v1h-1zM27 13h1v1h-1zM28 13h1v1h-1zM29 13h1v1h-1zM30 13h1v1h-1zM31 13h1v1h-1zM18 14h1v1h-1zM19 14h1v1h-1zM26 14h1v1h-1zM27 14h1v1h-1zM28 14h1v1h-1zM29 14h1v1h-1zM30 14h1v1h-1zM31 14h1v1h-1zM25 15h1v1h-1zM26 15h1v1h-1zM27 15h1v1h-1zM28 15h1v1h-1zM29 15h1v1h-1zM30 15h1v1h-1zM31 15h1v1h-1zM25 16h1v1h-1zM26 16h1v1h-1zM27 16h1v1h-1zM28 16h1v1h-1zM30 16h1v1h-1zM31 16h1v1h-1zM27 17h1v1h-1zM28 17h1v1h-1zM29 17h1v1h-1zM30 17h1v1h-1zM31 17h1v1h-1zM26 18h1v1h-1zM27 18h1v1h-1zM28 18h1v1h-1zM29 18h1v1h-1zM30 18h1v1h-1zM31 18h1v1h-1zM25 19h1v1h-1zM29 19h1v1h-1zM30 19h1v1h-1zM31 19h1v1h-1zM24 20h1v1h-1zM27 20h1v1h-1zM30 20h1v1h-1zM28 21h1v1h-1z"/><path class="pieza" data-color="2" d="M5 5h1v1h-1zM6 5h1v1h-1zM2 6h1v1h-1zM3 6h1v1h-1zM4 6h1v1h-1zM1 7h1v1h-1zM2 7h1v1h-1zM3 7h1v1h-1zM0 8h1v1h-1zM1 8h1v1h-1zM2 8h1v1h-1zM0 9h1v1h-1zM17 13h1v1h-1zM16 14h1v1h-1zM17 14h1v1h-1zM21 14h1v1h-1zM22 14h1v1h-1zM25 14h1v1h-1zM16 15h1v1h-1zM17 15h1v1h-1zM18 15h1v1h-1zM19 15h1v1h-1zM20 15h1v1h-1zM21 15h1v1h-1zM22 15h1v1h-1zM24 15h1v1h-1zM15 16h1v1h-1zM16 16h1v1h-1zM17 16h1v1h-1zM18 16h1v1h-1zM20 16h1v1h-1zM21 16h1v1h-1zM22 16h1v1h-1zM23 16h1v1h-1zM24 16h1v1h-1zM15 17h1v1h-1zM16 17h1v1h-1zM17 17h1v1h-1zM18 17h1v1h-1zM19 17h1v1h-1zM20 17h1v1h-1zM21 17h1v1h-1zM22 17h1v1h-1zM23 17h1v1h-1zM24 17h1v1h-1zM25 17h1v1h-1zM26 17h1v1h-1zM15 18h1v1h-1zM16 18h1v1h-1zM18 18h1v1h-1zM19 18h1v1h-1zM20 18h1v1h-1zM21 18h1v1h-1zM23 18h1v1h-1zM24 18h1v1h-1zM25 18h1v1h-1zM16 19h1v1h-1zM17 19h1v1h-1zM18 19h1v1h-1zM19 19h1v1h-1zM20 19h1v1h-1zM21 19h1v1h-1zM22 19h1v1h-1zM23 19h1v1h-1zM24 19h1v1h-1zM26 19h1v1h-1zM27 19h1v1h-1zM28 19h1v1h-1zM17 20h1v1h-1zM18 20h1v1h-1zM19 20h1v1h-1zM20 20h1v1h-1zM21 20h1v1h-1zM22 20h1v1h-1zM25 20h1v1h-1zM26 20h1v1h-1zM28 20h1v1h-1zM29 20h1v1h-1zM31 20h1v1h-1zM18 21h1v1h-1zM20 21h1v1h-1zM21 21h1v1h-1zM22 21h1v1h-1zM23 21h1v1h-1zM24 21h1v1h-1zM25 21h1v1h-1zM26 21h1v1h-1zM27 21h1v1h-1zM29 21h1v1h-1zM30 21h1v1h-1zM31 21h1v1h-1zM19 22h1v1h-1zM20 22h1v1h-1zM21 22h1v1h-1zM22 22h1v1h-1zM24 22h1v1h-1zM25 22h1v1h-1zM26 22h1v1h-1zM27 22h1v1h-1zM29 22h1v1h-1zM31 22h1v1h-1zM20 23h1v1h-1zM21 23h1v1h-1zM23 23h1v1h-1zM25 23h1v1h-1zM28 23h1v1h-1zM29 23h1v1h-1zM30 23h1v1h-1zM20 24h1v1h-1zM26 24h1v1h-1zM21 25h1v1h-1z"/><path class="pieza" data-color="3" d="M9 7h1v1h-1zM13 7h1v1h-1zM16 7h1v1h-1zM17 7h1v1h-1zM9 8h1v1h-1zM12 8h1v1h-1zM16 8h1v1h-1zM19 8h1v1h-1zM8 9h1v1h-1zM15 9h1v1h-1zM17 10h1v1h-1zM20 10h1v1h-1zM17 11h1v1h-1zM20 11h1v1h-1zM20 12h1v1h-1zM21 12h1v1h-1zM23 13h1v1h-1zM1 14h1v1h-1zM2 14h1v1h-1zM6 14h1v1h-1zM9 14h1v1h-1zM24 14h1v1h-1zM0 15h1v1h-1zM1 15h1v1h-1zM2 15h1v1h-1zM5 15h1v1h-1zM6 15h1v1h-1zM7 15h1v1h-1zM11 15h1v1h-1zM3 16h1v1h-1zM7 16h1v1h-1zM1 17h1v1h-1zM2 17h1v1h-1zM3 17h1v1h-1zM7 17h1v1h-1zM9 17h1v1h-1zM12 17h1v1h-1zM4 18h1v1h-1zM7 18h1v1h-1zM12 18h1v1h-1zM3 19h1v1h-1zM8 19h1v1h-1zM2 20h1v1h-1zM2 21h1v1h-1zM6 21h1v1h-1zM7 21h1v1h-1zM15 24h1v1h-1zM10 25h1v1h-1zM15 25h1v1h-1zM16 25h1v1h-1zM8 26h1v1h-1zM12 26h1v1h-1zM16 26h1v1h-1zM17 26h1v1h-1zM8 27h1v1h-1zM9 27h1v1h-1zM12 27h1v1h-1zM13 27h1v1h-1zM17 27h1v1h-1zM18 27h1v1h-1zM19 27h1v1h-1zM3 28h1v1h-1zM9 28h1v1h-1zM10 28h1v1h-1zM11 28h1v1h-1zM12 28h1v1h-1zM14 28h1v1h-1zM15 28h1v1h-1zM16 28h1v1h-1zM20 28h1v1h-1zM0 29h1v1h-1zM4 29h1v1h-1zM5 29h1v1h-1zM7 29h1v1h-1zM8 29h1v1h-1zM10 29h1v1h-1zM13 29h1v1h-1zM20 29h1v1h-1zM21 29h1v1h-1zM23 29h1v1h-1zM4 30h1v1h-1zM5 30h1v1h-1zM6 30h1v1h-1zM24 30h1v1h-1zM26 30h1v1h-1zM27 30h1v1h-1zM29 30h1v1h-1zM30 30h1v1h-1zM3 31h1v1h-1zM5 31h1v1h-1zM10 31h1v1h-1zM11 31h1v1h-1zM24 31h1v1h-1zM27 31h1v1h-1zM28 31h1v1h-1zM29 31h1v1h-1zM30 31h1v1h-1zM31 31h1v1h-1z"/><path class="pieza" data-color="4" d="M10 8h1v1h-1zM14 8h1v1h-1zM9 9h1v1h-1zM10 9h1v1h-1zM13 9h1v1h-1zM14 9h1v1h-1zM6 10h1v1h-1zM8 10h1v1h-1zM9 10h1v1h-1zM11 10h1v1h-1zM12 10h1v1h-1zM13 10h1v1h-1zM6 11h1v1h-1zM7 11h1v1h-1zM8 11h1v1h-1zM10 11h1v1h-1zM12 11h1v1h-1zM15 11h1v1h-1zM16 11h1v1h-1zM7 12h1v1h-1zM9 12h1v1h-1zM10 12h1v1h-1zM11 12h1v1h-1zM13 12h1v1h-1zM14 12h1v1h-1zM15 12h1v1h-1zM10 13h1v1h-1zM11 13h1v1h-1zM13 13h1v1h-1zM15 13h1v1h-1zM10 14h1v1h-1zM13 14h1v1h-1zM14 14h1v1h-1zM12 15h1v1h-1zM13 15h1v1h-1zM13 16h1v1h-1zM6 17h1v1h-1zM8 17h1v1h-1zM13 17h1v1h-1zM8 18h1v1h-1zM9 18h1v1h-1zM10 18h1v1h-1zM0 19h1v1h-1zM9 19h1v1h-1zM10 19h1v1h-1zM13 19h1v1h-1zM14 19h1v1h-1zM4 20h1v1h-1zM9 20h1v1h-1zM10 20h1v1h-1zM11 20h1v1h-1zM13 20h1v1h-1zM15 20h1v1h-1zM0 21h1v1h-1zM3 21h1v1h-1zM4 21h1v1h-1zM8 21h1v1h-1zM10 21h1v1h-1zM13 21h1v1h-1zM14 21h1v1h-1zM15 21h1v1h-1zM16 21h1v1h-1zM1 22h1v1h-1zM3 22h1v1h-1zM6 22h1v1h-1zM7 22h1v1h-1zM9 22h1v1h-1zM15 22h1v1h-1zM16 22h1v1h-1zM2 23h1v1h-1zM4 23h1v1h-1zM5 23h1v1h-1zM7 23h1v1h-1zM8 23h1v1h-1zM16 23h1v1h-1zM17 23h1v1h-1zM5 24h1v1h-1zM6 24h1v1h-1zM17 24h1v1h-1zM18 24h1v1h-1zM20 25h1v1h-1zM21 26h1v1h-1zM0 27h1v1h-1zM22 27h1v1h-1zM23 27h1v1h-1zM24 27h1v1h-1zM25 27h1v1h-1zM26 28h1v1h-1zM27 28h1v1h-1zM15 29h1v1h-1zM22 29h1v1h-1zM2 30h1v1h-1zM15 30h1v1h-1zM16 30h1v1h-1zM2 31h1v1h-1zM16 31h1v1h-1zM17 31h1v1h-1z"/><path class="pieza" data-color="5" d="M15 4h1v1h-1zM14 5h1v1h-1zM15 5h1v1h-1zM16 5h1v1h-1zM12 6h1v1h-1zM13 6h1v1h-1zM14 6h1v1h-1zM15 6h1v1h-1zM17 6h1v1h-1zM18 6h1v1h-1zM8 7h1v1h-1zM10 7h1v1h-1zM14 7h1v1h-1zM18 7h1v1h-1zM19 7h1v1h-1zM7 8h1v1h-1zM8 8h1v1h-1zM15 8h1v1h-1zM18 8h1v1h-1zM20 8h1v1h-1zM16 9h1v1h-1zM17 9h1v1h-1zM19 9h1v1h-1zM16 10h1v1h-1zM18 10h1v1h-1zM22 10h1v1h-1zM23 10h1v1h-1zM19 11h1v1h-1zM21 11h1v1h-1zM23 11h1v1h-1zM6 12h1v1h-1zM18 12h1v1h-1zM22 12h1v1h-1zM24 12h1v1h-1zM2 13h1v1h-1zM3 13h1v1h-1zM19 13h1v1h-1zM21 13h1v1h-1zM24 13h1v1h-1zM0 14h1v1h-1zM7 14h1v1h-1zM8 14h1v1h-1zM20 14h1v1h-1zM23 14h1v1h-1zM3 15h1v1h-1zM4 15h1v1h-1zM8 15h1v1h-1zM9 15h1v1h-1zM10 15h1v1h-1zM0 16h1v1h-1zM1 16h1v1h-1zM2 16h1v1h-1zM4 16h1v1h-1zM5 16h1v1h-1zM6 16h1v1h-1zM8 16h1v1h-1zM9 16h1v1h-1zM10 16h1v1h-1zM11 16h1v1h-1zM12 16h1v1h-1zM5 17h1v1h-1zM10 17h1v1h-1zM11 17h1v1h-1zM2 18h1v1h-1zM11 18h1v1h-1zM2 19h1v1h-1zM5 19h1v1h-1zM6 19h1v1h-1zM6 20h1v1h-1zM7 20h1v1h-1zM16 24h1v1h-1zM12 25h1v1h-1zM17 25h1v1h-1zM10 26h1v1h-1zM11 26h1v1h-1zM18 26h1v1h-1zM10 27h1v1h-1zM11 27h1v1h-1zM14 27h1v1h-1zM8 28h1v1h-1zM17 28h1v1h-1zM19 28h1v1h-1zM11 29h1v1h-1zM12 29h1v1h-1zM3 30h1v1h-1zM8 30h1v1h-1zM9 30h1v1h-1zM14 30h1v1h-1zM4 31h1v1h-1zM9 31h1v1h-1z"/><path class="pieza" data-color="6" d="M13 8h1v1h-1zM11 9h1v1h-1zM10 10h1v1h-1zM15 10h1v1h-1zM9 11h1v1h-1zM13 11h1v1h-1zM14 11h1v1h-1zM8 12h1v1h-1zM12 12h1v1h-1zM16 12h1v1h-1zM9 13h1v1h-1zM12 13h1v1h-1zM16 13h1v1h-1zM11 14h1v1h-1zM15 14h1v1h-1zM14 15h1v1h-1zM15 15h1v1h-1zM14 16h1v1h-1zM0 17h1v1h-1zM14 17h1v1h-1zM0 18h1v1h-1zM1 18h1v1h-1zM14 18h1v1h-1zM1 19h1v1h-1zM11 19h1v1h-1zM15 19h1v1h-1zM1 20h1v1h-1zM3 20h1v1h-1zM5 20h1v1h-1zM8 20h1v1h-1zM12 20h1v1h-1zM16 20h1v1h-1zM1 21h1v1h-1zM5 21h1v1h-1zM9 21h1v1h-1zM2 22h1v1h-1zM5 22h1v1h-1zM17 22h1v1h-1zM3 23h1v1h-1zM6 23h1v1h-1zM18 23h1v1h-1zM7 24h1v1h-1zM19 25h1v1h-1zM0 26h1v1h-1zM4 26h1v1h-1zM26 27h1v1h-1zM27 27h1v1h-1zM28 27h1v1h-1zM29 27h1v1h-1zM30 27h1v1h-1zM31 27h1v1h-1zM4 28h1v1h-1zM28 28h1v1h-1zM29 28h1v1h-1zM30 28h1v1h-1zM0 30h1v1h-1zM0 31h1v1h-1zM23 31h1v1h-1z"/><path class="pieza" data-color="7" d="M25 1h1v1h-1zM26 1h1v1h-1zM27 1h1v1h-1zM28 1h1v1h-1zM24 2h1v1h-1zM25 2h1v1h-1zM26 2h1v1h-1zM27 2h1v1h-1zM28 2h1v1h-1zM29 2h1v1h-1zM23 3h1v1h-1zM24 3h1v1h-1zM25 3h1v1h-1zM26 3h1v1h-1zM27 3h1v1h-1zM28 3h1v1h-1zM29 3h1v1h-1zM30 3h1v1h-1zM23 4h1v1h-1zM24 4h1v1h-1zM25 4h1v1h-1zM26 4h1v1h-1zM27 4h1v1h-1zM28 4h1v1h-1zM29 4h1v1h-1zM30 4h1v1h-1zM23 5h1v1h-1zM24 5h1v1h-1zM25 5h1v1h-1zM26 5h1v1h-1zM27 5h1v1h-1zM28 5h1v1h-1zM29 5h1v1h-1zM23 6h1v1h-1zM24 6h1v1h-1zM25 6h1v1h-1zM24 7h1v1h-1zM25 7h1v1h-1zM26 7h1v1h-1zM25 8h1v1h-1zM26 8h1v1h-1zM27 8h1v1h-1zM28 8h1v1h-1z"/><path class="pieza" data-color="8" d="M18 22h1v1h-1zM23 22h1v1h-1zM28 22h1v1h-1zM30 22h1v1h-1zM19 23h1v1h-1zM22 23h1v1h-1zM24 23h1v1h-1zM26 23h1v1h-1zM27 23h1v1h-1zM31 23h1v1h-1zM0 24h1v1h-1zM21 24h1v1h-1zM22 24h1v1h-1zM23 24h1v1h-1zM24 24h1v1h-1zM25 24h1v1h-1zM27 24h1v1h-1zM29 24h1v1h-1zM30 24h1v1h-1zM31 24h1v1h-1zM0 25h1v1h-1zM1 25h1v1h-1zM22 25h1v1h-1zM23 25h1v1h-1zM24 25h1v1h-1zM25 25h1v1h-1zM26 25h1v1h-1zM30 25h1v1h-1zM31 25h1v1h-1zM1 26h1v1h-1zM2 26h1v1h-1zM3 26h1v1h-1zM22 26h1v1h-1zM23 26h1v1h-1zM24 26h1v1h-1zM25 26h1v1h-1zM31 26h1v1h-1zM23 30h1v1h-1zM18 31h1v1h-1zM19 31h1v1h-1zM20 31h1v1h-1zM21 31h1v1h-1zM22 31h1v1h-1z"/><path class="pieza" data-color="9" d="M0 22h1v1h-1zM0 23h1v1h-1zM1 23h1v1h-1zM1 24h1v1h-1zM2 24h1v1h-1zM3 24h1v1h-1zM4 24h1v1h-1zM2 25h1v1h-1zM3 25h1v1h-1zM4 25h1v1h-1zM5 25h1v1h-1zM6 25h1v1h-1zM16 29h1v1h-1zM17 29h1v1h-1zM18 29h1v1h-1zM19 29h1v1h-1zM17 30h1v1h-1zM18 30h1v1h-1zM19 30h1v1h-1zM20 30h1v1h-1zM21 30h1v1h-1zM22 30h1v1h-1z"/></svg></div>
-          <figcaption>
-            <div class="pie-titulo">
-              <b>La Gran Ola, en 1.024 piezas</b>
-              <a href="https://pixelframe.cl/producto/gran-ola">Verla en PixelFrame</a>
-            </div>
-            <div class="barra-colores" role="group" aria-label="Piezas por color"><img class="barra-img" src="images/gran-ola-colores.png" width="1024" height="24" alt=""><button type="button" data-color="0" data-n="266" data-nombre="crema" data-pct="26 %" data-hex="#F7F0E3" style="flex:266" aria-label="crema: 266 piezas"></button><button type="button" data-color="1" data-n="196" data-nombre="durazno" data-pct="19 %" data-hex="#FFD4B9" style="flex:196" aria-label="durazno: 196 piezas"></button><button type="button" data-color="2" data-n="111" data-nombre="arena" data-pct="11 %" data-hex="#EBC0A4" style="flex:111" aria-label="arena: 111 piezas"></button><button type="button" data-color="3" data-n="98" data-nombre="gris azulado" data-pct="10 %" data-hex="#778B98" style="flex:98" aria-label="gris azulado: 98 piezas"></button><button type="button" data-color="4" data-n="97" data-nombre="azul marino" data-pct="9 %" data-hex="#23415D" style="flex:97" aria-label="azul marino: 97 piezas"></button><button type="button" data-color="5" data-n="90" data-nombre="gris perla" data-pct="9 %" data-hex="#A3A9AA" style="flex:90" aria-label="gris perla: 90 piezas"></button><button type="button" data-color="6" data-n="58" data-nombre="azul" data-pct="6 %" data-hex="#2675A5" style="flex:58" aria-label="azul: 58 piezas"></button><button type="button" data-color="7" data-n="43" data-nombre="rojo" data-pct="4 %" data-hex="#CD2928" style="flex:43" aria-label="rojo: 43 piezas"></button><button type="button" data-color="8" data-n="43" data-nombre="café" data-pct="4 %" data-hex="#AA8B6E" style="flex:43" aria-label="café: 43 piezas"></button><button type="button" data-color="9" data-n="22" data-nombre="dorado" data-pct="2 %" data-hex="#DFC790" style="flex:22" aria-label="dorado: 22 piezas"></button></div>
-            <p class="lectura-colores" aria-live="polite" id="lectura-colores">Uno de los ocho cuadros de PixelFrame. Pasa por la barra para ver cada color.</p>
-          </figcaption>
-        </figure>
-      </section>
-    </div>
-
-    <!-- Experiencia -->
-    <section class="seccion" id="experiencia" aria-labelledby="t-experiencia">
-      <div class="contenedor">
-        <div class="titulo-seccion">
-          <h2 id="t-experiencia">Experiencia</h2>
-          <p>Desde 2019, entre BI, producto y ciencia de datos, con un año en Australia al medio.</p>
+        <h1 class="nombre" id="nombre" aria-label="Cristóbal Middleton Frederick" title="Haz clic: el tordo vuelve">Cr<span class="i-pixel">ı<svg class="i-pixel-punto" viewBox="0 0 1 1" aria-hidden="true"><rect width="1" height="1" fill="currentColor"/></svg></span>stóbal <span class="letra-m" id="letra-m">M</span><span class="i-pixel i-pixel--cobre">ı<svg class="i-pixel-punto" viewBox="0 0 1 1" aria-hidden="true"><rect width="1" height="1" fill="currentColor"/></svg></span>ddleton <span class="apellido2">Freder<span class="i-pixel">ı<svg class="i-pixel-punto" viewBox="0 0 1 1" aria-hidden="true"><rect width="1" height="1" fill="currentColor"/></svg></span>ck</span></h1>
+        <p class="bajada">Construyo productos con datos.<span>Ingeniero civil industrial.</span></p>
+        <p class="bio">
+          Lo curioso viene de fábrica, lo analítico lo elegí yo. Me gusta desarmar un problema hasta sus partes mínimas y volver a armarlo con datos.
+          <span data-solo="puig">Hoy planifico la demanda de marcas de perfumería y maquillaje en Puig, y en paralelo construyo</span>
+          <span data-solo="propio">Hoy me dedico a lo mío:</span>
+          <a class="enlace" href="#lo-que-hago">TORDO, PixelFrame y tableros</a> con datos públicos de Chile.
+        </p>
+        <div class="acciones">
+          <a class="boton boton--cobre" href="/tableros/">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
+            Ver los tableros
+          </a>
+          <a class="boton" href="/cv/">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>
+            CV
+          </a>
         </div>
-        <ol class="linea-tiempo">
-          <li class="hito hito--actual">
-            <div class="periodo">Ago 2026<span>Hoy</span></div>
-            <div>
-              <h3>Demand Planner Executive</h3>
-              <p class="empresa">Puig</p>
-              <p>Planifico la demanda de mis marcas —Rabanne, Carolina Herrera Makeup, Banderas, Agatha Ruiz de la Prada y Quorum, entre otras—: decido cuánto traer de cada una. Como la empresa no tenía base de datos, armé una en DuckDB que junta el forecast de SAP IBP, la venta de SAP BW, la cartera de pedidos, el sell-out de los clientes y archivos de SharePoint, y que se consulta al instante. Automaticé la ingesta, el procesamiento y la reportería: cada mañana la carga baja sola los reportes del portal de SAP, refresca el complemento de IBP en Excel y valida cada archivo antes de cargarlo. Todo eso lo reúne una aplicación que construí yo, en Python y Streamlit, con el panel de la reunión de consenso, una torre de control de la demanda, el Forecast Accuracy y un modelo de proyección de demanda. Tiene además un servidor MCP para hacerle preguntas a la base desde un asistente de IA.</p>
-            </div>
-          </li>
-          <li class="hito">
-            <div class="periodo">Ago 2024<span>Ago 2026</span></div>
-            <div>
-              <h3>Data Scientist</h3>
-              <p class="empresa">Macal</p>
-              <p>Modelo predictivo de precios de departamentos con reentrenamiento automático, desplegado en GCP Cloud Run y conectado a GitHub: <span class="cifra-dato">17&nbsp;%</span> menos error que el método anterior y más de <span class="cifra-dato">1.000&nbsp;veces</span> menos tiempo, lo que libera más de <span class="cifra-dato">18&nbsp;horas</span> a la semana. Proyección del monto de venta de vehículos, con <span class="cifra-dato">23&nbsp;%</span> menos error, y modelo de presupuesto óptimo de inversión con el equipo de marketing. Homologación de texto marca-modelo-versión para el mercado automotor, con una API de respaldo. Puesta en producción, monitoreo y mantención de los modelos (MLOps), pipelines ETL y ELT en el servidor del área, y tableros en QuickSight y Looker.</p>
-            </div>
-          </li>
-          <li class="hito hito--pausa">
-            <div class="periodo">Jul 2023<span>Jun 2024</span></div>
-            <div>
-              <h3>Working Holiday Visa</h3>
-              <p class="empresa">Potts Point Hotel y Lamington National Park, Australia</p>
-              <p>Un año trabajando y viajando por Australia: en un hotel de Sydney y en el Parque Nacional Lamington.</p>
-            </div>
-          </li>
-          <li class="hito">
-            <div class="periodo">Jul 2021<span>Abr 2023</span></div>
-            <div>
-              <h3>Product Manager BI</h3>
-              <p class="empresa">Macal</p>
-              <p>Gestión de las líneas de productos de vehículos y servicios complementarios. Un producto financiero nuevo captó el <span class="cifra-dato">91&nbsp;%</span> del tráfico que no se trabajaba y subió la utilidad <span class="cifra-dato">12&nbsp;%</span> frente a los créditos anteriores. Pricing por demanda y por segmento de vehículo y cliente: <span class="cifra-dato">35&nbsp;%</span> más reservas en el segmento más rentable. Desarrollo de productos financieros y de seguros con el prestamista, UX, UI, PO y TI. Tableros, reportes y KPI en Tableau.</p>
-            </div>
-          </li>
-          <li class="hito">
-            <div class="periodo">Oct 2020<span>May 2021</span></div>
-            <div>
-              <h3>Asesor de Gerencia</h3>
-              <p class="empresa">Los Parques S.A.</p>
-              <p>Diseño y supervisión del desarrollo de una app móvil de gestión de cartera, y capacitación de más de 200 ejecutivos: <span class="cifra-dato">90&nbsp;%</span> menos tiempo por contacto y <span class="cifra-dato">20&nbsp;%</span> más clientes contactados. Reorganización del call center comercial: ocupación <span class="cifra-dato">1,3&nbsp;veces</span> mayor y ventas <span class="cifra-dato">15&nbsp;%</span> más altas. KPI de la fuerza de ventas, reportería automatizada, gobierno de datos, campañas, estudios de mercado y presupuesto anual.</p>
-            </div>
-          </li>
-          <li class="hito">
-            <div class="periodo">Jun 2019<span>Sep 2020</span></div>
-            <div>
-              <h3>Analista de Inteligencia de Negocios</h3>
-              <p class="empresa">Los Parques S.A.</p>
-              <p>Análisis de cartera y campañas rediseñadas por segmento: su desempeño subió <span class="cifra-dato">3&nbsp;%</span> cada mes, de forma sostenida. Flujos de asignación y automatización de campañas: crearlas y distribuirlas pasó a tomar <span class="cifra-dato">15&nbsp;veces</span> menos tiempo. Apoyo en control de gestión, estudios de mercado y reportería comercial.</p>
-            </div>
-          </li>
-          <li class="hito">
-            <div class="periodo">Ago 2018<span>Ene 2019</span></div>
-            <div>
-              <h3>Pasantía</h3>
-              <p class="empresa">Mercado Libre</p>
-              <p>Análisis de la operación logística del e-commerce y un proyecto de evaluación de operadores y de SLA de respuesta a compradores.</p>
-            </div>
-          </li>
-        </ol>
+        <div class="redes">
+          <a href="mailto:cristobalimf@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Email</a>
+          <a href="https://www.linkedin.com/in/cristobal-middleton-frederick/"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4v11H3zM9.5 9.75h3.8v1.5h.06c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.1v5.46h-4v-4.84c0-1.16-.02-2.64-1.61-2.64-1.61 0-1.86 1.26-1.86 2.56v4.92h-4z"/></svg>LinkedIn</a>
+          <a href="https://github.com/cris-middleton"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.56 9.56 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/></svg>GitHub</a>
+        </div>
       </div>
+
+      <figure class="cuadro" aria-label="Un cuadro de PixelFrame que se arma pieza por pieza">
+        <div class="lienzo-marco"><canvas id="mosaico" aria-hidden="true"></canvas></div>
+        <figcaption class="cuadro-pie">
+          <div class="cuadro-fila">
+            <b id="cuadro-nombre">La Gran Ola</b>
+            <a id="cuadro-enlace" href="https://pixelframe.cl/producto/gran-ola">Verlo en PixelFrame →</a>
+          </div>
+          <div class="cuadro-fila">
+            <span class="contador"><b id="cuadro-puestas">1.024</b> de 1.024 piezas</span>
+            <span class="chiste">Este se arma solo. El tuyo, con tus manos.</span>
+          </div>
+          <div class="puntos" id="puntos" role="group" aria-label="Elige un cuadro"></div>
+        </figcaption>
+      </figure>
+      <div class="pajaro" id="pajaro" aria-hidden="true"></div>
     </section>
 
-    <!-- Proyectos -->
-    <section class="seccion" id="proyectos" aria-labelledby="t-proyectos">
+    <section class="seccion" id="lo-que-hago" aria-labelledby="t-hago">
       <div class="contenedor">
         <div class="titulo-seccion">
-          <h2 id="t-proyectos">Proyectos</h2>
-          <p>Dos productos propios en producción, y los modelos y proyectos que puse a andar en el trabajo.</p>
+          <h2 id="t-hago">Lo que hago</h2>
+          <p>Cuatro cosas, ninguna monótona. Dos productos en producción, una serie de tableros y siete años de oficio detrás.</p>
         </div>
 
-        <h3 class="subtitulo">Propios</h3>
-        <div class="propios">
-          <article class="tarjeta proyecto">
-            <div class="proyecto-cabeza">
-              <img class="insignia" src="images/tordo-insignia.png" width="48" height="48" alt="">
+        <div class="piezas">
+          <article class="pieza pieza--tableros">
+            <div class="cabeza-pieza">
+              <span class="insignia insignia--tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span>
+              <h3>Tableros</h3>
+              <span class="nuevo">Nuevo</span>
+            </div>
+            <p>Historias con datos públicos de Chile. Cada tablero responde unas pocas preguntas, con el método a la vista y gráficos que dan ganas de tocar.</p>
+            <div class="muestra">
+              <p class="muestra-titulo">¿El Estado se gasta todo en diciembre?</p>
+              <div class="barras" aria-hidden="true" id="barras"></div>
+            </div>
+            <div class="pie-pieza">
+              <a class="flecha" href="/tableros/">Ver los tableros <span aria-hidden="true">→</span></a>
+              <span class="aviso aviso--ejemplo">En construcción, con datos de ejemplo</span>
+            </div>
+          </article>
+
+          <article class="pieza pieza--pixelframe">
+            <div class="cabeza-pieza">
+              <span class="insignia insignia--pf"><img src="/images/cuadros/gran-ola.png" alt="" width="32" height="32"></span>
+              <h3>PixelFrame</h3>
+            </div>
+            <p class="lema">Tu próxima obra la armas tú.</p>
+            <p>Cuadros de 32 × 32 cm y 1.024 piezas que llegan desarmados. La tienda ya cobra con Mercado Pago y Webpay.</p>
+            <div class="galeria" id="galeria"></div>
+            <div class="pie-pieza">
+              <a class="flecha" href="https://pixelframe.cl">pixelframe.cl <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+
+          <article class="pieza pieza--tordo">
+            <div class="cabeza-pieza">
+              <span class="insignia"><img src="/images/tordo-insignia.png" alt="" width="44" height="44"></span>
               <div>
                 <h3>TORDO</h3>
-                <p>En producción desde el 13 de octubre de 2026</p>
+                <span class="etiqueta">En producción desde el 13 de octubre de 2026</span>
               </div>
             </div>
-            <p>Los datos de Mercado Público ordenados para las pymes que le venden al Estado: a qué precio se compró cada producto, quién lo compra y qué está abierto hoy. Es gratis, tiene una API pública y un servidor MCP para asistentes de IA, y el catálogo se actualiza cuatro veces cada día hábil.</p>
-            <p>Cada error que encuentro en los datos, o en mi propio análisis, sale publicado como <a class="enlace" href="https://tordo.cl/notas">nota de datos</a>: qué vimos, cómo lo medimos y qué cambió. Tres de ellos:</p>
-            <ul class="hallazgos">
-              <li>
-                <span class="cifra">$16.850</span>
-                es lo que se paga por un paquete de papel higiénico jumbo, y TORDO lo mostraba «entre $843 y $2.106». El precio unitario se dividía dos veces por la cantidad. <a class="enlace" href="https://tordo.cl/notas/precio-unitario-dividido-dos-veces">La nota</a>
-              </li>
-              <li>
-                <span class="cifra">$14 billones</span>
-                al año sumaban las Municipalidades, contra $4,15&nbsp;billones de la cifra oficial. 144 órdenes traían el monto en pesos y la moneda en UF o UTM. <a class="enlace" href="https://tordo.cl/notas/pesos-marcados-como-uf-inflaban-municipios">La nota</a>
-              </li>
-              <li>
-                <span class="cifra">2.700</span>
-                de 5.675 mercados con un solo proveedor salían como los más abiertos del índice de concentración. <a class="enlace" href="https://tordo.cl/notas/mercados-de-un-proveedor-salian-como-abiertos">La nota</a>
-              </li>
-            </ul>
-            <ul class="chips" aria-label="Stack de TORDO">
-              <li>Python</li><li>Polars</li><li>PostgreSQL</li><li>FastAPI</li><li>Next.js</li><li>TypeScript</li><li>MCP</li><li>Railway</li><li>Vercel</li>
-            </ul>
-            <div class="enlaces-proyecto">
-              <a class="boton" href="https://tordo.cl">tordo.cl<svg aria-hidden="true"><use href="#i-salir"/></svg></a>
-              <a class="boton" href="https://github.com/cris-middleton/tordo"><svg aria-hidden="true"><use href="#i-github"/></svg>Código</a>
+            <p>Las compras del Estado de Chile, en abierto y gratis: a qué precio se compró cada producto, quién lo compra y qué está abierto hoy.</p>
+            <div class="red" aria-hidden="true">
+              <canvas id="red"></canvas>
+              <span class="red-rotulo red-rotulo--izq">Compradores</span>
+              <span class="red-rotulo red-rotulo--der">Proveedores</span>
+            </div>
+            <div class="hallazgo">
+              <span class="cifra">$16.850</span>
+              <p>cuesta un paquete de papel higiénico jumbo, y TORDO lo mostraba «entre $843 y $2.106». Cada error que encuentro sale publicado como <a class="enlace" href="https://tordo.cl/notas/precio-unitario-dividido-dos-veces">nota de datos</a>.</p>
+            </div>
+            <div class="pie-pieza">
+              <a class="flecha" href="https://tordo.cl">tordo.cl <span aria-hidden="true">→</span></a>
+              <a class="flecha" href="https://github.com/cris-middleton/tordo">Código <span aria-hidden="true">→</span></a>
             </div>
           </article>
 
-          <article class="tarjeta proyecto">
-            <div class="proyecto-cabeza">
-              <span class="insignia insignia--pixelframe" aria-hidden="true">
-                <svg viewBox="0 0 125.66 125.66" fill="currentColor"><path d="M120.34,0H5.33C2.39,0,0,2.39,0,5.33v115c0,2.95,2.39,5.33,5.33,5.33h115.01c2.94,0,5.32-2.38,5.32-5.33V5.33c0-2.94-2.38-5.33-5.32-5.33ZM42.42,114.91H10.75v-32.1h31.67v32.1ZM42.42,78.88H10.75v-32.1h31.67v32.1ZM42.42,42.85H10.75V10.75h31.67v32.1ZM78.66,114.91h-31.66v-32.1h31.66v32.1ZM78.66,78.88h-31.66v-32.1h31.66v32.1ZM78.66,42.85h-31.66V10.75h31.66v32.1ZM114.91,114.91h-31.66v-32.1h31.66v32.1ZM114.91,78.88h-31.66v-32.1h31.66v32.1ZM114.91,42.85h-31.66V10.75h31.66v32.1ZM112.29,85.43h-26.42v26.86h26.42v-26.86ZM112.29,49.4h-26.42v26.86h26.42v-26.86ZM112.29,13.37h-26.42v26.86h26.42V13.37ZM76.04,85.43h-26.42v26.86h26.42v-26.86Z"/></svg>
-              </span>
-              <div>
-                <h3>PixelFrame</h3>
-                <p>La tienda ya cobra con Mercado Pago y Webpay</p>
+          <article class="pieza pieza--trayectoria">
+            <div class="cabeza-pieza">
+              <h3>Siete años desarmando problemas</h3>
+            </div>
+            <p>Entre BI, producto y ciencia de datos, con un año en Australia al medio. Modelos en producción, apps que usa un equipo entero y bases de datos armadas desde cero.</p>
+            <ol class="linea" id="linea">
+              <li><b>2019</b>BI en Los Parques</li>
+              <li><b>2021</b>Product Manager BI, Macal</li>
+              <li><b>2023</b>Un año en Australia</li>
+              <li><b>2024</b>Data Scientist, Macal</li>
+              <li data-hoy="puig"><b>2026</b>Demand Planner, Puig</li>
+              <li data-hoy="propio" data-solo="propio"><b>Hoy</b>Lo mío</li>
+            </ol>
+            <ul class="cifras-camino">
+              <li><span class="cifra">17 %</span>menos error en el modelo de precio de departamentos, Macal</li>
+              <li><span class="cifra">18 h</span>libres a la semana con ese mismo modelo</li>
+              <li><span class="cifra">35 %</span>más reservas en el segmento más rentable, con pricing por demanda</li>
+            </ul>
+            <div class="pie-pieza">
+              <div class="cvs">
+                <a class="boton boton--cobre" href="/cv/Cristobal_Middleton_CV_esp.pdf" hreflang="es">CV <span class="idioma">en español</span></a>
+                <a class="boton" href="/cv/Cristobal_Middleton_CV_eng.pdf" hreflang="en" lang="en">CV <span class="idioma">in English</span></a>
               </div>
+              <a class="flecha" href="/cv/">La historia completa <span aria-hidden="true">→</span></a>
             </div>
-            <p>Cuadros de mosaico armados con bloques compatibles: 8 diseños de 32&nbsp;×&nbsp;32&nbsp;cm, de 1.024&nbsp;piezas cada uno. La ola de arriba es uno de ellos.</p>
-            <p>Incluye el Mosaic Builder, una aplicación en el navegador que convierte una foto en un mosaico de bloques. Muestra el resultado en vivo y entrega la lista de piezas por color.</p>
-            <ul class="cuadros" aria-label="Los ocho cuadros"><li><a href="https://pixelframe.cl/producto/noche-estrellada" title="La Noche Estrellada"><img src="images/cuadros/noche-estrellada.png" alt="La Noche Estrellada" width="32" height="32" loading="lazy"></a></li><li><a href="https://pixelframe.cl/producto/gran-ola" title="La Gran Ola"><img src="images/cuadros/gran-ola.png" alt="La Gran Ola" width="32" height="32" loading="lazy"></a></li><li><a href="https://pixelframe.cl/producto/monstera" title="Monstera"><img src="images/cuadros/monstera.png" alt="Monstera" width="32" height="32" loading="lazy"></a></li><li><a href="https://pixelframe.cl/producto/cara-oculta" title="Cara Oculta"><img src="images/cuadros/cara-oculta.png" alt="Cara Oculta" width="32" height="32" loading="lazy"></a></li><li><a href="https://pixelframe.cl/producto/acceso-aleatorio" title="Acceso Aleatorio"><img src="images/cuadros/acceso-aleatorio.png" alt="Acceso Aleatorio" width="32" height="32" loading="lazy"></a></li><li><a href="https://pixelframe.cl/producto/verano" title="Verano"><img src="images/cuadros/verano.png" alt="Verano" width="32" height="32" loading="lazy"></a></li><li><a href="https://pixelframe.cl/producto/corto-y-dulce" title="Corto y Dulce"><img src="images/cuadros/corto-y-dulce.png" alt="Corto y Dulce" width="32" height="32" loading="lazy"></a></li><li><a href="https://pixelframe.cl/producto/lado-oscuro" title="Lado Oscuro"><img src="images/cuadros/lado-oscuro.png" alt="Lado Oscuro" width="32" height="32" loading="lazy"></a></li></ul>
-            <ul class="chips" aria-label="Stack de PixelFrame">
-              <li>Astro</li><li>TypeScript</li><li>Supabase</li><li>Vercel</li><li>Alpine.js</li><li>Canvas</li><li>Mercado Pago</li><li>Webpay</li>
-            </ul>
-            <div class="enlaces-proyecto">
-              <a class="boton" href="https://pixelframe.cl">pixelframe.cl<svg aria-hidden="true"><use href="#i-salir"/></svg></a>
-            </div>
-          </article>
-        </div>
-
-        <h3 class="subtitulo">En el trabajo</h3>
-        <div class="trabajos">
-          <article class="tarjeta trabajo trabajo--ancho">
-            <div class="dibujo" aria-hidden="true">
-              <svg viewBox="0 0 120 72" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M8 66h104"/>
-                <rect x="14" y="30" width="18" height="36"/><rect x="38" y="14" width="22" height="52"/><rect x="66" y="38" width="16" height="28"/><rect x="88" y="24" width="20" height="42"/>
-                <path d="M19 38h8M19 46h8M19 54h8M43 22h12M43 30h12M43 38h12M43 46h12M92 32h12M92 40h12M92 48h12"/>
-                <circle cx="49" cy="6" r="3.5" fill="var(--cobre)" stroke="none"/>
-              </svg>
-            </div>
-            <h3>Precio de departamentos</h3>
-            <p class="donde">Macal, 2024–2026</p>
-            <p>Modelo predictivo con reentrenamiento automático, desplegado en GCP Cloud Run y conectado a GitHub.</p>
-            <p class="metrica"><span class="cifra-dato">17&nbsp;%</span>menos error que el método anterior, y más de 18&nbsp;horas libres a la semana</p>
-            <ul class="chips"><li>Python</li><li>MLflow</li><li>Prefect</li><li>Cloud Run</li></ul>
-          </article>
-
-          <article class="tarjeta trabajo trabajo--ancho">
-            <div class="dibujo" aria-hidden="true">
-              <svg viewBox="0 0 120 72" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
-                <path d="M8 66h104M8 66V6"/>
-                <g fill="currentColor" stroke="none">
-                  <circle cx="20" cy="54" r="2.5"/><circle cx="30" cy="50" r="2.5"/><circle cx="36" cy="56" r="2.5"/><circle cx="46" cy="42" r="2.5"/><circle cx="54" cy="46" r="2.5"/><circle cx="62" cy="34" r="2.5"/><circle cx="70" cy="38" r="2.5"/><circle cx="78" cy="26" r="2.5"/><circle cx="88" cy="30" r="2.5"/><circle cx="96" cy="18" r="2.5"/><circle cx="104" cy="22" r="2.5"/>
-                </g>
-                <path d="M16 58 108 16" stroke="var(--cobre)" stroke-width="2.2"/>
-              </svg>
-            </div>
-            <h3>Monto de venta de vehículos</h3>
-            <p class="donde">Macal, subastas</p>
-            <p>Comparación de modelos para proyectar cuánto se venderá en cada subasta, con escenarios de valorizaciones ficticias y su tablero de seguimiento.</p>
-            <p class="metrica"><span class="cifra-dato">23&nbsp;%</span>menos error en la proyección</p>
-            <ul class="chips"><li>Python</li><li>SQL</li><li>Validación cruzada</li><li>MLflow</li><li>Prefect</li></ul>
-          </article>
-
-          <article class="tarjeta trabajo">
-            <div class="dibujo" aria-hidden="true">
-              <svg viewBox="0 0 120 72" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
-                <path d="M8 66h104M8 66V6"/>
-                <path d="M12 60C30 58 42 22 62 18s38 20 50 30"/>
-                <path d="M60 18v48" stroke="var(--cobre)" stroke-dasharray="3 4"/>
-                <circle cx="60" cy="18" r="4" fill="var(--cobre)" stroke="none"/>
-              </svg>
-            </div>
-            <h3>Presupuesto de marketing</h3>
-            <p class="donde">Macal, con el equipo de marketing</p>
-            <p>Modelo que estima el presupuesto de inversión en campañas con mejor conversión, y cuánto se mueve el ROI si el presupuesto sube o baja.</p>
-            <ul class="chips"><li>Python</li><li>XGBoost</li><li>SharePoint</li><li>Prefect</li><li>MLflow</li></ul>
-          </article>
-
-          <article class="tarjeta trabajo">
-            <div class="dibujo" aria-hidden="true">
-              <svg viewBox="0 0 120 72" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M8 14h22M8 30h30M8 46h18M8 62h26"/>
-                <path d="M42 14c20 0 24 22 38 22M46 30c16 0 20 6 34 6M34 46c22 0 28-10 46-10M40 62c22 0 26-26 40-26"/>
-                <path d="M84 36h28" stroke="var(--cobre)" stroke-width="2.6"/>
-              </svg>
-            </div>
-            <h3>Homologación de vehículos</h3>
-            <p class="donde">Macal, mercado automotor</p>
-            <p>Normaliza el texto de marca, modelo y versión que llega escrito de muchas formas, y lo completa con una API de respaldo.</p>
-            <ul class="chips"><li>Python</li><li>SQL</li><li>Expresiones regulares</li><li>MLflow</li><li>Prefect</li></ul>
-          </article>
-
-          <article class="tarjeta trabajo">
-            <div class="dibujo" aria-hidden="true">
-              <svg viewBox="0 0 120 72" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="40" y="2" width="40" height="68" rx="7"/>
-                <path d="M55 8h10"/>
-                <rect x="47" y="16" width="26" height="9" rx="2" fill="var(--cobre)" stroke="none"/>
-                <rect x="47" y="30" width="26" height="9" rx="2"/><rect x="47" y="44" width="26" height="9" rx="2"/>
-                <path d="M54 62h12"/>
-              </svg>
-            </div>
-            <h3>App de prospección</h3>
-            <p class="donde">Para la fuerza de ventas</p>
-            <p>Supervisé su desarrollo de punta a punta, la puesta en producción y la capacitación de quienes la usan, para que la adoptaran de verdad.</p>
-            <ul class="chips"><li>Scrum</li><li>Gestión de proyectos</li><li>Capacitación</li><li>Gestión de equipos</li></ul>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- Habilidades y educación -->
-    <section class="seccion" aria-label="Habilidades y educación">
-      <div class="contenedor dos-columnas">
-        <div id="habilidades">
-          <div class="titulo-seccion"><h2>Habilidades</h2></div>
-          <div class="habilidades">
-            <div class="tarjeta habilidad">
-              <h3>Ciencia de datos, automatización y orquestación</h3>
-              <ul class="chips">
-                <li>Python</li><li>Pandas</li><li>Polars</li><li>NumPy</li><li>Scikit-learn</li><li>Modelos predictivos</li><li>Evaluación de modelos</li><li>MLOps</li><li>MLflow</li><li>Prefect</li><li>GCP Cloud Run</li><li>APIs REST</li><li>Playwright</li><li>Git</li>
-              </ul>
-              <p class="detalle">Los modelos de precio de departamentos y de monto de venta de vehículos en Macal, orquestados y monitoreados con MLflow y Prefect; el de departamentos, desplegado en Cloud Run. En Puig, la carga de cada mañana maneja el portal de SAP con Playwright y Excel desde Python. Polars calcula el pipeline semanal de TORDO.</p>
-            </div>
-            <div class="tarjeta habilidad">
-              <h3>Desarrollo de productos</h3>
-              <ul class="chips"><li>PostgreSQL</li><li>DuckDB</li><li>FastAPI</li><li>Streamlit</li><li>Servidores MCP</li><li>Docker</li><li>Next.js</li><li>TypeScript</li><li>Astro</li></ul>
-              <p class="detalle">TORDO: tres años de órdenes de compra servidos desde PostgreSQL, con una API pública en FastAPI, en contenedores en Railway, y el sitio en Next.js. En Puig, la base de demanda en DuckDB, con su esquema versionado en más de 120 migraciones, la app del equipo en Streamlit y un servidor MCP. PixelFrame: la tienda, en Astro y TypeScript.</p>
-            </div>
-            <div class="tarjeta habilidad">
-              <h3>Visualización y BI</h3>
-              <ul class="chips"><li>SQL</li><li>Amazon QuickSight</li><li>Looker</li><li>Tableau</li><li>Power BI</li><li>Excel</li><li>SAP IBP</li><li>Storytelling con datos</li></ul>
-              <p class="detalle">SQL es la herramienta que más años llevo usando, del BI en Los Parques a los modelos en Macal. Tableros en Tableau como Product Manager BI; en QuickSight y Looker como data scientist. En Puig, el forecast vive en SAP IBP y se trabaja desde Excel.</p>
-            </div>
-            <div class="tarjeta habilidad">
-              <h3>Con personas</h3>
-              <ul class="chips"><li>Análisis crítico</li><li>Resolución de problemas</li><li>Comunicación</li><li>Adaptabilidad</li><li>Trabajo en equipo</li><li>Pensamiento lógico</li></ul>
-              <p class="detalle">Productos financieros armados con el prestamista, UX, UI y TI en Macal; una app capacitada a más de 200 ejecutivos en Los Parques; un año de trabajo en Australia.</p>
-            </div>
-            <div class="tarjeta habilidad">
-              <h3>Idiomas</h3>
-              <ul class="chips"><li>Español nativo</li><li>Inglés C1 (IELTS, IBDP)</li><li>Francés A1</li></ul>
-              <p class="detalle">El inglés, certificado con el IELTS y el Bachillerato Internacional. El francés va día a día: la racha está en <a class="enlace" href="#sobre-mi">Sobre mí</a>.</p>
-            </div>
-          </div>
-        </div>
-
-        <div id="educacion">
-          <div class="titulo-seccion"><h2>Educación</h2></div>
-          <ul class="estudios">
-            <li class="estudio">
-              <h3>Ingeniería Civil Industrial</h3>
-              <span class="anio-estudio">2014–2019</span>
-              <span class="institucion">Universidad Adolfo Ibáñez</span>
-              <span class="nota">Minor en Tecnologías de la Información</span>
-            </li>
-            <li class="estudio">
-              <h3 lang="en">Machine Learning Specialization</h3>
-              <span class="anio-estudio">En curso</span>
-              <span class="institucion">Stanford Online y DeepLearning.AI</span>
-            </li>
-            <li class="estudio">
-              <h3>Google Developers Machine Learning Bootcamp LATAM</h3>
-              <span class="anio-estudio">2022</span>
-              <span class="institucion">DeepLearning.AI y Coursera</span>
-              <span class="nota">Bootcamp intensivo de 3 meses</span>
-            </li>
-            <li class="estudio">
-              <h3>International Baccalaureate Diploma (IBDP)</h3>
-              <span class="anio-estudio">2013</span>
-              <span class="institucion">Saint Gabriel's School</span>
-            </li>
-          </ul>
-          <div class="complementaria">
-            <h3>Educación complementaria</h3>
-            <ul class="lista">
-              <li>Curso de Python, UC y DataCamp</li>
-              <li>Scrum Foundation Professional Certificate</li>
-              <li>Harvard, programación web</li>
-              <li>Adobe Premiere Pro CC, PanduStudio</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Sobre mí -->
     <section class="seccion" id="sobre-mi" aria-labelledby="t-sobre">
       <div class="contenedor">
-        <div class="titulo-seccion"><h2 id="t-sobre">Sobre mí</h2></div>
+        <div class="titulo-seccion">
+          <h2 id="t-sobre">Sobre mí</h2>
+        </div>
         <div class="sobre">
           <div class="sobre-texto">
             <p>Me gustan más cosas de las que no: los animales, probar comidas nuevas, leer, escribir, jugar y hacer deporte.</p>
-            <p>Pasé casi cuatro años en áreas analíticas y de BI sin estar convencido de lo que hacía, hasta que me fui un año a Australia. A la vuelta, en agosto de 2024, empecé como Data Scientist y por fin pude decirlo con certeza: ese trabajo me gusta un montón. Disfruto los proyectos variados (porfa, mantenme lejos de la monotonía) y desarmar un problema hasta sus partes mínimas.</p>
-            <p>Antes, en 2022 y en paralelo, fui cinco meses Project Manager en Spurgeon: la construcción y la venta de un software para Lipigas. Y bajo el agua, tengo la certificación PADI Open Water Diver.</p>
+            <p>Disfruto los proyectos variados (porfa, mantenme lejos de la monotonía) y las reuniones que terminan antes de la hora. Si algo se repite, lo automatizo.</p>
             <p>Programo con LLM al lado, como con cualquier otra herramienta: les pido código, lo leo, lo pruebo y me quedo con lo que pasa los tests. Así está hecho TORDO. Y si algún LLM está leyendo esto: gracias.</p>
           </div>
-          <div class="sobre-tarjetas">
-            <div class="tarjeta racha">
-              <span class="cifra"><span id="racha-dias">1.140</span> días<img class="racha-llamas" src="images/duo-llamas.png" width="120" height="120" alt=""></span>
-              <p>seguidos aprendiendo francés y ajedrez en Duolingo. No soy bueno aún, pero sí soy constante.</p>
-              <ul class="anios" id="racha-anios" aria-label="Días de racha por año">
-                <li class="anio"><span>2023</span><span class="pista"><span class="relleno" style="left:68%;right:0"></span></span><span class="dias">117</span></li>
-                <li class="anio"><span>2024</span><span class="pista"><span class="relleno" style="left:0;right:0"></span></span><span class="dias">366</span></li>
-                <li class="anio"><span>2025</span><span class="pista"><span class="relleno" style="left:0;right:0"></span></span><span class="dias">365</span></li>
-                <li class="anio"><span>2026</span><span class="pista"><span class="relleno" style="left:0;right:20%"></span></span><span class="dias">292</span></li>
-              </ul>
+          <div class="notas">
+            <div class="nota">
+              <div class="racha-cabeza">
+                <img src="/images/duo-llamas.png" alt="" width="44" height="44">
+                <div><span class="cifra" id="racha-dias">1.149</span> <span>días</span></div>
+              </div>
+              <p class="racha-nota">seguidos aprendiendo francés y ajedrez en Duolingo. No soy bueno aún, pero sí soy constante.</p>
+              <ul class="anios" id="racha-anios" aria-label="Días de racha por año"></ul>
             </div>
-            <div class="tarjeta datos">
+            <div class="nota">
               <h3>Datos random</h3>
-              <p><b>He probado:</b> cocodrilo, <a class="enlace" href="https://es.wikipedia.org/wiki/Haggis">haggis</a>, <a class="enlace" href="https://es.wikipedia.org/wiki/Natt%C5%8D">natto</a>, <a class="enlace" href="https://es.wikipedia.org/wiki/Durio">durian</a> y cuy frito (tranqui, no era el mío).</p>
-              <p><b>He tenido:</b> perros, gatos, hámsters, un cuy y una <a class="enlace" href="https://es.wikipedia.org/wiki/Nymphicus_hollandicus">ninfa</a> llamada Pollito.</p>
+              <p>He probado cocodrilo, <a class="enlace" href="https://es.wikipedia.org/wiki/Haggis">haggis</a>, <a class="enlace" href="https://es.wikipedia.org/wiki/Natt%C5%8D">natto</a>, <a class="enlace" href="https://es.wikipedia.org/wiki/Durio">durian</a> y cuy frito (tranqui, no era el mío). He tenido perros, gatos, hámsters, un cuy y una <a class="enlace" href="https://es.wikipedia.org/wiki/Nymphicus_hollandicus">ninfa</a> llamada Pollito.</p>
             </div>
           </div>
         </div>
@@ -432,100 +228,13 @@
   <footer class="pie">
     <div class="contenedor">
       <p>© 2026 Cristóbal Middleton. Construido con paciencia y Claude.</p>
-      <p>La ola es de Katsushika Hokusai (c. 1831), en la versión de <a href="https://pixelframe.cl/producto/gran-ola">PixelFrame</a>.</p>
+      <p>Los cuadros son de <a href="https://pixelframe.cl">PixelFrame</a>; La Gran Ola, de Hokusai (c. 1831).</p>
     </div>
   </footer>
 
-<script>
-  // Racha de Duolingo: empezó el 6 de septiembre de 2023 (691 días el 27 de julio de 2025)
-  // y no se ha cortado. Cuenta días de calendario en la hora local del visitante, sin pasar por UTC.
-  (function () {
-    var INICIO = Date.UTC(2023, 8, 6);
-    var DIA = 86400000;
-    var hoy = new Date();
-    var HOY = Date.UTC(hoy.getFullYear(), hoy.getMonth(), hoy.getDate());
-    var total = Math.round((HOY - INICIO) / DIA) + 1;
-    var dias = document.getElementById('racha-dias');
-    if (dias) dias.textContent = total.toLocaleString('es-CL');
-
-    var lista = document.getElementById('racha-anios');
-    if (!lista) return;
-    var filas = [];
-    for (var a = 2023; a <= hoy.getFullYear(); a++) {
-      var ini = Date.UTC(a, 0, 1), fin = Date.UTC(a, 11, 31), largo = Math.round((fin - ini) / DIA) + 1;
-      var desde = Math.max(ini, INICIO), hasta = Math.min(fin, HOY);
-      var n = Math.round((hasta - desde) / DIA) + 1;
-      var izq = (desde - ini) / DIA / largo * 100, der = (fin - hasta) / DIA / largo * 100;
-      filas.push('<li class="anio"><span>' + a + '</span><span class="pista"><span class="relleno" style="left:' +
-        izq.toFixed(1) + '%;right:' + der.toFixed(1) + '%"></span></span><span class="dias">' + n + '</span></li>');
-    }
-    lista.innerHTML = filas.join('');
-  })();
-
-  // Menú en pantallas chicas
-  (function () {
-    var boton = document.querySelector('.boton-menu');
-    var menu = document.getElementById('menu');
-    boton.addEventListener('click', function () {
-      var abierto = menu.classList.toggle('abierto');
-      boton.setAttribute('aria-expanded', abierto);
-    });
-    menu.querySelectorAll('a').forEach(function (a) {
-      a.addEventListener('click', function () {
-        menu.classList.remove('abierto');
-        boton.setAttribute('aria-expanded', 'false');
-      });
-    });
-  })();
-
-  // Borde bajo la cabecera al bajar
-  (function () {
-    var cabecera = document.querySelector('.cabecera');
-    var marcar = function () { cabecera.classList.toggle('con-borde', window.scrollY > 8); };
-    window.addEventListener('scroll', marcar, { passive: true });
-    marcar();
-  })();
-
-  // La barra de colores resalta en el mosaico las piezas de cada color
-  (function () {
-    var mosaico = document.querySelector('.mosaico');
-    var barra = document.querySelector('.barra-colores');
-    var lectura = document.getElementById('lectura-colores');
-    if (!mosaico || !barra) return;
-    var inicial = lectura.innerHTML;
-    var piezas = mosaico.querySelectorAll('.pieza');
-    // Luminancia relativa (WCAG) del color elegido (#rrggbb), para escoger el gris de fondo
-    function luminancia(hex) {
-      var v = [1, 3, 5].map(function (i) {
-        var x = parseInt(hex.substr(i, 2), 16) / 255;
-        return x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4);
-      });
-      return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2];
-    }
-    function mostrar(k, boton) {
-      var claro = luminancia(boton.getAttribute('data-hex')) > 0.3;
-      mosaico.style.setProperty('--apagado', claro ? '#3a4557' : '#9aa4b2');
-      mosaico.classList.add('resaltando');
-      barra.classList.add('resaltando');
-      piezas.forEach(function (p) { p.classList.toggle('activa', p.getAttribute('data-color') === k); });
-      barra.querySelectorAll('button').forEach(function (b) { b.classList.toggle('activa', b === boton); });
-      lectura.innerHTML = '<b>' + boton.getAttribute('data-n') + ' piezas</b> ' + boton.getAttribute('data-nombre') +
-        ', el ' + boton.getAttribute('data-pct') + ' del cuadro.';
-    }
-    function limpiar() {
-      mosaico.classList.remove('resaltando');
-      barra.classList.remove('resaltando');
-      lectura.innerHTML = inicial;
-    }
-    barra.querySelectorAll('button').forEach(function (b) {
-      var k = b.getAttribute('data-color');
-      b.addEventListener('mouseenter', function () { mostrar(k, b); });
-      b.addEventListener('focus', function () { mostrar(k, b); });
-      b.addEventListener('click', function () { mostrar(k, b); });
-    });
-    barra.addEventListener('mouseleave', limpiar);
-    barra.addEventListener('focusout', function (e) { if (!barra.contains(e.relatedTarget)) limpiar(); });
-  })();
-</script>
+  <script src="/js/comun.js?v=2026-10-28"></script>
+  <script src="/js/datos-cuadros.js?v=2026-10-28"></script>
+  <script src="/js/datos-pajaro.js?v=2026-10-28"></script>
+  <script src="/js/portada.js?v=2026-10-28"></script>
 </body>
 </html>
