@@ -1,0 +1,167 @@
+/* La portada: quién soy y el mosaico arriba, «Lo que hago» en cuatro piezas, «Sobre mí» abajo.
+   Una grilla de seis columnas con piezas de 4/2 y 3/3, que se apilan bajo 900 px. */
+
+/* ---------- Presentación ---------- */
+.portada { position: relative; display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr); gap: var(--e-8); align-items: center; padding-block: var(--e-8) var(--e-9); }
+.quien { display: flex; align-items: center; gap: var(--e-4); margin-bottom: var(--e-5); }
+.foto { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; border: 2px solid var(--borde-2); flex-shrink: 0; }
+.quien p { color: var(--tenue); font-size: 15px; line-height: 1.45; }
+.quien p b { color: var(--texto); font-weight: 500; }
+.ahora { display: inline-flex; align-items: center; gap: 8px; }
+.ahora::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--cobre); flex-shrink: 0; animation: latido 2.4s ease-out infinite; }
+@keyframes latido { 0% { box-shadow: 0 0 0 0 rgba(227, 174, 122, 0.45); } 70%, 100% { box-shadow: 0 0 0 10px rgba(227, 174, 122, 0); } }
+
+h1.nombre { font-size: clamp(42px, 6vw, 68px); line-height: 1.02; letter-spacing: -0.035em; font-weight: 800; margin-bottom: var(--e-5); cursor: default; }
+h1.nombre .apellido2 { display: block; }
+.letra-m { display: inline-block; }
+.bajada { font-size: clamp(19px, 2.1vw, 23px); line-height: 1.4; color: var(--tinta); font-weight: 500; margin-bottom: var(--e-5); }
+.bajada span { display: block; color: var(--tenue); font-weight: 400; }
+.bio { max-width: 54ch; font-size: 16.5px; margin-bottom: var(--e-6); }
+.acciones { display: flex; flex-wrap: wrap; gap: var(--e-3); margin-bottom: var(--e-4); }
+.redes { display: flex; flex-wrap: wrap; gap: var(--e-1) var(--e-5); font-size: 15px; }
+.redes a { color: var(--texto); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; }
+.redes a:hover { color: var(--tinta); }
+.redes svg { width: 17px; height: 17px; color: var(--acero); }
+
+/* ---------- El mosaico que se arma ----------
+   Se dibuja en canvas con la pieza del sitio (el cuadro del color, la perilla con
+   brillo, su aro oscuro y un reflejo). No en SVG: Samsung Internet recolorea los
+   SVG y los fondos con su modo oscuro; los mapas de bits los deja como están. */
+.cuadro { background: var(--superficie); border: 1px solid var(--borde); border-radius: var(--radio-4); padding: var(--e-5); box-shadow: 0 30px 80px -40px rgba(0, 0, 0, 0.7); }
+.lienzo-marco { position: relative; aspect-ratio: 1; width: 100%; border-radius: var(--radio-2); overflow: hidden; background: var(--hundido); }
+.lienzo-marco canvas { width: 100%; height: 100%; }
+.cuadro-pie { display: grid; gap: var(--e-3); margin-top: var(--e-4); }
+/* Filas de alto fijo: cambiar de cuadro no mueve nada */
+.cuadro-fila { display: flex; justify-content: space-between; align-items: baseline; gap: var(--e-3); min-height: 24px; font-size: 13px; line-height: 1.5; }
+.cuadro-fila > b { font-size: 15px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cuadro-fila a { color: var(--acero); font-size: 14px; text-decoration: none; white-space: nowrap; flex-shrink: 0; }
+.cuadro-fila a:hover { text-decoration: underline; text-underline-offset: 3px; }
+/* El contador con dígitos de ancho fijo: «1.024» ocupa siempre lo mismo y no empuja el texto */
+.contador { color: var(--tenue); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.contador b { display: inline-block; min-width: 5ch; text-align: right; color: var(--cobre); font-weight: 600; font-size: inherit; }
+.chiste { color: var(--tenue); text-align: right; }
+.puntos { display: flex; gap: 6px; flex-wrap: wrap; }
+.puntos button { width: 26px; height: 26px; padding: 0; border-radius: 6px; border: 1px solid var(--borde-2); background: var(--hundido); cursor: pointer; overflow: hidden; transition: transform 0.2s var(--curva), border-color 0.2s; }
+.puntos button img { width: 100%; height: 100%; image-rendering: pixelated; opacity: 0.55; transition: opacity 0.2s; }
+.puntos button:hover { transform: translateY(-2px); }
+.puntos button:hover img, .puntos button[aria-pressed='true'] img { opacity: 1; }
+.puntos button[aria-pressed='true'] { border-color: var(--cobre); }
+
+/* ---------- El tordo: llega, se posa en la M, picotea el punto y sigue ---------- */
+.pajaro { position: absolute; left: 0; top: 0; z-index: 60; pointer-events: none; will-change: transform; visibility: hidden; }
+.pajaro canvas { width: 100%; height: 100%; filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.35)); }
+.i-pixel--cobre .i-pixel-punto { transition: color 0.2s; }
+.i-pixel-punto.picado { animation: picado 0.32s var(--curva); }
+.i-pixel-punto.giro { animation: giro 0.9s cubic-bezier(0.3, 1.5, 0.5, 1); }
+@keyframes picado { 0% { transform: rotate(23.09deg); } 35% { transform: translateY(0.035em) rotate(45deg) scale(0.8); } 100% { transform: rotate(23.09deg); } }
+@keyframes giro { 0% { transform: rotate(23.09deg); } 30% { transform: translateY(-0.22em) rotate(211deg) scale(1.25); } 100% { transform: rotate(383.09deg); } }
+.chispa { position: absolute; width: 4px; height: 4px; background: var(--cobre); pointer-events: none; z-index: 59; animation: chispa 0.5s ease-out forwards; }
+@keyframes chispa { to { transform: translate(var(--dx), var(--dy)) rotate(90deg); opacity: 0; } }
+
+/* ---------- «Lo que hago»: cuatro piezas de distinto tamaño ---------- */
+.piezas { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: var(--e-4); }
+.pieza { position: relative; background: var(--superficie); border: 1px solid var(--borde); border-radius: var(--radio-4); padding: var(--e-6); display: flex; flex-direction: column; gap: var(--e-4); min-width: 0; overflow: hidden; transition: border-color 0.25s, transform 0.35s var(--curva); }
+.pieza:hover { border-color: var(--borde-2); transform: translateY(-3px); }
+.pieza--tableros { grid-column: span 4; }
+.pieza--pixelframe { grid-column: span 2; }
+.pieza--tordo, .pieza--trayectoria { grid-column: span 3; }
+.pieza h3 { font-size: 26px; letter-spacing: -0.02em; line-height: 1.1; }
+.pieza p { max-width: 58ch; }
+.pie-pieza { margin-top: auto; display: flex; gap: var(--e-5); flex-wrap: wrap; align-items: center; }
+.cabeza-pieza { display: flex; align-items: center; gap: var(--e-3); }
+.insignia { width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0; display: grid; place-items: center; overflow: hidden; }
+.insignia img { width: 100%; height: 100%; }
+.insignia--pf { background: #282828; border: 1px solid #3a3a3a; }
+.insignia--pf img { image-rendering: pixelated; }
+.insignia--tab { background: var(--cobre-velo); border: 1px solid var(--cobre-linea); color: var(--cobre); }
+.insignia--tab svg { width: 22px; height: 22px; }
+.nuevo { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fondo); background: var(--cobre); border-radius: 999px; padding: 2px 9px; }
+
+/* Tableros: un gráfico de muestra que respira */
+.muestra { background: var(--hundido); border: 1px solid var(--borde); border-radius: var(--radio-3); padding: var(--e-5) var(--e-5) var(--e-4); }
+.muestra-titulo { font-family: var(--f-titulo); color: var(--tinta); font-size: 19px; font-weight: 700; line-height: 1.25; margin-bottom: var(--e-4); }
+.barras { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 6px; align-items: end; height: 150px; margin-top: 30px; }
+.barra { position: relative; display: flex; flex-direction: column; justify-content: end; align-items: center; gap: 6px; height: 100%; }
+.barra i { display: block; width: 100%; border-radius: 4px 4px 2px 2px; background: var(--borde-2); transform-origin: bottom; animation: crecer 7s var(--curva) infinite; animation-delay: calc(var(--n) * 70ms); }
+.barra span { font-size: 12px; color: var(--tenue); line-height: 1; }
+.barra--dic i { background: var(--cobre); }
+.barra--dic span { color: var(--cobre); font-weight: 600; }
+.fiebre { font-style: normal; position: absolute; bottom: calc(100% + 6px); right: 0; white-space: nowrap; font-size: 12px; font-weight: 700; color: var(--cobre); letter-spacing: 0.02em; }
+@keyframes crecer { 0% { transform: scaleY(0.06); } 22%, 88% { transform: scaleY(1); } 100% { transform: scaleY(0.06); } }
+
+/* PixelFrame: los ocho cuadros */
+.galeria { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--e-2); }
+.galeria a { display: block; border-radius: 8px; overflow: hidden; border: 1px solid var(--borde); transition: transform 0.25s var(--curva), border-color 0.2s; }
+.galeria a:hover { transform: translateY(-3px) scale(1.06) rotate(-2deg); border-color: var(--acero-linea); }
+.galeria img { width: 100%; height: auto; aspect-ratio: 1; image-rendering: pixelated; }
+.lema { font-family: var(--f-titulo); font-size: 19px; font-weight: 700; color: var(--tinta); line-height: 1.25; }
+
+/* TORDO: la red */
+.red { position: relative; height: 170px; border-radius: var(--radio-3); background: var(--hundido); border: 1px solid var(--borde); overflow: hidden; }
+.red canvas { width: 100%; height: 100%; }
+.red-rotulo { position: absolute; bottom: 10px; font-size: 12px; color: var(--tenue); }
+.red-rotulo--izq { left: 14px; }
+.red-rotulo--der { right: 14px; }
+.hallazgo { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--e-4); align-items: baseline; padding: var(--e-4); border-radius: var(--radio-2); background: var(--hundido); border: 1px solid var(--borde); }
+.hallazgo .cifra { font-size: 26px; font-weight: 800; color: var(--cobre); letter-spacing: -0.02em; }
+.hallazgo p { font-size: 14.5px; line-height: 1.55; }
+
+/* Trayectoria: una línea que se dibuja. Tiene un hito por columna, los que muestre la etapa. */
+.linea { list-style: none; position: relative; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 4px; padding-top: 22px; }
+.linea::before, .linea::after { content: ''; position: absolute; top: 6px; left: 6px; right: 6px; height: 2px; }
+.linea::before { background: var(--borde-2); }
+.linea::after { background: linear-gradient(90deg, var(--acero), var(--cobre)); transform-origin: left; transform: scaleX(0); }
+.linea.anima::after { animation: trazar 1.8s var(--curva) both; }
+@keyframes trazar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.linea li { position: relative; font-size: 12.5px; line-height: 1.35; color: var(--tenue); min-width: 0; }
+.linea li::before { content: ''; position: absolute; top: -22px; left: 0; width: 14px; height: 14px; border-radius: 50%; background: var(--superficie); border: 2px solid var(--acero); }
+.linea li b { display: block; font-family: var(--f-titulo); font-size: 15px; color: var(--tinta); }
+/* El hito de hoy, en cobre: el de Puig o el de lo mío, según la etapa */
+[data-etapa='puig'] .linea li[data-hoy='puig']::before,
+[data-etapa='propio'] .linea li[data-hoy='propio']::before { background: var(--cobre); border-color: var(--cobre); box-shadow: 0 0 0 4px var(--cobre-velo); }
+[data-etapa='puig'] .linea li[data-hoy='puig'] b,
+[data-etapa='propio'] .linea li[data-hoy='propio'] b { color: var(--cobre); }
+.cifras-camino { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--e-3); }
+.cifras-camino li { background: var(--hundido); border: 1px solid var(--borde); border-radius: var(--radio-2); padding: var(--e-3) var(--e-4); font-size: 13px; line-height: 1.4; color: var(--tenue); }
+.cifras-camino .cifra { display: block; font-size: 26px; font-weight: 800; color: var(--cobre); letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 2px; }
+.cvs { display: flex; gap: var(--e-3); flex-wrap: wrap; }
+
+/* ---------- Sobre mí ---------- */
+.sobre { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: var(--e-7); }
+.sobre-texto { display: grid; gap: var(--e-4); align-content: start; }
+.sobre-texto p { font-size: 17px; line-height: 1.7; max-width: 60ch; }
+.notas { display: grid; gap: var(--e-4); align-content: start; }
+.nota { background: var(--superficie); border: 1px solid var(--borde); border-radius: var(--radio-3); padding: var(--e-5); }
+.nota h3 { font-size: 16px; margin-bottom: var(--e-2); }
+.nota p { font-size: 15px; }
+.racha-cabeza { display: flex; align-items: center; gap: var(--e-3); }
+.racha-cabeza img { width: 44px; height: 44px; }
+.racha-cabeza .cifra { font-size: 36px; font-weight: 800; letter-spacing: -0.02em; color: var(--cobre); line-height: 1; }
+.racha-nota { margin-top: var(--e-2); }
+.anios { list-style: none; display: grid; gap: 6px; margin-top: var(--e-4); }
+.anio { display: grid; grid-template-columns: 40px minmax(0, 1fr) 34px; gap: 10px; align-items: center; font-size: 13px; color: var(--tenue); font-variant-numeric: tabular-nums; }
+.pista { position: relative; height: 8px; border-radius: 4px; background: var(--hundido); overflow: hidden; }
+.relleno { position: absolute; top: 0; bottom: 0; border-radius: 4px; background: var(--cobre); }
+.anio .dias { text-align: right; }
+
+@media (max-width: 900px) {
+  .portada { grid-template-columns: minmax(0, 1fr); gap: var(--e-7); padding-block: var(--e-6) var(--e-8); }
+  .cuadro { max-width: 520px; }
+  .pieza--tableros, .pieza--pixelframe, .pieza--tordo, .pieza--trayectoria { grid-column: span 6; }
+  .sobre { grid-template-columns: minmax(0, 1fr); gap: var(--e-6); }
+}
+@media (max-width: 560px) {
+  .cuadro { padding: var(--e-4); }
+  .pieza { padding: var(--e-5); }
+  .chiste { display: none; }
+  .barras { gap: 3px; height: 120px; }
+  .linea { grid-auto-flow: row; grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 34px; }
+  .linea::before, .linea::after { display: none; }
+  .hallazgo { grid-template-columns: minmax(0, 1fr); gap: var(--e-1); }
+  .cifras-camino { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .linea::after { transform: none; }
+  .barra i, .ahora::before { animation: none; }
+  .pieza:hover, .galeria a:hover { transform: none; }
+}

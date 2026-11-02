@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#0f1622">
+  <title>Compras del Estado, tableros de Cristóbal Middleton</title>
+  <meta name="description" content="¿El Estado se gasta todo en diciembre? ¿Quién le vende? ¿Cuánto se compra sin licitar? Un tablero con datos de ChileCompra, en construcción.">
+  <link rel="canonical" href="https://cris-middleton.github.io/tableros/compras-del-estado/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_CL">
+  <meta property="og:site_name" content="Cristóbal Middleton">
+  <meta property="og:title" content="Compras del Estado, tableros de Cristóbal Middleton">
+  <meta property="og:description" content="¿El Estado se gasta todo en diciembre? ¿Quién le vende? ¿Cuánto se compra sin licitar? Un tablero con datos de ChileCompra, en construcción.">
+  <meta property="og:url" content="https://cris-middleton.github.io/tableros/compras-del-estado/">
+  <meta property="og:image" content="https://cris-middleton.github.io/images/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/images/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+
+  <link rel="preload" href="/fonts/Inter.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/SchibstedGrotesk.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/css/style.css?v=2026-10-28">
+  <link rel="stylesheet" href="/css/tableros.css?v=2026-10-28">
+</head>
+<body>
+  <a class="saltar" href="#contenido">Ir al contenido</a>
+
+  <header class="cabecera">
+    <div class="contenedor">
+      <a class="marca" href="/"><span class="marca-punto" aria-hidden="true"></span>Cris Middleton</a>
+      <nav class="menu" aria-label="Secciones">
+        <a href="/tableros/" aria-current="page">Tableros</a>
+        <a class="menu-ocultable" href="/#lo-que-hago">Proyectos</a>
+        <a class="menu-ocultable" href="/#sobre-mi">Sobre mí</a>
+        <a class="menu-cv" href="/cv/">CV</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido" class="contenedor">
+    <section class="intro">
+      <div>
+        <a class="volver" href="/tableros/">← Tableros</a>
+        <h1>Compras del Estado</h1>
+        <p>Cuánto, cuándo y a quién le compra el Estado de Chile. Una pregunta por vista, con el método a la vista: pasa el mouse por cualquier celda.</p>
+      </div>
+      <div class="selector">
+        <span class="etq-sel" id="etq-sel">Elige una vista</span>
+        <div class="desplegable" id="desplegable">
+          <button type="button" class="desp-boton" id="desp-boton" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="etq-sel desp-titulo">
+            <span class="mini" id="desp-mini" aria-hidden="true"></span>
+            <span class="desp-texto"><b id="desp-titulo"></b><small id="desp-estado"></small></span>
+            <span class="desp-flecha" aria-hidden="true"></span>
+          </button>
+          <ul class="desp-lista" id="desp-lista" role="listbox" tabindex="-1" aria-labelledby="etq-sel" hidden></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Vista 1 -->
+    <section class="vista" id="v-diciembre" aria-labelledby="h-fiebre">
+      <div class="lamina">
+        <div class="lamina-cabeza">
+          <span class="aviso aviso--ejemplo">En construcción: todas las cifras son de ejemplo, todavía no vienen de Mercado Público</span>
+          <h2 id="h-fiebre">¿El Estado se gasta todo en diciembre?</h2>
+          <p class="respuesta" id="respuesta"></p>
+        </div>
+        <div class="cuerpo">
+          <div>
+            <div class="lienzo-calor" id="calor"></div>
+            <div class="escala"><span>Mes tranquilo</span><i aria-hidden="true"></i><span>Mes de fiebre</span><span>· 1,0 = un mes promedio de ese año</span></div>
+          </div>
+          <div class="indicadores">
+            <div class="indicador">
+              <span class="etiqueta">Diciembre contra un mes promedio</span>
+              <span class="cifra cifra--cobre" id="i-veces"></span>
+              <svg id="i-linea" viewBox="0 0 240 46" preserveAspectRatio="none" aria-hidden="true"></svg>
+              <p id="i-veces-nota"></p>
+            </div>
+            <div class="indicador">
+              <span class="etiqueta">Años con diciembre arriba</span>
+              <span class="cifra" id="i-anios"></span>
+              <p>Años en que diciembre fue el mes de más compras.</p>
+            </div>
+            <div class="indicador">
+              <span class="etiqueta">El mes más tranquilo</span>
+              <span class="cifra" id="i-tranquilo"></span>
+              <p id="i-tranquilo-nota"></p>
+            </div>
+          </div>
+        </div>
+        <div class="metodo">
+          <div><b>Qué se mide</b>Monto de las órdenes de compra de cada mes, dividido por el promedio mensual de su año.</div>
+          <div><b>De dónde sale</b>La descarga masiva de ChileCompra, 2007 a 2025, sin órdenes canceladas.</div>
+          <div><b>Lo que falta</b>Cambiar los datos de ejemplo por los reales y ver si la fiebre existe de verdad.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Vista 2 -->
+    <section class="vista" id="v-quien-le-vende" aria-labelledby="h-vende" hidden>
+      <div class="lamina">
+        <div class="lamina-cabeza">
+          <span class="estado">En preparación</span>
+          <h2 id="h-vende">¿Quién le vende al Estado?</h2>
+          <p class="respuesta">De cada peso que gasta un organismo, cuánto termina en sus cinco proveedores más grandes, y en qué rubros manda uno solo.</p>
+        </div>
+        <div class="boceto" aria-hidden="true">
+          <svg viewBox="0 0 640 220" fill="none">
+            <rect x="20" y="20" width="18" height="60" stroke="#9fb8d6" stroke-width="2"/><rect x="20" y="92" width="18" height="44" stroke="#9fb8d6" stroke-width="2"/><rect x="20" y="148" width="18" height="52" stroke="#9fb8d6" stroke-width="2"/>
+            <rect x="311" y="30" width="18" height="70" stroke="#364259" stroke-width="2"/><rect x="311" y="116" width="18" height="74" stroke="#364259" stroke-width="2"/>
+            <rect x="602" y="20" width="18" height="34" stroke="#e3ae7a" stroke-width="2"/><rect x="602" y="66" width="18" height="24" stroke="#f1ece4" stroke-width="2"/><rect x="602" y="102" width="18" height="40" stroke="#f1ece4" stroke-width="2"/><rect x="602" y="154" width="18" height="46" stroke="#f1ece4" stroke-width="2"/>
+            <path d="M38 50 C170 50 180 65 311 65" stroke="#9fb8d6" stroke-width="16" stroke-opacity=".25"/><path d="M38 114 C170 114 180 150 311 150" stroke="#9fb8d6" stroke-width="12" stroke-opacity=".25"/><path d="M38 174 C170 174 180 160 311 160" stroke="#9fb8d6" stroke-width="14" stroke-opacity=".25"/>
+            <path d="M329 60 C460 60 470 37 602 37" stroke="#e3ae7a" stroke-width="18" stroke-opacity=".35"/><path d="M329 85 C460 85 470 78 602 78" stroke="#364259" stroke-width="8"/><path d="M329 150 C460 150 470 122 602 122" stroke="#364259" stroke-width="10"/><path d="M329 175 C460 175 470 177 602 177" stroke="#364259" stroke-width="12"/>
+          </svg>
+        </div>
+        <div class="planes">
+          <div class="plan"><b>Forma</b><p>Un flujo de organismo a rubro y a proveedor, con el grosor en pesos.</p></div>
+          <div class="plan"><b>La pregunta de fondo</b><p>¿Cuántos mercados tienen un solo proveedor en la práctica?</p></div>
+          <div class="plan"><b>Datos</b><p>Los mismos de TORDO: concentración por rubro y la red de compradores.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Vista 3 -->
+    <section class="vista" id="v-trato-directo" aria-labelledby="h-trato" hidden>
+      <div class="lamina">
+        <div class="lamina-cabeza">
+          <span class="estado">En preparación</span>
+          <h2 id="h-trato">¿Cuánto se compra sin licitar?</h2>
+          <p class="respuesta">La parte de las compras de cada organismo que llega por trato directo, cómo cambia en el tiempo y quiénes se salen de lo normal.</p>
+        </div>
+        <div class="boceto" aria-hidden="true">
+          <svg viewBox="0 0 640 220" fill="none">
+            <line x1="40" y1="190" x2="620" y2="190" stroke="#364259" stroke-width="2"/>
+            <path d="M40 150 L110 146 L180 152 L250 140 L320 144 L390 130 L460 136 L530 118 L600 112" stroke="#9fb8d6" stroke-width="2.5"/>
+            <path d="M40 170 L110 168 L180 160 L250 162 L320 150 L390 120 L460 96 L530 70 L600 44" stroke="#e3ae7a" stroke-width="3"/>
+            <circle cx="600" cy="44" r="7" stroke="#e3ae7a" stroke-width="2.5"/>
+            <path d="M40 182 L110 180 L180 181 L250 176 L320 178 L390 172 L460 174 L530 170 L600 168" stroke="#364259" stroke-width="2"/>
+          </svg>
+        </div>
+        <div class="planes">
+          <div class="plan"><b>Forma</b><p>Una línea por organismo, con los que más se alejan de su grupo destacados.</p></div>
+          <div class="plan"><b>La pregunta de fondo</b><p>¿El trato directo crece o es siempre el mismo puñado de organismos?</p></div>
+          <div class="plan"><b>Datos</b><p>Las órdenes de tipo «TD» de la descarga masiva, contadas por orden.</p></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <div class="contenedor">
+      <p>© 2026 Cristóbal Middleton. Construido con paciencia y Claude.</p>
+      <p>Datos previstos: ChileCompra / Mercado Público.</p>
+    </div>
+  </footer>
+
+  <script src="/js/comun.js?v=2026-10-28"></script>
+  <script src="/js/compras-del-estado.js?v=2026-10-28"></script>
+</body>
+</html>

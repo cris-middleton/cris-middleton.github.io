@@ -2,7 +2,7 @@
 <html lang="es-CL">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#0f1622">
   <meta name="robots" content="noindex">
@@ -12,26 +12,27 @@
   <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
   <link rel="preload" href="/fonts/Inter.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/SchibstedGrotesk.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/css/style.css?v=2026-10-20">
+  <link rel="stylesheet" href="/css/style.css?v=2026-10-28">
 </head>
 <body class="pagina-404">
   <header class="cabecera">
     <div class="contenedor">
-      <a class="marca" href="/">Cris Middleton</a>
+      <a class="marca" href="/"><span class="marca-punto" aria-hidden="true"></span>Cris Middleton</a>
+      <nav class="menu" aria-label="Secciones">
+        <a href="/tableros/">Tableros</a>
+        <a class="menu-cv" href="/cv/">CV</a>
+      </nav>
     </div>
   </header>
   <main id="contenido">
     <div class="contenedor">
-      <section class="portada" aria-labelledby="titulo">
-        <div>
-          <h1 id="titulo">Esta página no existe</h1>
-          <p class="bajada">Revisa que la dirección esté bien escrita.</p>
-          <div class="acciones">
-            <a class="boton boton--cv" href="/">Ir al inicio</a>
-            <a class="boton" href="mailto:cristobalimf@gmail.com">Escribirme</a>
-          </div>
-        </div>
-      </section>
+      <h1>Esta página no existe</h1>
+      <p>Revisa que la dirección esté bien escrita. Si venías a ver la experiencia o los proyectos, ahora están en el CV.</p>
+      <div class="acciones">
+        <a class="boton boton--cobre" href="/">Ir al inicio</a>
+        <a class="boton" href="/cv/">Ver el CV</a>
+        <a class="boton" href="mailto:cristobalimf@gmail.com">Escribirme</a>
+      </div>
     </div>
   </main>
   <footer class="pie">
