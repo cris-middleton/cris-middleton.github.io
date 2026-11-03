@@ -57,16 +57,6 @@
   --curva: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
-/* ------------------------------------------------------------------
-   Etapa: lo que cambia el día que dejo Puig.
-   Cada página dice la suya en <html data-etapa="…">, y los textos de
-   cada etapa llevan data-solo="puig" o data-solo="propio". Para pasar
-   a «lo mío», desde la raíz del repo:
-     sed -i '' 's/data-etapa="puig"/data-etapa="propio"/' index.html cv/index.html
-   ------------------------------------------------------------------ */
-[data-etapa='puig'] [data-solo='propio'],
-[data-etapa='propio'] [data-solo='puig'] { display: none !important; }
-
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; scroll-padding-top: 88px; }
 html, body { overflow-x: clip; }

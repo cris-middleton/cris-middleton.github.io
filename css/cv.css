@@ -21,11 +21,9 @@ h3 { font-size: 18px; line-height: 1.35; font-weight: 600; }
 .hito { display: grid; grid-template-columns: 152px minmax(0, 1fr); column-gap: var(--e-7); position: relative; padding-bottom: var(--e-6); }
 .hito:last-child { padding-bottom: 0; }
 .hito::before { content: ''; position: absolute; left: 170px; top: 7px; width: 11px; height: 11px; border-radius: 50%; background: var(--fondo); border: 2px solid var(--acero); }
-/* El hito de hoy, en cobre: el de Puig o el de lo mío, según la etapa */
-[data-etapa='puig'] .hito[data-hoy='puig'] .periodo > span,
-[data-etapa='propio'] .hito[data-hoy='propio'] .periodo > span { color: var(--cobre); }
-[data-etapa='puig'] .hito[data-hoy='puig']::before,
-[data-etapa='propio'] .hito[data-hoy='propio']::before { background: var(--cobre); border-color: var(--cobre); box-shadow: 0 0 0 4px var(--cobre-velo); }
+/* El hito de hoy, en cobre */
+.hito--hoy .periodo > span { color: var(--cobre); }
+.hito--hoy::before { background: var(--cobre); border-color: var(--cobre); box-shadow: 0 0 0 4px var(--cobre-velo); }
 .hito--pausa::before { border-style: dashed; border-color: var(--tenue); }
 
 .periodo { font-size: 14px; color: var(--tenue); font-variant-numeric: tabular-nums; text-align: right; padding-top: 2px; line-height: 1.5; }

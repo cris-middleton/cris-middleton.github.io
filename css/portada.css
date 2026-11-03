@@ -77,17 +77,18 @@ h1.nombre .apellido2 { display: block; }
 .insignia--tab svg { width: 22px; height: 22px; }
 .nuevo { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fondo); background: var(--cobre); border-radius: 999px; padding: 2px 9px; }
 
-/* Tableros: un gráfico de muestra que respira */
+/* Tableros: un gráfico de muestra que crece una vez, cuando se ve, y se queda quieto */
 .muestra { background: var(--hundido); border: 1px solid var(--borde); border-radius: var(--radio-3); padding: var(--e-5) var(--e-5) var(--e-4); }
 .muestra-titulo { font-family: var(--f-titulo); color: var(--tinta); font-size: 19px; font-weight: 700; line-height: 1.25; margin-bottom: var(--e-4); }
 .barras { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 6px; align-items: end; height: 150px; margin-top: 30px; }
 .barra { position: relative; display: flex; flex-direction: column; justify-content: end; align-items: center; gap: 6px; height: 100%; }
-.barra i { display: block; width: 100%; border-radius: 4px 4px 2px 2px; background: var(--borde-2); transform-origin: bottom; animation: crecer 7s var(--curva) infinite; animation-delay: calc(var(--n) * 70ms); }
+.barra i { display: block; width: 100%; border-radius: 4px 4px 2px 2px; background: var(--borde-2); transform-origin: bottom; transform: scaleY(0.06); }
+.barras.anima .barra i { animation: crecer 1.4s var(--curva) both; animation-delay: calc(var(--n) * 70ms); }
 .barra span { font-size: 12px; color: var(--tenue); line-height: 1; }
 .barra--dic i { background: var(--cobre); }
 .barra--dic span { color: var(--cobre); font-weight: 600; }
 .fiebre { font-style: normal; position: absolute; bottom: calc(100% + 6px); right: 0; white-space: nowrap; font-size: 12px; font-weight: 700; color: var(--cobre); letter-spacing: 0.02em; }
-@keyframes crecer { 0% { transform: scaleY(0.06); } 22%, 88% { transform: scaleY(1); } 100% { transform: scaleY(0.06); } }
+@keyframes crecer { from { transform: scaleY(0.06); } to { transform: scaleY(1); } }
 
 /* PixelFrame: los ocho cuadros */
 .galeria { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--e-2); }
@@ -106,7 +107,7 @@ h1.nombre .apellido2 { display: block; }
 .hallazgo .cifra { font-size: 26px; font-weight: 800; color: var(--cobre); letter-spacing: -0.02em; }
 .hallazgo p { font-size: 14.5px; line-height: 1.55; }
 
-/* Trayectoria: una línea que se dibuja. Tiene un hito por columna, los que muestre la etapa. */
+/* Trayectoria: una línea que se dibuja, con un hito por columna. */
 .linea { list-style: none; position: relative; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 4px; padding-top: 22px; }
 .linea::before, .linea::after { content: ''; position: absolute; top: 6px; left: 6px; right: 6px; height: 2px; }
 .linea::before { background: var(--borde-2); }
@@ -116,11 +117,9 @@ h1.nombre .apellido2 { display: block; }
 .linea li { position: relative; font-size: 12.5px; line-height: 1.35; color: var(--tenue); min-width: 0; }
 .linea li::before { content: ''; position: absolute; top: -22px; left: 0; width: 14px; height: 14px; border-radius: 50%; background: var(--superficie); border: 2px solid var(--acero); }
 .linea li b { display: block; font-family: var(--f-titulo); font-size: 15px; color: var(--tinta); }
-/* El hito de hoy, en cobre: el de Puig o el de lo mío, según la etapa */
-[data-etapa='puig'] .linea li[data-hoy='puig']::before,
-[data-etapa='propio'] .linea li[data-hoy='propio']::before { background: var(--cobre); border-color: var(--cobre); box-shadow: 0 0 0 4px var(--cobre-velo); }
-[data-etapa='puig'] .linea li[data-hoy='puig'] b,
-[data-etapa='propio'] .linea li[data-hoy='propio'] b { color: var(--cobre); }
+/* El hito de hoy, en cobre */
+.linea li.hoy::before { background: var(--cobre); border-color: var(--cobre); box-shadow: 0 0 0 4px var(--cobre-velo); }
+.linea li.hoy b { color: var(--cobre); }
 .cifras-camino { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--e-3); }
 .cifras-camino li { background: var(--hundido); border: 1px solid var(--borde); border-radius: var(--radio-2); padding: var(--e-3) var(--e-4); font-size: 13px; line-height: 1.4; color: var(--tenue); }
 .cifras-camino .cifra { display: block; font-size: 26px; font-weight: 800; color: var(--cobre); letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 2px; }
@@ -162,6 +161,7 @@ h1.nombre .apellido2 { display: block; }
 }
 @media (prefers-reduced-motion: reduce) {
   .linea::after { transform: none; }
-  .barra i, .ahora::before { animation: none; }
+  .barra i, .barras.anima .barra i { transform: none; animation: none; }
+  .ahora::before { animation: none; }
   .pieza:hover, .galeria a:hover { transform: none; }
 }

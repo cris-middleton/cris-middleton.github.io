@@ -155,6 +155,8 @@
     return '<div class="barra' + (k === 11 ? ' barra--dic' : '') + '" style="--n:' + k + '">' + (k === 11 ? '<em class="fiebre">¿fiebre?</em>' : '') +
       '<i style="height:' + (v / 150 * 100 - 12) + '%"></i><span>' + meses[k] + '</span></div>';
   }).join('');
+  var barras = document.getElementById('barras');
+  new IntersectionObserver(function (es, obs) { if (es[0].isIntersecting) { barras.classList.add('anima'); obs.disconnect(); } }, { threshold: 0.5 }).observe(barras);
 
   // ---------------- La red de TORDO: compradores a la izquierda, proveedores a la derecha ----------------
   var red = document.getElementById('red'), rc = red.getContext('2d'), rw = 0, rh = 0, rd = 1, redVisible = false, redCorre = false;
