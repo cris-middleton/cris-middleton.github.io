@@ -187,6 +187,8 @@ b, strong { font-weight: 600; color: var(--tinta); }
   border-radius: var(--radio-2); padding: 4px 12px;
 }
 .aviso--ejemplo { color: var(--cobre); border: 1px dashed var(--cobre-linea); background: var(--cobre-velo); }
+.aviso--real { color: var(--cobre); border: 1px solid var(--cobre-linea); background: var(--cobre-velo); }
+.aviso--real::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--cobre); flex-shrink: 0; }
 .aviso--obra { color: var(--acero); border: 1px dashed var(--acero-linea); background: var(--acero-velo); }
 
 /* ------------------------------------------------------------------

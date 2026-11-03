@@ -148,12 +148,13 @@
   }, { threshold: 0.4 }).observe(lienzo);
   document.addEventListener('visibilitychange', function () { if (!document.hidden && visible) arrancar(); });
 
-  // ---------------- Barras de muestra (datos de ejemplo) ----------------
+  // ---------------- Barras de muestra: el mes promedio de 2007 a 2025 ----------------
+  // Cuánto compra cada mes contra el mes promedio de su año (×100), del tablero Compras del Estado
   var meses = ['e', 'f', 'm', 'a', 'm', 'j', 'j', 'a', 's', 'o', 'n', 'd'];
-  var ejemplo = [62, 48, 70, 72, 76, 73, 75, 71, 78, 80, 88, 150];
-  document.getElementById('barras').innerHTML = ejemplo.map(function (v, k) {
-    return '<div class="barra' + (k === 11 ? ' barra--dic' : '') + '" style="--n:' + k + '">' + (k === 11 ? '<em class="fiebre">¿fiebre?</em>' : '') +
-      '<i style="height:' + (v / 150 * 100 - 12) + '%"></i><span>' + meses[k] + '</span></div>';
+  var reales = [98, 84, 98, 94, 88, 86, 94, 94, 90, 105, 115, 153];
+  document.getElementById('barras').innerHTML = reales.map(function (v, k) {
+    return '<div class="barra' + (k === 11 ? ' barra--dic' : '') + '" style="--n:' + k + '">' + (k === 11 ? '<em class="fiebre">1,5×</em>' : '') +
+      '<i style="height:' + (v / 153 * 100 - 12) + '%"></i><span>' + meses[k] + '</span></div>';
   }).join('');
   var barras = document.getElementById('barras');
   new IntersectionObserver(function (es, obs) { if (es[0].isIntersecting) { barras.classList.add('anima'); obs.disconnect(); } }, { threshold: 0.5 }).observe(barras);

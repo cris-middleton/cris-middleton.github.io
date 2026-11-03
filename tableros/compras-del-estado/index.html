@@ -6,15 +6,15 @@
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#0f1622">
   <title>Compras del Estado, tableros de Cristóbal Middleton</title>
-  <meta name="description" content="¿El Estado se gasta todo en diciembre? ¿Quién le vende? ¿Cuánto se compra sin licitar? Un tablero con datos de ChileCompra, en construcción.">
+  <meta name="description" content="¿El Estado se gasta todo en diciembre? Diecinueve años de órdenes de compra de ChileCompra, mes a mes. Y pronto: quién le vende y cuánto se compra sin licitar.">
   <link rel="canonical" href="https://cris-middleton.github.io/tableros/compras-del-estado/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_CL">
   <meta property="og:site_name" content="Cristóbal Middleton">
   <meta property="og:title" content="Compras del Estado, tableros de Cristóbal Middleton">
-  <meta property="og:description" content="¿El Estado se gasta todo en diciembre? ¿Quién le vende? ¿Cuánto se compra sin licitar? Un tablero con datos de ChileCompra, en construcción.">
+  <meta property="og:description" content="¿El Estado se gasta todo en diciembre? Diecinueve años de órdenes de compra de ChileCompra, mes a mes.">
   <meta property="og:url" content="https://cris-middleton.github.io/tableros/compras-del-estado/">
-  <meta property="og:image" content="https://cris-middleton.github.io/images/og.png?v=2026-11-02">
+  <meta property="og:image" content="https://cris-middleton.github.io/images/og.png?v=2026-11-03">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
@@ -25,8 +25,8 @@
 
   <link rel="preload" href="/fonts/Inter.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/SchibstedGrotesk.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/css/style.css?v=2026-11-02">
-  <link rel="stylesheet" href="/css/tableros.css?v=2026-11-02">
+  <link rel="stylesheet" href="/css/style.css?v=2026-11-03">
+  <link rel="stylesheet" href="/css/tableros.css?v=2026-11-03">
 </head>
 <body>
   <a class="saltar" href="#contenido">Ir al contenido</a>
@@ -67,7 +67,7 @@
     <section class="vista" id="v-diciembre" aria-labelledby="h-fiebre">
       <div class="lamina">
         <div class="lamina-cabeza">
-          <span class="aviso aviso--ejemplo">En construcción: todas las cifras son de ejemplo, todavía no vienen de Mercado Público</span>
+          <span class="aviso aviso--real">Datos reales: 37 millones de órdenes de compra, de 2007 a 2025</span>
           <h2 id="h-fiebre">¿El Estado se gasta todo en diciembre?</h2>
           <p class="respuesta" id="respuesta"></p>
         </div>
@@ -89,6 +89,11 @@
               <p>Años en que diciembre fue el mes de más compras.</p>
             </div>
             <div class="indicador">
+              <span class="etiqueta">Diciembre, contando órdenes</span>
+              <span class="cifra" id="i-ordenes"></span>
+              <p id="i-ordenes-nota"></p>
+            </div>
+            <div class="indicador">
               <span class="etiqueta">El mes más tranquilo</span>
               <span class="cifra" id="i-tranquilo"></span>
               <p id="i-tranquilo-nota"></p>
@@ -96,9 +101,9 @@
           </div>
         </div>
         <div class="metodo">
-          <div><b>Qué se mide</b>Monto de las órdenes de compra de cada mes, dividido por el promedio mensual de su año.</div>
-          <div><b>De dónde sale</b>La descarga masiva de ChileCompra, 2007 a 2025, sin órdenes canceladas.</div>
-          <div><b>Lo que falta</b>Cambiar los datos de ejemplo por los reales y ver si la fiebre existe de verdad.</div>
+          <div><b>Qué se mide</b>El monto de las órdenes de compra de cada mes, dividido por el mes promedio de su año. Así la inflación y el crecimiento del Estado casi no pesan.</div>
+          <div><b>De dónde sale</b>La descarga masiva de ChileCompra, sin órdenes canceladas y con los montos en UF y UTM saneados como en <a class="enlace" href="https://tordo.cl">TORDO</a>. Septiembre de 2025 viene vacío desde ChileCompra.</div>
+          <div><b>Lo que queda fuera</b>Las <a class="enlace" href="datos/diciembre.json">355 órdenes de más de $20.000 millones</a>: errores de tipeo (una de 2008 dice $4.135 billones) o contratos de varios años firmados en un mes. Los <a class="enlace" href="https://github.com/cris-middleton/cris-middleton.github.io/tree/main/tableros/compras-del-estado/datos">scripts</a>, a la vista.</div>
         </div>
       </div>
     </section>
@@ -157,11 +162,11 @@
   <footer class="pie">
     <div class="contenedor">
       <p>© 2026 Cristóbal Middleton. Construido con paciencia y Claude.</p>
-      <p>Datos previstos: ChileCompra / Mercado Público.</p>
+      <p>Datos: ChileCompra / Mercado Público, descarga masiva.</p>
     </div>
   </footer>
 
-  <script src="/js/comun.js?v=2026-11-02"></script>
-  <script src="/js/compras-del-estado.js?v=2026-11-02"></script>
+  <script src="/js/comun.js?v=2026-11-03"></script>
+  <script src="/js/compras-del-estado.js?v=2026-11-03"></script>
 </body>
 </html>
