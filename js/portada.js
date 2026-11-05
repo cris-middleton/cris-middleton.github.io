@@ -1,4 +1,4 @@
-// La portada: el mosaico que se arma, el tordo, la muestra de tableros, la red de TORDO,
+// La portada: el mosaico que se arma, el tordo, la muestra de tableros, la red de Tordo,
 // la línea de la trayectoria y la racha de Duolingo. Usa CUADROS (datos-cuadros.js) y PAJARO (datos-pajaro.js).
 (function () {
   var reducido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -159,7 +159,7 @@
   var barras = document.getElementById('barras');
   new IntersectionObserver(function (es, obs) { if (es[0].isIntersecting) { barras.classList.add('anima'); obs.disconnect(); } }, { threshold: 0.5 }).observe(barras);
 
-  // ---------------- La red de TORDO: compradores a la izquierda, proveedores a la derecha ----------------
+  // ---------------- La red de Tordo: compradores a la izquierda, proveedores a la derecha ----------------
   var red = document.getElementById('red'), rc = red.getContext('2d'), rw = 0, rh = 0, rd = 1, redVisible = false, redCorre = false;
   var ar = semilla(11), izq = [], der = [], enlaces = [], chispas = [];
   for (var i = 0; i < 7; i++) izq.push({ y: (i + 0.8) / 7.6, r: 3 + ar() * 5 });

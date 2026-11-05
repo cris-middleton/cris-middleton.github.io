@@ -1,0 +1,198 @@
+% Document class and font size
+\documentclass[a4paper,10.5pt]{extarticle}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{geometry}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{helvet}
+
+\geometry{a4paper, margin=0.75in}
+\renewcommand{\familydefault}{\sfdefault}
+
+% Remove all paragraph indentations
+\setlength{\parindent}{0pt}
+
+% Compact lists
+\setlist[itemize]{noitemsep, topsep=2pt}
+
+% Section formatting (no numbering)
+\titleformat{\section}{\large\bfseries}{}{0pt}{}[\titlerule]
+\titlespacing*{\section}{0pt}{0.7\baselineskip}{0.5\baselineskip}
+
+% Hyperlinks (ATS / print friendly)
+\hypersetup{
+    colorlinks=true,
+    urlcolor=black
+}
+
+% Con teléfono para postular; \contelefonofalse para la versión que se publica en la web.
+\newif\ifcontelefono
+\contelefonotrue
+
+\begin{document}
+\pagestyle{empty}
+
+\begin{center}
+\textbf{\Large Cristóbal Middleton Frederick}\\[2pt]
+Santiago, Chile | \href{mailto:cristobalimf@gmail.com}{cristobalimf@gmail.com}\ifcontelefono{} | +56 9 3363 9109\fi\\
+\href{https://www.linkedin.com/in/cristobal-middleton-frederick/}{linkedin.com/in/cristobal-middleton-frederick} |
+\href{https://github.com/cris-middleton}{github.com/cris-middleton} |
+\href{https://cris-middleton.github.io}{cris-middleton.github.io}
+\end{center}
+
+% ---------------------------------------------------------
+\section*{PERFIL PROFESIONAL}
+
+Ingeniero civil industrial enfocado en transformar problemas de negocio complejos en soluciones basadas en datos. Experiencia en modelos predictivos y de proyección puestos en producción, automatización de procesos analíticos y planificación de la demanda, como \textbf{data scientist} en \textbf{Macal} y demand planner en \textbf{Puig}. Creé y mantengo dos emprendimientos propios: \textbf{Tordo}, un sitio abierto con los datos de compras del Estado de Chile, y \textbf{PixelFrame}, una tienda en línea de cuadros de mosaico. Me motivan los desafíos, la innovación y los proyectos con impacto medible, junto a equipos técnicos y de negocio.
+
+% ---------------------------------------------------------
+\section*{EXPERIENCIA}
+
+\textbf{Puig} \hfill Santiago, Chile\\
+\textit{Demand Planner Executive} \hfill Ago 2026 -- Nov 2026
+\begin{itemize}
+    \item \textbf{Planificación de la demanda} de una cartera de $\sim$1.700 SKU (Rabanne, Carolina Herrera Makeup, Banderas, Agatha Ruiz de la Prada y Quorum, entre otras), con proyección de la demanda de cada SKU.
+    \item Construcción de \textbf{base de datos de demanda en DuckDB} que integra el forecast de SAP IBP, la historia de ventas de SAP BW y el sell-out de clientes, con \textbf{carga diaria automatizada} y validada.
+    \item Desarrollo de \textbf{modelo de proyección de demanda} que ensambla una línea base estacional con el forecast de IBP corregido por bias: \textbf{+11 pts de Forecast Accuracy} sobre IBP en backtesting, con menos bias. Integrado en una aplicación en \textbf{Streamlit}.
+\end{itemize}
+
+\vspace{4pt}
+
+\textbf{Macal} \hfill Santiago, Chile\\
+\textit{Data Scientist} \hfill Ago 2024 -- Ago 2026
+\begin{itemize}
+    \item Desarrollo de \textbf{modelo ensamblado de predicción de precios} de departamentos con reentrenamiento y \textbf{deployment} vía \textbf{endpoint GCP - Cloud Run conectado a GitHub}. \textbf{17\% menos error} que el método anterior y \textbf{>1000x reducción de tiempo} (\textbf{+18 hrs/semana}).
+    \item Desarrollo de \textbf{modelos de proyección}: monto de venta de vehículos - \textbf{23\% menos error}; modelo para estimación de \textbf{budget óptimo de inversión} conjunto al equipo de marketing.
+    \item Desarrollo de \textbf{algoritmo de homologación de texto} marca-modelo--versión para el mundo automotriz, con \textbf{integración de datos vía API} para fallback.
+    \item \textbf{MLOps}: Desarrollo, \textbf{puesta en producción}, monitoreo y mantenimiento de modelos predictivos.
+    \item \textbf{Automatización} y \textbf{orquestación de pipelines} (ETL/ELT) montados en servidor del área.
+    \item Construcción de \textbf{dashboards QuickSight y Looker} y reportes con \textbf{KPIs} para seguimiento.
+\end{itemize}
+
+\vspace{4pt}
+
+\textbf{Working Holiday Visa} \hfill Sydney/Lamington, Australia\\
+\textit{Potts Point Hotel \& Lamington National Park} \hfill Jul 2023 -- Jun 2024
+\begin{itemize}
+    \item Experiencia de 1 año en entornos de \textbf{alta presión y adaptación} cultural.
+    \item Fortalecimiento de habilidades \textbf{interpersonales}, \textbf{resolución de problemas} y \textbf{autogestión}.
+\end{itemize}
+
+\vspace{4pt}
+
+\textbf{Macal} \hfill Santiago, Chile\\
+\textit{Product Manager BI} \hfill Jul 2021 -- Abr 2023
+\begin{itemize}
+    \item Gestión integral de líneas de productos de vehículos y servicios complementarios. Generación de \textbf{insights accionables}.
+    \item Creación de \textbf{producto financiero} capturando \textbf{91\% del tráfico no trabajado} y aumentando la \textbf{utilidad en 12\%} vs productos crediticios anteriores.
+    \item Implementación de mejoras de \textbf{pricing} basadas en demanda y segmentación de vehículos y clientes. Incremento de \textbf{35\%} en reservas del segmento más rentable.
+    \item Desarrollo continuo de \textbf{productos financieros} y de seguros junto a cliente prestamista, UX, UI, PO e IT.
+    \item Construcción de \textbf{dashboards Tableau}, reportes y \textbf{KPIs} para análisis y seguimiento.
+\end{itemize}
+
+\vspace{4pt}
+
+% [a confirmar] fechas: el dueño recuerda unos 5 meses durante su segundo año en Macal.
+\textbf{Spurgeon} \hfill Santiago, Chile\\
+\textit{Project Manager} (proyecto en paralelo) \hfill 2022 (5 meses)
+\begin{itemize}
+    \item Gestión del proyecto de construcción y venta de un \textbf{software para Lipigas}.
+\end{itemize}
+
+\vspace{4pt}
+
+\textbf{Los Parques S.A.} \hfill Santiago, Chile\\
+\textit{Asesor de Gerencia} \hfill Oct 2020 -- May 2021
+\begin{itemize}
+    \item Desarrollo y gestión de \textbf{KPIs} para monitoreo y metas de la fuerza de ventas.
+    \item \textbf{Automatización de reportería} y soporte en \textbf{gobierno de datos}.
+    \item Supervisión y diseño del desarrollo de una \textbf{aplicación móvil} de gestión de cartera de clientes orientada a transformación digital. Capacitación a \textbf{200+ ejecutivos}. Reducción del tiempo de gestión--contacto en \textbf{90\%} e incremento del \textbf{20\%} en clientes contactados.
+    \item Diseño de campañas, análisis de mercado y construcción de \textbf{presupuesto anual}.
+    \item Supervisión del \textbf{call center comercial}. Reorganización operativa con aumento de ocupación \textbf{1.3x} y ventas \textbf{+15\%}.
+\end{itemize}
+
+\vspace{4pt}
+
+\textbf{Los Parques S.A.} \hfill Santiago, Chile\\
+\textit{Analista de Inteligencia de Negocios} \hfill Jun 2019 -- Sep 2020
+\begin{itemize}
+    \item Análisis de cartera, rediseño de campañas y construcción de \textbf{estrategias comerciales} segmentadas. Aumento sostenido del desempeño de campañas \textbf{+3\% mensual}.
+    \item Desarrollo de \textbf{flujos de asignación} y automatización de campañas con reducción \textbf{15x} en tiempo de creación y distribución.
+    \item Apoyo en \textbf{control de gestión}, estudios de mercado y reportería comercial.
+\end{itemize}
+
+\vspace{4pt}
+
+\textbf{Mercado Libre} \hfill Santiago, Chile\\
+\textit{Pasantía} \hfill Ago 2018 -- Ene 2019
+\begin{itemize}
+    \item Análisis de la \textbf{operación logística de e-commerce} y exploración de \textbf{estrategias basadas en datos}.
+    \item Desarrollo de \textbf{proyecto de evaluación de operadores} y gestión de \textbf{SLA} de respuesta a compradores.
+\end{itemize}
+
+% ---------------------------------------------------------
+\section*{PROYECTOS}
+
+\textbf{Tordo} -- \href{https://tordo.cl}{tordo.cl} \hfill Oct 2025 -- Actualidad
+\begin{itemize}
+    \item Sitio público y gratuito con los datos de \textbf{Mercado Público} para pymes que le venden al Estado: precios pagados por producto, competencia por mercado y las Compras Ágiles abiertas del día. En producción desde octubre de 2026.
+    \item Pipeline en \textbf{Polars} (ingesta cada hora y cálculo semanal) sobre tres años de órdenes de compra, materializado en \textbf{PostgreSQL} y servido con \textbf{FastAPI}, \textbf{Next.js} y un servidor \textbf{MCP}, con \textbf{CI y más de 2.000 tests}. Código abierto: \href{https://github.com/cris-middleton/tordo}{github.com/cris-middleton/tordo}.
+    \item \textbf{Notas de datos} que publican los errores encontrados y cómo se corrigieron; por ejemplo, órdenes en UF que inflaban el gasto municipal a \$14 billones al año, contra \$4,15 de la cifra oficial.
+\end{itemize}
+
+\vspace{4pt}
+
+\textbf{PixelFrame} -- \href{https://pixelframe.cl}{pixelframe.cl} \hfill Abr 2026 -- Actualidad
+\begin{itemize}
+    \item Tienda en línea de cuadros de mosaico hechos con bloques compatibles, en \textbf{Astro}, \textbf{TypeScript} y \textbf{Supabase}. Cobra con \textbf{Mercado Pago} y \textbf{Webpay}.
+    \item \textbf{Mosaic Builder}: aplicación en el navegador que convierte una foto en un mosaico de bloques, comparando color en \textbf{CIE Lab} contra la paleta real del proveedor, y entrega la lista de piezas.
+\end{itemize}
+
+% ---------------------------------------------------------
+\section*{HABILIDADES}
+
+\textbf{Data \& MLOps:}\\
+Python (pandas, Polars, numpy, scikit-learn, matplotlib), SQL avanzado, PostgreSQL, DuckDB, BigQuery, GCP Vertex AI, Docker, MLflow, Prefect, Playwright, Git.
+
+\vspace{4pt}
+
+\textbf{BI \& Analytics:}\\
+Tableau, Looker, QuickSight, Power BI, SAP IBP, SAP BW.
+
+\vspace{4pt}
+
+\textbf{Desarrollo web:}\\
+FastAPI, Next.js, TypeScript, Astro, Streamlit, Supabase, servidores MCP.
+
+\vspace{4pt}
+
+\textbf{Áreas de especialización:}\\
+Machine Learning (Regresión, Clasificación, Clusterización), Pricing, Segmentación, Automatización de procesos, Orquestación de pipelines, Data Storytelling.
+
+\vspace{4pt}
+
+\textbf{Idiomas:}\\
+Español (Nativo), Inglés (C1, IELTS), Francés (A1).
+
+\vspace{4pt}
+
+\textbf{Cursos y certificaciones:}\\
+Stanford Machine Learning Specialization (en curso), Google Machine Learning Bootcamp (2022), Programación web (Harvard CS50), Scrum Foundation Professional Certificate, Cursos complementarios Python (UC, DataCamp).
+
+% ---------------------------------------------------------
+\section*{EDUCACIÓN}
+
+\textbf{Ingeniería Civil Industrial} --- Minor TI\\
+Universidad Adolfo Ibáñez, Santiago, Chile \hfill 2014 -- 2019
+
+\vspace{6pt}
+
+\textbf{International Baccalaureate Diploma (IBDP)}\\
+Saint Gabriel's School, Santiago, Chile \hfill 2013
+
+\end{document}

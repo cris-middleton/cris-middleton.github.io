@@ -28,7 +28,7 @@ for i, a in enumerate(ANIOS):
 
 SALIDA.write_text(json.dumps({
     'fuente': 'Descarga masiva de órdenes de compra de ChileCompra (transparenciachc.blob.core.windows.net/oc-da)',
-    'limpieza': 'Sin órdenes canceladas; montos con coma decimal y en UF/UTM saneados como en TORDO; una fila por orden.',
+    'limpieza': 'Sin órdenes canceladas; montos con coma decimal y en UF/UTM saneados como en Tordo; una fila por orden.',
     'tope': TOPE,
     'anios': ANIOS, 'monto': monto, 'ordenes': ordenes,
     'sin_archivo': sin_archivo,

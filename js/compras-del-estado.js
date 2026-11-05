@@ -1,6 +1,6 @@
 // El tablero «Compras del Estado»: el selector de vistas y la vista de diciembre.
 // Los datos de diciembre salen de la descarga masiva de ChileCompra (datos/diciembre.json),
-// con la misma limpieza que usa TORDO. Cómo se calcularon: datos/bajar.py y datos/armar.py.
+// con la misma limpieza que usa Tordo. Cómo se calcularon: datos/bajar.py y datos/armar.py.
 (function () {
   var reducido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var MESES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];

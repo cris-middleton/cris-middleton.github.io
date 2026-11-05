@@ -1,10 +1,10 @@
 """El gasto de cada mes en órdenes de compra, 2007–2025, desde la descarga masiva de ChileCompra.
 
-Usa la limpieza de TORDO (etl/analytics/data_loader): sin canceladas, números con coma
+Usa la limpieza de Tordo (etl/analytics/data_loader): sin canceladas, números con coma
 decimal, montos en UF/UTM imposibles saneados, una fila por orden. Por mes guarda el total y
 los grupos por sector, trato directo y tipo de orden, para no volver a bajar 20 GB.
 Reanudable: salta los meses que ya tienen resultado.
-Uso, con el repo de TORDO (github.com/cris-middleton/tordo) al lado:
+Uso, con el repo de Tordo (github.com/cris-middleton/tordo) al lado:
     TORDO=../tordo uv run --project $TORDO python bajar.py
 """
 import io, json, logging, os, sys, time, zipfile
