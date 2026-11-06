@@ -195,9 +195,9 @@ b, strong { font-weight: 600; color: var(--tinta); }
    Secciones y piezas comunes
    ------------------------------------------------------------------ */
 .seccion { padding-block: var(--e-8); border-top: 1px solid var(--borde); }
-.titulo-seccion { display: flex; justify-content: space-between; align-items: end; gap: var(--e-5); flex-wrap: wrap; margin-bottom: var(--e-6); }
+.titulo-seccion { display: flex; flex-direction: column; align-items: flex-start; gap: var(--e-2); margin-bottom: var(--e-6); }
 .titulo-seccion h2 { font-size: clamp(30px, 4vw, 40px); letter-spacing: -0.025em; line-height: 1.1; }
-.titulo-seccion p { color: var(--tenue); font-size: 15px; max-width: 46ch; }
+.titulo-seccion p { color: var(--tenue); font-size: 16px; max-width: 60ch; text-wrap: pretty; }
 
 .chips { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
 .chips li {

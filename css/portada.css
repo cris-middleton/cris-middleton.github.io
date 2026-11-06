@@ -1,8 +1,11 @@
 /* La portada: quién soy y el mosaico arriba, «Lo que hago» en cuatro piezas, «Sobre mí» abajo.
-   Una grilla de seis columnas con piezas de 4/2 y 3/3, que se apilan bajo 900 px. */
+   Todo cuelga de la misma grilla de seis columnas: presentación 3/3, piezas 4/2 y 3/3,
+   «Sobre mí» 3/3. Así las columnas de la derecha caen en la misma línea. Se apila bajo 900 px. */
 
 /* ---------- Presentación ---------- */
-.portada { position: relative; display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr); gap: var(--e-8); align-items: center; padding-block: var(--e-8) var(--e-9); }
+.portada { position: relative; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); column-gap: var(--e-4); row-gap: var(--e-7); align-items: center; padding-block: var(--e-8) var(--e-9); }
+.portada > div:first-child, .portada > .cuadro { grid-column: span 3; }
+.portada > div:first-child { padding-right: var(--e-6); }
 .quien { display: flex; align-items: center; gap: var(--e-4); margin-bottom: var(--e-5); }
 .foto { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; border: 2px solid var(--borde-2); flex-shrink: 0; }
 .quien p { color: var(--tenue); font-size: 15px; line-height: 1.45; }
@@ -38,7 +41,7 @@ h1.nombre .apellido2 { display: block; }
 .cuadro-fila a:hover { text-decoration: underline; text-underline-offset: 3px; }
 /* El contador con dígitos de ancho fijo: «1.024» ocupa siempre lo mismo y no empuja el texto */
 .contador { color: var(--tenue); white-space: nowrap; font-variant-numeric: tabular-nums; }
-.contador b { display: inline-block; min-width: 5ch; text-align: right; color: var(--cobre); font-weight: 600; font-size: inherit; }
+.contador b { display: inline-block; min-width: 5ch; text-align: left; color: var(--cobre); font-weight: 600; font-size: inherit; }
 .chiste { color: var(--tenue); text-align: right; }
 .puntos { display: flex; gap: 6px; flex-wrap: wrap; }
 .puntos button { width: 26px; height: 26px; padding: 0; border-radius: 6px; border: 1px solid var(--borde-2); background: var(--hundido); cursor: pointer; overflow: hidden; transition: transform 0.2s var(--curva), border-color 0.2s; }
@@ -103,8 +106,8 @@ h1.nombre .apellido2 { display: block; }
 .red-rotulo { position: absolute; bottom: 10px; font-size: 12px; color: var(--tenue); }
 .red-rotulo--izq { left: 14px; }
 .red-rotulo--der { right: 14px; }
-.hallazgo { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--e-4); align-items: baseline; padding: var(--e-4); border-radius: var(--radio-2); background: var(--hundido); border: 1px solid var(--borde); }
-.hallazgo .cifra { font-size: 26px; font-weight: 800; color: var(--cobre); letter-spacing: -0.02em; }
+.hallazgo { display: grid; gap: var(--e-1); padding: var(--e-4); border-radius: var(--radio-2); background: var(--hundido); border: 1px solid var(--borde); }
+.hallazgo .cifra { font-size: 26px; font-weight: 800; color: var(--cobre); letter-spacing: -0.02em; line-height: 1.15; }
 .hallazgo p { font-size: 14.5px; line-height: 1.55; }
 
 /* Trayectoria: una línea que se dibuja, con un hito por columna. */
@@ -126,7 +129,11 @@ h1.nombre .apellido2 { display: block; }
 .cvs { display: flex; gap: var(--e-3); flex-wrap: wrap; }
 
 /* ---------- Sobre mí ---------- */
-.sobre { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: var(--e-7); }
+.sobre { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: var(--e-4); }
+.sobre-texto, .notas { grid-column: span 3; }
+.sobre-texto { padding-right: var(--e-6); }
+.sobre-cierre { display: grid; gap: var(--e-4); margin-top: var(--e-3); padding-top: var(--e-5); border-top: 1px solid var(--borde); }
+.sobre-cierre p { color: var(--tinta); font-weight: 500; }
 .sobre-texto { display: grid; gap: var(--e-4); align-content: start; }
 .sobre-texto p { font-size: 17px; line-height: 1.7; max-width: 60ch; }
 .notas { display: grid; gap: var(--e-4); align-content: start; }
@@ -145,9 +152,12 @@ h1.nombre .apellido2 { display: block; }
 
 @media (max-width: 900px) {
   .portada { grid-template-columns: minmax(0, 1fr); gap: var(--e-7); padding-block: var(--e-6) var(--e-8); }
+  .portada > div:first-child, .portada > .cuadro { grid-column: auto; }
+  .portada > div:first-child, .sobre-texto { padding-right: 0; }
   .cuadro { max-width: 520px; }
   .pieza--tableros, .pieza--pixelframe, .pieza--tordo, .pieza--trayectoria { grid-column: span 6; }
   .sobre { grid-template-columns: minmax(0, 1fr); gap: var(--e-6); }
+  .sobre-texto, .notas { grid-column: auto; }
 }
 @media (max-width: 560px) {
   .cuadro { padding: var(--e-4); }
@@ -156,7 +166,6 @@ h1.nombre .apellido2 { display: block; }
   .barras { gap: 3px; height: 120px; }
   .linea { grid-auto-flow: row; grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 34px; }
   .linea::before, .linea::after { display: none; }
-  .hallazgo { grid-template-columns: minmax(0, 1fr); gap: var(--e-1); }
   .cifras-camino { grid-template-columns: minmax(0, 1fr); }
 }
 @media (prefers-reduced-motion: reduce) {

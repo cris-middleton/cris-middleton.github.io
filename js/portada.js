@@ -9,11 +9,12 @@
   function semilla(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; var t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
 
   // ---------------- El mosaico que se arma ----------------
-  // Arma de abajo hacia arriba, queda quieto, se desarma y sigue con el próximo de los ocho.
+  // Arma de abajo hacia arriba una vez y queda quieto. Elegir otra miniatura lo desarma y arma
+  // ese cuadro; nada se mueve solo en bucle (WCAG 2.2.2).
   // ESCALON es la espera entre una pieza y la siguiente y DURA lo que tarda cada una en caer:
   // el armado completo dura (1.023 × ESCALON + DURA) ms, unos 4,7 s.
   var lienzo = document.getElementById('mosaico'), ctx = lienzo.getContext('2d');
-  var N = 32, TOTAL = N * N, ESCALON = 4, DURA = 600, QUIETO = 4200, DESARME = 950;
+  var N = 32, TOTAL = N * N, ESCALON = 4, DURA = 600, DESARME = 950;
   var celda = 0, placa = null, brillo = null;
 
   // La placa vacía y el brillo de la perilla se pintan una vez por tamaño y se estampan
@@ -107,13 +108,13 @@
   function cuadro(ahora) {
     var dt = ahora - t0;
     if (fase === 'armando' && dt > (TOTAL - 1) * ESCALON + DURA) { fase = 'quieto'; t0 = ahora; }
-    else if (fase === 'quieto' && dt > QUIETO) { fase = 'desarmando'; t0 = ahora; }
     else if (fase === 'desarmando' && dt > DESARME) {
       actual = siguiente != null ? siguiente : (actual + 1) % CUADROS.length; siguiente = null;
       fase = 'armando'; t0 = ahora; rotular();
     }
     dibujar(ahora);
-    if (visible && !document.hidden) requestAnimationFrame(cuadro); else corriendo = false;
+    // Armado y quieto, el bucle se apaga hasta que alguien elija otro cuadro
+    if (fase !== 'quieto' && visible && !document.hidden) requestAnimationFrame(cuadro); else corriendo = false;
   }
   function arrancar() { if (reducido || corriendo) return; corriendo = true; requestAnimationFrame(cuadro); }
 
@@ -161,6 +162,7 @@
 
   // ---------------- La red de Tordo: compradores a la izquierda, proveedores a la derecha ----------------
   var red = document.getElementById('red'), rc = red.getContext('2d'), rw = 0, rh = 0, rd = 1, redVisible = false, redCorre = false;
+  var RED_DURA = 8000, redHasta = 0; // corre 8 s al aparecer o al pasar el mouse, y se queda quieta
   var ar = semilla(11), izq = [], der = [], enlaces = [], chispas = [];
   for (var i = 0; i < 7; i++) izq.push({ y: (i + 0.8) / 7.6, r: 3 + ar() * 5 });
   for (var j = 0; j < 11; j++) der.push({ y: (j + 0.8) / 11.6, r: 2 + ar() * 3 });
@@ -169,7 +171,7 @@
   function medirRed() { rd = dpr(); rw = red.clientWidth; rh = red.clientHeight; red.width = rw * rd; red.height = rh * rd; }
   function extremos(e) {
     var x0 = rw * 0.12, x1 = rw * 0.88;
-    return { x0: x0, x1: x1, cx: (x0 + x1) / 2, y0: izq[e[0]].y * (rh - 24) + 6, y1: der[e[1]].y * (rh - 24) + 6 };
+    return { x0: x0, x1: x1, cx: (x0 + x1) / 2, y0: izq[e[0]].y * (rh - 44) + 8, y1: der[e[1]].y * (rh - 44) + 8 };
   }
   function punto(e, t) {
     var z = extremos(e), u = 1 - t;
@@ -190,18 +192,28 @@
         rc.beginPath(); rc.arc(p[0], p[1], 2.1 - k * 0.35, 0, 2 * Math.PI); rc.fillStyle = 'rgba(227,174,122,' + (0.95 - k * 0.2) + ')'; rc.fill();
       }
     });
-    izq.forEach(function (n) { rc.beginPath(); rc.arc(rw * 0.12, n.y * (rh - 24) + 6, n.r, 0, 2 * Math.PI); rc.fillStyle = '#9fb8d6'; rc.fill(); });
-    der.forEach(function (n) { rc.beginPath(); rc.arc(rw * 0.88, n.y * (rh - 24) + 6, n.r, 0, 2 * Math.PI); rc.fillStyle = '#f1ece4'; rc.fill(); });
+    izq.forEach(function (n) { rc.beginPath(); rc.arc(rw * 0.12, n.y * (rh - 44) + 8, n.r, 0, 2 * Math.PI); rc.fillStyle = '#9fb8d6'; rc.fill(); });
+    der.forEach(function (n) { rc.beginPath(); rc.arc(rw * 0.88, n.y * (rh - 44) + 8, n.r, 0, 2 * Math.PI); rc.fillStyle = '#f1ece4'; rc.fill(); });
   }
   function moverRed() {
     chispas.forEach(function (c) { c.t += c.v; if (c.t > 1.08) { c.t = 0; c.e = Math.floor(ar() * enlaces.length); } });
     pintarRed();
-    if (redVisible && !document.hidden) requestAnimationFrame(moverRed); else redCorre = false;
+    if (redVisible && !document.hidden && performance.now() < redHasta) requestAnimationFrame(moverRed); else redCorre = false;
   }
-  function arrancarRed() { if (reducido || redCorre || !redVisible) return; redCorre = true; requestAnimationFrame(moverRed); }
+  function arrancarRed(nueva) {
+    if (reducido || !redVisible) return;
+    if (nueva) redHasta = performance.now() + RED_DURA;
+    if (redCorre || performance.now() >= redHasta) return;
+    redCorre = true; requestAnimationFrame(moverRed);
+  }
   medirRed(); pintarRed();
   new ResizeObserver(function () { medirRed(); pintarRed(); }).observe(red);
-  new IntersectionObserver(function (es) { redVisible = es[0].isIntersecting; arrancarRed(); }).observe(red);
+  var redVista = false;
+  new IntersectionObserver(function (es) {
+    redVisible = es[0].isIntersecting;
+    if (redVisible && !redVista) { redVista = true; arrancarRed(true); } else arrancarRed();
+  }).observe(red);
+  red.parentElement.addEventListener('pointerenter', function () { arrancarRed(true); });
   document.addEventListener('visibilitychange', function () { if (!document.hidden) arrancarRed(); });
 
   // ---------------- La línea de la trayectoria se dibuja al llegar ----------------

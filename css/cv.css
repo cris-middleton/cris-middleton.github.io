@@ -8,9 +8,7 @@
 .volver:hover { color: var(--tinta); }
 .acciones { display: flex; flex-wrap: wrap; gap: var(--e-3); }
 
-/* Los títulos de sección, a la derecha la bajada */
-.titulo-seccion { align-items: baseline; }
-.titulo-seccion p { text-align: right; max-width: 48ch; }
+/* Los títulos de sección: la bajada va debajo, en la misma columna (ver style.css) */
 h3 { font-size: 18px; line-height: 1.35; font-weight: 600; }
 
 /* ------------------------------------------------------------------
@@ -114,8 +112,6 @@ h3 { font-size: 18px; line-height: 1.35; font-weight: 600; }
   .dos-columnas { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 720px) {
-  .titulo-seccion { flex-direction: column; align-items: flex-start; gap: var(--e-2); }
-  .titulo-seccion p { text-align: left; }
   .proyecto { padding: var(--e-5); }
   .hallazgos, .trabajos { grid-template-columns: minmax(0, 1fr); }
 
