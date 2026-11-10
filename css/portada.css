@@ -11,7 +11,7 @@
 .quien p { color: var(--tenue); font-size: 15px; line-height: 1.45; }
 .quien p b { color: var(--texto); font-weight: 500; }
 .ahora { display: inline-flex; align-items: center; gap: 8px; }
-.ahora::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--cobre); flex-shrink: 0; animation: latido 2.4s ease-out infinite; }
+.ahora::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--cobre); flex-shrink: 0; animation: latido 2.4s ease-out 4; }
 @keyframes latido { 0% { box-shadow: 0 0 0 0 rgba(227, 174, 122, 0.45); } 70%, 100% { box-shadow: 0 0 0 10px rgba(227, 174, 122, 0); } }
 
 h1.nombre { font-size: clamp(42px, 6vw, 68px); line-height: 1.02; letter-spacing: -0.035em; font-weight: 800; margin-bottom: var(--e-5); cursor: default; }
@@ -19,7 +19,7 @@ h1.nombre .apellido2 { display: block; }
 .letra-m { display: inline-block; }
 .bajada { font-size: clamp(19px, 2.1vw, 23px); line-height: 1.4; color: var(--tinta); font-weight: 500; margin-bottom: var(--e-5); }
 .bajada span { display: block; color: var(--tenue); font-weight: 400; }
-.bio { max-width: 54ch; font-size: 16.5px; margin-bottom: var(--e-6); }
+.bio { max-width: 54ch; font-size: 17px; margin-bottom: var(--e-6); }
 .acciones { display: flex; flex-wrap: wrap; gap: var(--e-3); margin-bottom: var(--e-4); }
 .redes { display: flex; flex-wrap: wrap; gap: var(--e-1) var(--e-5); font-size: 15px; }
 .redes a { color: var(--texto); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; }
@@ -108,7 +108,7 @@ h1.nombre .apellido2 { display: block; }
 .red-rotulo--der { right: 14px; }
 .hallazgo { display: grid; gap: var(--e-1); padding: var(--e-4); border-radius: var(--radio-2); background: var(--hundido); border: 1px solid var(--borde); }
 .hallazgo .cifra { font-size: 26px; font-weight: 800; color: var(--cobre); letter-spacing: -0.02em; line-height: 1.15; }
-.hallazgo p { font-size: 14.5px; line-height: 1.55; }
+.hallazgo p { font-size: 14px; line-height: 1.55; }
 
 /* Trayectoria: una línea que se dibuja, con un hito por columna. */
 .linea { list-style: none; position: relative; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 4px; padding-top: 22px; }
@@ -117,7 +117,7 @@ h1.nombre .apellido2 { display: block; }
 .linea::after { background: linear-gradient(90deg, var(--acero), var(--cobre)); transform-origin: left; transform: scaleX(0); }
 .linea.anima::after { animation: trazar 1.8s var(--curva) both; }
 @keyframes trazar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-.linea li { position: relative; font-size: 12.5px; line-height: 1.35; color: var(--tenue); min-width: 0; }
+.linea li { position: relative; font-size: 12px; line-height: 1.35; color: var(--tenue); min-width: 0; }
 .linea li::before { content: ''; position: absolute; top: -22px; left: 0; width: 14px; height: 14px; border-radius: 50%; background: var(--superficie); border: 2px solid var(--acero); }
 .linea li b { display: block; font-family: var(--f-titulo); font-size: 15px; color: var(--tinta); }
 /* El hito de hoy, en cobre */

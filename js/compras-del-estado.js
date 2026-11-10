@@ -81,6 +81,17 @@
     calor.innerHTML = s;
     if (reducido) calor.querySelectorAll('.celda').forEach(function (c) { c.classList.remove('aparece'); });
 
+    // En pantallas angostas el mapa se desliza: se avisa, y el borde derecho se desvanece hasta llegar al final
+    var desliza = document.getElementById('desliza');
+    function revisarDesborde() {
+      var sobra = calor.scrollWidth - calor.clientWidth;
+      calor.classList.toggle('desborda', sobra > 1 && calor.scrollLeft < sobra - 2);
+      desliza.hidden = !(sobra > 1);
+    }
+    revisarDesborde();
+    calor.addEventListener('scroll', revisarDesborde, { passive: true });
+    new ResizeObserver(revisarDesborde).observe(calor);
+
     // Globo al pasar el mouse o tocar
     var globo = document.createElement('div'); globo.className = 'globo'; globo.hidden = true; calor.appendChild(globo);
     var svg = calor.querySelector('svg');
@@ -100,7 +111,7 @@
     svg.addEventListener('pointerleave', limpiar);
   }
 
-  fetch('/tableros/compras-del-estado/datos/diciembre.json?v=2026-11-03')
+  fetch('/tableros/compras-del-estado/datos/diciembre.json?v=2026-11-10')
     .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
     .then(diciembre)
     .catch(function () { document.getElementById('respuesta').textContent = 'No se pudieron cargar los datos. Prueba recargando la página.'; });

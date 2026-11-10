@@ -27,7 +27,7 @@ h3 { font-size: 18px; line-height: 1.35; font-weight: 600; }
 .periodo { font-size: 14px; color: var(--tenue); font-variant-numeric: tabular-nums; text-align: right; padding-top: 2px; line-height: 1.5; }
 .periodo > span { display: block; font-size: 13px; }
 .empresa { color: var(--acero); font-weight: 500; font-size: 15px; margin: 2px 0 var(--e-2); }
-.hito p:last-child { max-width: 64ch; }
+.hito p:last-child { max-width: 58ch; }
 
 /* ------------------------------------------------------------------
    Proyectos
@@ -50,7 +50,7 @@ h3 { font-size: 18px; line-height: 1.35; font-weight: 600; }
 .insignia svg { width: 32px; height: 32px; }
 .insignia--pixelframe { background: #282828; border: 1px solid #3a3a3a; color: #f5f0e8; }
 .insignia--pixelframe svg { width: 26px; height: 26px; }
-.proyecto > p { margin-bottom: var(--e-4); max-width: 64ch; }
+.proyecto > p { margin-bottom: var(--e-4); max-width: 58ch; }
 
 .cuadros { list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--e-2); margin: var(--e-2) 0 var(--e-5); }
 .cuadros a { display: block; border-radius: 6px; overflow: hidden; border: 1px solid var(--borde); transition: transform 0.2s var(--curva), border-color 0.2s; }
@@ -100,7 +100,7 @@ h3 { font-size: 18px; line-height: 1.35; font-weight: 600; }
 
 /* Además */
 .ademas { display: grid; gap: var(--e-4); }
-.ademas p { font-size: 17px; line-height: 1.7; max-width: 64ch; }
+.ademas p { font-size: 17px; line-height: 1.7; max-width: 58ch; }
 
 /* ------------------------------------------------------------------
    Pantallas medianas y chicas

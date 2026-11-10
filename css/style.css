@@ -77,6 +77,8 @@ body {
 body::before { content: ''; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 200; background: var(--fondo); }
 
 h1, h2, h3, .marca, .cifra, .cifra-dato { font-family: var(--f-titulo); color: var(--tinta); text-wrap: balance; }
+/* Sin palabras huérfanas al final de un párrafo */
+p, li { text-wrap: pretty; }
 /* En Schibsted, las cifras tabulares le dan ancho de dígito al punto de los miles («1 . 140») */
 .cifra, .cifra-dato { font-variant-numeric: normal !important; }
 
@@ -129,9 +131,10 @@ b, strong { font-weight: 600; color: var(--tinta); }
   padding: 8px 12px; border-radius: var(--radio-1); transition: background-color 0.15s, color 0.15s;
 }
 .menu a:hover { color: var(--tinta); background: var(--acero-velo); }
-.menu a[aria-current='page'] { color: var(--tinta); }
+/* La página actual: fondo y una línea cobre abajo */
+.menu a[aria-current='page'] { color: var(--tinta); background: var(--acero-velo); box-shadow: inset 0 -2px 0 var(--cobre); }
 .menu .menu-cv { border: 1px solid var(--cobre-linea); color: var(--tinta); margin-left: var(--e-2); }
-.menu .menu-cv:hover { background: var(--cobre-velo); border-color: var(--cobre); }
+.menu .menu-cv:hover, .menu .menu-cv[aria-current='page'] { background: var(--cobre-velo); border-color: var(--cobre); box-shadow: none; }
 
 /* ------------------------------------------------------------------
    Botones y enlaces
@@ -197,7 +200,7 @@ b, strong { font-weight: 600; color: var(--tinta); }
 .seccion { padding-block: var(--e-8); border-top: 1px solid var(--borde); }
 .titulo-seccion { display: flex; flex-direction: column; align-items: flex-start; gap: var(--e-2); margin-bottom: var(--e-6); }
 .titulo-seccion h2 { font-size: clamp(30px, 4vw, 40px); letter-spacing: -0.025em; line-height: 1.1; }
-.titulo-seccion p { color: var(--tenue); font-size: 16px; max-width: 60ch; text-wrap: pretty; }
+.titulo-seccion p { color: var(--tenue); font-size: 16px; max-width: 60ch; text-wrap: balance; }
 
 .chips { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
 .chips li {
