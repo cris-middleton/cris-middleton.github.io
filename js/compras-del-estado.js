@@ -159,6 +159,27 @@
     new ResizeObserver(function () { if (lienzo.clientWidth && lienzo.clientWidth !== ultimoAncho) { ultimoAncho = lienzo.clientWidth; dibujar(); } }).observe(lienzo);
   }
 
+  // La fiebre por sector (datos/sectores.json): dos puntos por sector, el primer tramo y el último
+  function sectores(D) {
+    var X = D.sectores, T = D.tramos, cont = document.getElementById('dic-sectores');
+    var mx = Math.ceil(Math.max.apply(null, X.map(function (x) { return Math.max(x.antes, x.ahora); })) * 2) / 2, mn = 1;
+    var pos = function (v) { return ((v - mn) / (mx - mn) * 100).toFixed(2) + '%'; };
+    var sube = X.filter(function (x) { return x.ahora > x.antes; });
+    var primero = X[0], ultimo = X[X.length - 1];
+    document.getElementById('dic-sectores-nota').textContent = primero.sector + ' compra en diciembre ' + fmt1(primero.ahora) + ' veces un mes promedio (' + T.ahora.join('–') + ')' +
+      (sube.length === 1 && sube[0] === primero ? ', y es el único sector donde la fiebre subió.' : '.') + ' ' + ultimo.sector + ', ' + fmt1(ultimo.ahora) + ' veces. La línea punteada es un mes promedio.';
+    var marcas = '';
+    for (var g = mn; g <= mx + 1e-9; g += 0.5) marcas += '<span style="left:' + pos(g) + '">' + fmt1(g).replace(',0', '') + '×</span>';
+    cont.innerHTML = '<div class="ps-eje" aria-hidden="true"><span></span><span class="ps-marcas">' + marcas + '</span></div>' + X.map(function (x) {
+      var a = Math.min(x.antes, x.ahora), b = Math.max(x.antes, x.ahora);
+      return '<div class="ps-fila" title="' + x.sector + ': ' + fmt1(x.antes) + '× en ' + T.antes.join('–') + ', ' + fmt1(x.ahora) + '× en ' + T.ahora.join('–') + '">' +
+        '<span class="ps-nombre">' + x.sector + '</span><span class="ps-pista"><i class="ps-uno" style="left:' + pos(1) + '"></i>' +
+        '<i class="ps-tramo" style="left:' + pos(a) + ';width:calc(' + pos(b) + ' - ' + pos(a) + ')"></i>' +
+        '<i class="ps-antes" style="left:' + pos(x.antes) + '"></i><i class="ps-ahora" style="left:' + pos(x.ahora) + '"></i></span>' +
+        '<span class="ps-valor">' + fmt1(x.antes) + ' → <b>' + fmt1(x.ahora) + '×</b></span></div>';
+    }).join('');
+  }
+
   function sinLicitar(D) {
     var A = D.anios, M = D.monto, n = A.length, u = n - 1;
     // Las tres capas de la barra, de abajo hacia arriba (colores validados contra el fondo, también para daltonismo)
@@ -595,13 +616,14 @@
   }
 
   function cargar(archivo, dibujo, avisarEn) {
-    fetch('/tableros/compras-del-estado/datos/' + archivo + '?v=2026-11-11f')
+    fetch('/tableros/compras-del-estado/datos/' + archivo + '?v=2026-11-11g')
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(dibujo)
       .catch(function () { document.getElementById(avisarEn).textContent = 'No se pudieron cargar los datos. Prueba recargando la página.'; });
   }
   cargar('diciembre.json', diciembre, 'respuesta');
   cargar('dias.json', dias, 'dic-dias-nota');
+  cargar('sectores.json', sectores, 'dic-sectores-nota');
   cargar('sin-licitar.json', sinLicitar, 'sl-respuesta');
   cargar('quien-vende.json', quienVende, 'qv-respuesta');
   cargar('regiones.json', regiones, 'rg-respuesta');

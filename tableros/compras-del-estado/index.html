@@ -26,7 +26,7 @@
   <link rel="preload" href="/fonts/Inter.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/SchibstedGrotesk.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/css/style.css?v=2026-11-10">
-  <link rel="stylesheet" href="/css/tableros.css?v=2026-11-11f">
+  <link rel="stylesheet" href="/css/tableros.css?v=2026-11-11g">
 </head>
 <body>
   <a class="saltar" href="#contenido">Ir al contenido</a>
@@ -85,6 +85,15 @@
               <div class="lienzo-barras" id="dic-dias"></div>
               <p class="sl-nota" id="dic-dias-nota"></p>
             </figure>
+            <figure class="sl-figura dic-dias">
+              <figcaption class="sl-titulo">¿Quién tiene más fiebre? Diciembre contra un mes promedio, por sector</figcaption>
+              <ul class="leyenda" aria-label="Tramos">
+                <li><i class="aro"></i>2007–2011</li>
+                <li><i style="--c:#e3ae7a"></i>2021–2025</li>
+              </ul>
+              <div class="pesas" id="dic-sectores"></div>
+              <p class="sl-nota" id="dic-sectores-nota"></p>
+            </figure>
           </div>
           <div class="indicadores">
             <div class="indicador">
@@ -111,7 +120,7 @@
           </div>
         </div>
         <div class="metodo">
-          <div><b>Qué se mide</b>El monto de las órdenes de compra de cada mes, dividido por el mes promedio de su año. Así la inflación y el crecimiento del Estado casi no pesan. Día a día: cada día hábil contra la mediana de los días hábiles de su año (<a class="enlace" href="datos/dias.json">datos</a>).</div>
+          <div><b>Qué se mide</b>El monto de las órdenes de compra de cada mes, dividido por el mes promedio de su año. Así la inflación y el crecimiento del Estado casi no pesan. Día a día: cada día hábil contra la mediana de los días hábiles de su año (<a class="enlace" href="datos/dias.json">datos</a>). Por sector, el mismo índice dentro de cada sector (<a class="enlace" href="datos/sectores.json">datos</a>).</div>
           <div><b>De dónde sale</b>La descarga masiva de ChileCompra, sin órdenes canceladas y con los montos en UF y UTM saneados como en <a class="enlace" href="https://tordo.cl">Tordo</a>.</div>
           <div><b>Lo que queda fuera</b>Las <a class="enlace" href="datos/diciembre.json">357 órdenes de más de $20.000 millones</a>: errores de tipeo (una de 2008 dice $4.135 billones) o contratos de varios años firmados en un mes. Los <a class="enlace" href="https://github.com/cris-middleton/cris-middleton.github.io/tree/main/tableros/compras-del-estado/datos">scripts</a>, a la vista.</div>
         </div>
@@ -355,6 +364,6 @@
   </footer>
 
   <script src="/js/comun.js?v=2026-11-10"></script>
-  <script src="/js/compras-del-estado.js?v=2026-11-11f"></script>
+  <script src="/js/compras-del-estado.js?v=2026-11-11g"></script>
 </body>
 </html>

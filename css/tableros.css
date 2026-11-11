@@ -194,6 +194,30 @@
 .c-valor { color: var(--tinta); font-weight: 600; font-variant-numeric: tabular-nums; font-size: 12px; }
 @media (max-width: 560px) { .cambio { grid-template-columns: 118px minmax(0, 1fr) 58px; gap: 8px; } }
 
+/* La fiebre por sector: dos puntos por fila, unidos por una línea */
+.leyenda i.aro { background: transparent; border: 2px solid var(--tenue); border-radius: 50%; }
+.pesas { display: grid; gap: 4px; }
+.ps-eje, .ps-fila { display: grid; grid-template-columns: 210px minmax(0, 1fr) 96px; gap: 14px; align-items: center; }
+.ps-marcas { position: relative; height: 16px; font-size: 11px; color: var(--tenue); margin-inline: 10px; }
+.ps-marcas span { position: absolute; transform: translateX(-50%); }
+.ps-fila { min-height: 30px; font-size: 13px; }
+.ps-nombre { color: var(--texto); text-align: right; }
+.ps-pista { position: relative; height: 30px; margin-inline: 10px; background: linear-gradient(var(--borde), var(--borde)) 0 50% / 100% 1px no-repeat; }
+.ps-pista i { position: absolute; top: 50%; }
+.ps-uno { width: 0; height: 22px; border-left: 1px dashed var(--tenue); transform: translateY(-50%); }
+.ps-tramo { height: 3px; background: var(--cobre-linea); transform: translateY(-50%); border-radius: 2px; }
+.ps-antes, .ps-ahora { width: 12px; height: 12px; border-radius: 50%; transform: translate(-50%, -50%); }
+.ps-antes { border: 2px solid var(--tenue); background: var(--superficie); }
+.ps-ahora { background: var(--cobre); box-shadow: 0 0 0 2px var(--superficie); }
+.ps-valor { color: var(--tenue); font-variant-numeric: tabular-nums; font-size: 12px; white-space: nowrap; }
+.ps-valor b { color: var(--tinta); }
+@media (max-width: 560px) {
+  .ps-eje, .ps-fila { grid-template-columns: minmax(0, 1fr) 84px; gap: 4px 10px; }
+  .ps-nombre { grid-column: 1 / -1; text-align: left; }
+  .ps-eje > span:first-child { display: none; }
+  .ps-eje .ps-marcas { grid-column: 1; }
+}
+
 /* Al pie de cada vista: la anterior y la siguiente */
 .pasar { display: grid; grid-template-columns: 1fr 1fr; gap: var(--e-4); border-top: 1px solid var(--borde); padding-top: var(--e-5); }
 .pasar a { display: grid; gap: 2px; text-decoration: none; color: var(--tinta); font-family: var(--f-titulo); font-weight: 700; font-size: 16px; line-height: 1.3;
