@@ -8,11 +8,11 @@ sin órdenes canceladas, montos con coma decimal y en UF/UTM saneados, una fila 
 
 ```sh
 # 1. Bajar y resumir los 228 meses (~15 min; reanudable). Usa la limpieza de Tordo.
-TORDO=../tordo TRABAJO=~/datos-chilecompra uv run --project $TORDO python bajar.py
+TORDO=../tordo TRABAJO=~/Documents/datos-chilecompra uv run --project $TORDO python bajar.py
 
 # 2. Armar el JSON de cada vista
-cd ~/datos-chilecompra && python3 <aquí>/armar.py 20000000000 <aquí>/diciembre.json
-export TRABAJO=~/datos-chilecompra
+cd ~/Documents/datos-chilecompra && python3 <aquí>/armar.py 20000000000 <aquí>/diciembre.json
+export TRABAJO=~/Documents/datos-chilecompra
 uv run --project ../tordo python armar_dias.py dias.json
 uv run --project ../tordo python armar_sectores.py sectores.json
 uv run --project ../tordo python armar_sin_licitar.py sin-licitar.json
