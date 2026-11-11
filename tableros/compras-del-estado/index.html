@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#0f1622">
   <title>Compras del Estado, tableros de Cristóbal Middleton</title>
-  <meta name="description" content="¿El Estado se gasta todo en diciembre? Diecinueve años de órdenes de compra de ChileCompra, mes a mes: cuánto se compra sin licitar y quién le vende.">
+  <meta name="description" content="¿El Estado se gasta todo en diciembre? Diecinueve años de órdenes de compra de ChileCompra, mes a mes: cuánto se compra sin licitar, quién le vende y a quién le compra cada región.">
   <link rel="canonical" href="https://cris-middleton.github.io/tableros/compras-del-estado/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_CL">
@@ -26,7 +26,7 @@
   <link rel="preload" href="/fonts/Inter.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/SchibstedGrotesk.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/css/style.css?v=2026-11-10">
-  <link rel="stylesheet" href="/css/tableros.css?v=2026-11-11b">
+  <link rel="stylesheet" href="/css/tableros.css?v=2026-11-11c">
 </head>
 <body>
   <a class="saltar" href="#contenido">Ir al contenido</a>
@@ -217,6 +217,62 @@
         </div>
       </div>
     </section>
+    <!-- Vista 4 -->
+    <section class="vista" id="v-regiones" aria-labelledby="h-regiones" hidden>
+      <div class="lamina">
+        <div class="lamina-cabeza">
+          <span class="aviso aviso--real">Datos reales: el comprador y el proveedor de cada orden, de 2009 a 2025</span>
+          <h2 id="h-regiones">¿A quién le compra cada región?</h2>
+          <p class="respuesta" id="rg-respuesta"></p>
+        </div>
+        <div class="cuerpo">
+          <div class="sl-graficos">
+            <figure class="sl-figura">
+              <figcaption class="sl-titulo" id="rg-titulo-barras"></figcaption>
+              <ul class="leyenda" aria-label="De dónde es el proveedor">
+                <li><i style="--c:#c0834c"></i>De la misma región</li>
+                <li><i style="--c:#4a8fe0"></i>De Santiago</li>
+                <li><i style="--c:#1f9f74"></i>De otra región</li>
+              </ul>
+              <div class="lienzo-regiones" id="rg-barras"></div>
+            </figure>
+            <figure class="sl-figura">
+              <figcaption class="sl-titulo">Quién le compra a quién</figcaption>
+              <p class="sl-nota">Cada fila es la región que compra y suma 100 %; cada columna, la región del proveedor. La diagonal es lo que se queda en casa.</p>
+              <div class="lienzo-matriz" id="rg-matriz"></div>
+            </figure>
+          </div>
+          <div class="indicadores">
+            <div class="indicador">
+              <span class="etiqueta">Se queda en la región</span>
+              <span class="cifra cifra--cobre" id="rg-local"></span>
+              <svg id="rg-linea" viewBox="0 0 240 46" preserveAspectRatio="none" aria-hidden="true"></svg>
+              <p id="rg-local-nota"></p>
+            </div>
+            <div class="indicador">
+              <span class="etiqueta">La más local</span>
+              <span class="cifra" id="rg-mas"></span>
+              <p id="rg-mas-nota"></p>
+            </div>
+            <div class="indicador">
+              <span class="etiqueta">La que más le compra a Santiago</span>
+              <span class="cifra" id="rg-rm"></span>
+              <p id="rg-rm-nota"></p>
+            </div>
+            <div class="indicador">
+              <span class="etiqueta">Santiago</span>
+              <span class="cifra" id="rg-stgo"></span>
+              <p id="rg-stgo-nota"></p>
+            </div>
+          </div>
+        </div>
+        <div class="metodo">
+          <div><b>Qué se mide</b>El monto de cada orden según la región del organismo que compra y la del proveedor que vende. Las barras y la matriz son de 2023 a 2025; la línea, de 2009 en adelante.</div>
+          <div><b>Ojo con la dirección</b>La región del proveedor es la de su ficha en Mercado Público, que en las empresas grandes suele ser la casa matriz: comprarle a una cadena nacional cuenta como comprarle a Santiago aunque entregue una sucursal.</div>
+          <div><b>Lo que queda fuera</b>Antes de 2009 la región venía vacía. Ñuble aparece desde que es región (2018). Todo se calcula sobre las órdenes con región del proveedor conocida (el 94 % del monto entre 2023 y 2025). <a class="enlace" href="datos/regiones.json">Los datos</a>.</div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="pie">
@@ -227,6 +283,6 @@
   </footer>
 
   <script src="/js/comun.js?v=2026-11-10"></script>
-  <script src="/js/compras-del-estado.js?v=2026-11-11b"></script>
+  <script src="/js/compras-del-estado.js?v=2026-11-11c"></script>
 </body>
 </html>

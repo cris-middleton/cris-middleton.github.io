@@ -141,6 +141,26 @@
   .tp-linea { grid-column: 1 / -1; grid-row: 2; }
 }
 
+/* Regiones: una barra por región, de norte a sur, y la matriz de quién le compra a quién */
+.lienzo-regiones { position: relative; display: grid; gap: 5px; }
+.rg-fila { display: grid; grid-template-columns: 128px minmax(0, 1fr) 44px; gap: 12px; align-items: center; font-size: 13px; cursor: crosshair; }
+.rg-fila--rm { margin-block: 6px; }
+.rg-nombre { color: var(--texto); text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rg-fila--rm .rg-nombre { color: var(--tinta); font-weight: 600; }
+.rg-barra { display: flex; gap: 2px; height: 16px; }
+.rg-barra i { display: block; height: 100%; border-radius: 3px; min-width: 2px; }
+.rg-valor { color: var(--tinta); font-weight: 600; font-variant-numeric: tabular-nums; }
+.rg-fila:hover .rg-nombre { color: var(--tinta); }
+.lienzo-matriz { position: relative; min-width: 0; }
+.lienzo-matriz svg { display: block; width: 100%; height: auto; overflow: visible; }
+.lienzo-matriz text { font-family: var(--f-texto); font-size: 11px; fill: var(--tenue); }
+.lienzo-matriz .t-rm { fill: var(--tinta); font-weight: 600; }
+.celda-m { cursor: crosshair; transition: opacity .15s; }
+.celda-m.apagada { opacity: .35; }
+@media (max-width: 560px) {
+  .rg-fila { grid-template-columns: 112px minmax(0, 1fr) 38px; gap: 8px; font-size: 12px; }
+}
+
 /* Tableros en preparación: un boceto que se dibuja */
 .boceto { background: var(--hundido); border: 1px dashed var(--borde-2); border-radius: var(--radio-3); padding: var(--e-5); }
 .boceto svg { width: 100%; height: auto; }

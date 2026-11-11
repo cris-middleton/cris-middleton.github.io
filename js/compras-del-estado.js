@@ -1,4 +1,4 @@
-// El tablero «Compras del Estado»: el selector de vistas y una función por vista (diciembre, sin licitar, quién le vende).
+// El tablero «Compras del Estado»: el selector de vistas y una función por vista (diciembre, sin licitar, quién le vende, regiones).
 // Los datos salen de la descarga masiva de ChileCompra (datos/*.json),
 // con la misma limpieza que usa Tordo. Cómo se calcularon: datos/bajar.py y los datos/armar*.py.
 (function () {
@@ -310,8 +310,116 @@
     new ResizeObserver(function () { if (lienzo.clientWidth && lienzo.clientWidth !== ultimoAncho) { ultimoAncho = lienzo.clientWidth; dibujar(); } }).observe(lienzo);
   }
 
+  function regiones(D) {
+    var R = D.regiones, C = D.columnas, iRM = R.indexOf('Metropolitana'), iSin = C.length - 1, iExt = C.indexOf('Extranjero');
+    var CORTO = { 'Arica y Parinacota': 'AyP', 'Tarapacá': 'Tar', 'Antofagasta': 'Ant', 'Atacama': 'Ata', 'Coquimbo': 'Coq', 'Valparaíso': 'Val', 'Metropolitana': 'RM',
+      "O'Higgins": 'OHi', 'Maule': 'Mau', 'Ñuble': 'Ñub', 'Biobío': 'Bío', 'Araucanía': 'Ara', 'Los Ríos': 'LRí', 'Los Lagos': 'LLa', 'Aysén': 'Ays', 'Magallanes': 'Mag' };
+    var NOMBRE = function (r) { return r === 'Metropolitana' ? 'Santiago (RM)' : r; };
+    // Por región que compra (2023–2025): lo local, lo de Santiago, lo de otras regiones y lo sin dato
+    var filas = R.map(function (r, i) {
+      var f = D.matriz[i], t = suma(f), sin = f[iSin], conocido = t - sin;
+      var local = f[i], rm = i === iRM ? 0 : f[iRM], otra = t - local - rm - sin;
+      // Todo sobre lo de región conocida, para que barras, texto e indicadores digan lo mismo
+      return { r: r, t: t, conocido: conocido, partes: [local / conocido, rm / conocido, otra / conocido], local: local / conocido, rm: rm / conocido };
+    });
+    var reg = filas.filter(function (f) { return f.r !== 'Metropolitana'; });
+    // Lo de todas las regiones juntas, ponderado por lo que compra cada una (sobre lo de región conocida)
+    var conocido = function (f) { return f.conocido; }, totConocido = suma(reg.map(conocido));
+    var localReg = suma(reg.map(function (f) { return f.local * conocido(f); })) / totConocido;
+    var rmReg = suma(reg.map(function (f) { return f.rm * conocido(f); })) / totConocido;
+    var masLocal = reg.slice().sort(function (a, b) { return b.local - a.local; })[0], masRM = reg.slice().sort(function (a, b) { return b.rm - a.rm; })[0];
+    var mayorRM = reg.filter(function (f) { return f.rm > f.local; });
+    var stgo = filas[iRM];
+    // La serie: lo local de las regiones (sin Santiago), sobre lo de región conocida, desde 2009
+    var desde = D.anios.indexOf(2009), anios = D.anios.slice(desde);
+    var serie = anios.map(function (_, k) {
+      var j = k + desde, loc = 0, con = 0;
+      R.forEach(function (r) { if (r === 'Metropolitana') return; var x = D.serie[r]; loc += x.local[j]; con += x.local[j] + x.rm[j] + x.otra[j]; });
+      return loc / con;
+    });
+    var tramo = D.recientes[0] + ' y ' + D.recientes[1];
+
+    document.getElementById('rg-respuesta').innerHTML = '<b>Casi tanto a Santiago como a sí mismas.</b> Entre ' + tramo + ', los organismos de regiones le compraron el ' + Math.round(localReg * 100) +
+      ' % a empresas de su región y el ' + Math.round(rmReg * 100) + ' % a empresas con dirección en Santiago. En ' + mayorRM.length + ' de las ' + reg.length +
+      ' regiones, Santiago gana. ' + masRM.r + ' le compra más a Santiago (' + Math.round(masRM.rm * 100) + ' %) que a sí misma (' + Math.round(masRM.local * 100) + ' %).';
+    document.getElementById('rg-local').textContent = Math.round(localReg * 100) + ' %';
+    linea('rg-linea', serie);
+    document.getElementById('rg-local-nota').textContent = 'de lo que compran las regiones (sin Santiago) entre ' + tramo + '. En ' + anios[0] + ' era el ' + Math.round(serie[0] * 100) + ' %.';
+    document.getElementById('rg-mas').textContent = masLocal.r;
+    document.getElementById('rg-mas-nota').textContent = 'Le compra el ' + Math.round(masLocal.local * 100) + ' % a empresas de la región. La distancia también compra.';
+    document.getElementById('rg-rm').textContent = masRM.r;
+    document.getElementById('rg-rm-nota').textContent = 'El ' + Math.round(masRM.rm * 100) + ' % de lo que compra lo venden empresas con dirección en Santiago.';
+    document.getElementById('rg-stgo').textContent = Math.round(stgo.local * 100) + ' %';
+    document.getElementById('rg-stgo-nota').textContent = 'de lo que compran los organismos de Santiago se queda en Santiago. Compra el ' + Math.round(stgo.t / suma(filas.map(function (f) { return f.t; })) * 100) + ' % de todo.';
+
+    // ---------- Las barras: una región por fila, de norte a sur ----------
+    document.getElementById('rg-titulo-barras').textContent = 'De dónde son los proveedores de cada región, ' + D.recientes[0] + '–' + D.recientes[1];
+    var COLORES = ['#c0834c', '#4a8fe0', '#1f9f74'], ETQ = ['De la misma región', 'De Santiago', 'De otra región'];
+    var cont = document.getElementById('rg-barras');
+    cont.innerHTML = filas.map(function (f, i) {
+      return '<div class="rg-fila' + (f.r === 'Metropolitana' ? ' rg-fila--rm' : '') + '" data-i="' + i + '"><span class="rg-nombre">' + NOMBRE(f.r) + '</span><span class="rg-barra">' +
+        f.partes.map(function (v, k) { return v > 0 ? '<i style="width:' + (v * 100).toFixed(2) + '%;background:' + COLORES[k] + '"></i>' : ''; }).join('') +
+        '</span><span class="rg-valor">' + Math.round(f.partes[0] * 100) + ' %</span></div>';
+    }).join('');
+    var globoB = document.createElement('div'); globoB.className = 'globo'; globoB.hidden = true; cont.appendChild(globoB);
+    cont.addEventListener('pointermove', function (e) {
+      var fila = e.target.closest('.rg-fila'); if (!fila) { globoB.hidden = true; return; }
+      var f = filas[+fila.dataset.i], r = fila.querySelector('.rg-barra').getBoundingClientRect(), base = cont.getBoundingClientRect();
+      globoB.innerHTML = '<b>' + NOMBRE(f.r) + '</b> · compró ' + pesos(f.t) + '<br>' + f.partes.map(function (v, k) {
+        return (f.r === 'Metropolitana' && k === 1) ? '' : '<i class="punto" style="--c:' + COLORES[k] + '"></i>' + ETQ[k] + ': ' + pct(v) + '<br>';
+      }).join('') + 'Sin región del proveedor: ' + pct(1 - f.conocido / f.t);
+      globoB.style.left = Math.min(Math.max(e.clientX - base.left, 130), base.width - 130) + 'px';
+      globoB.style.top = (r.top - base.top) + 'px';
+      globoB.hidden = false;
+    });
+    cont.addEventListener('pointerleave', function () { globoB.hidden = true; });
+
+    // ---------- La matriz: quién le compra a quién ----------
+    var lienzo = document.getElementById('rg-matriz'), globo = document.createElement('div'); globo.className = 'globo'; globo.hidden = true;
+    var paradas = [[0, [29, 39, 56]], [0.08, [61, 79, 107]], [0.3, [159, 184, 214]], [0.7, [227, 174, 122]]];
+    function color(v) {
+      for (var k = 1; k < paradas.length; k++) if (v <= paradas[k][0]) {
+        var t = (v - paradas[k - 1][0]) / (paradas[k][0] - paradas[k - 1][0]), a = paradas[k - 1][1], b = paradas[k][1];
+        return 'rgb(' + a.map(function (c, j) { return Math.round(c + (b[j] - c) * t); }) + ')';
+      }
+      return 'rgb(' + paradas[paradas.length - 1][1] + ')';
+    }
+    function dibujar() {
+      var W = Math.max(lienzo.clientWidth, 300), angosto = W < 560, IZQ = angosto ? 34 : 128, ARR = angosto ? 32 : 22, n = R.length;
+      var lado = Math.floor((W - IZQ) / n), H = ARR + lado * n + 4;
+      var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '" role="img" aria-label="Matriz: qué parte de lo que compra cada región le vende cada región">';
+      // En el teléfono las columnas son angostas: la etiqueta va inclinada
+      R.forEach(function (r, j) {
+        var x = IZQ + j * lado + lado / 2;
+        s += '<text x="' + x + '" y="' + (angosto ? ARR - 6 : 14) + '"' + (angosto ? ' transform="rotate(-55 ' + x + ' ' + (ARR - 6) + ')" text-anchor="start"' : ' text-anchor="middle"') + (r === 'Metropolitana' ? ' class="t-rm"' : '') + '>' + CORTO[r] + '</text>';
+      });
+      R.forEach(function (r, i) {
+        var f = D.matriz[i], t = suma(f), y = ARR + i * lado;
+        s += '<text x="' + (IZQ - 8) + '" y="' + (y + lado / 2 + 4) + '" text-anchor="end"' + (r === 'Metropolitana' ? ' class="t-rm"' : '') + '>' + (angosto ? CORTO[r] : NOMBRE(r)) + '</text>';
+        R.forEach(function (_, j) {
+          var v = f[j] / t;
+          s += '<rect class="celda-m" data-i="' + i + '" data-j="' + j + '" x="' + (IZQ + j * lado + 1) + '" y="' + (y + 1) + '" width="' + (lado - 2) + '" height="' + (lado - 2) + '" rx="2" fill="' + color(v) + '"/>';
+        });
+      });
+      lienzo.innerHTML = s + '</svg>'; lienzo.appendChild(globo);
+      var svg = lienzo.querySelector('svg');
+      svg.addEventListener('pointerover', function (e) {
+        var c = e.target; if (!c.classList.contains('celda-m')) return;
+        var i = +c.dataset.i, j = +c.dataset.j, f = D.matriz[i], v = f[j] / suma(f);
+        svg.querySelectorAll('.celda-m').forEach(function (x) { x.classList.toggle('apagada', x.dataset.i !== c.dataset.i && x.dataset.j !== c.dataset.j); });
+        globo.innerHTML = '<b>' + NOMBRE(R[i]) + '</b> le compra a<br><b>' + NOMBRE(R[j]) + '</b>: <span class="v">' + pct(v) + '</span><br>' + pesos(f[j]);
+        globo.style.left = Math.min(Math.max(+c.getAttribute('x') + lado / 2, 110), W - 110) + 'px';
+        globo.style.top = (+c.getAttribute('y')) + 'px';
+        globo.hidden = false;
+      });
+      svg.addEventListener('pointerleave', function () { globo.hidden = true; svg.querySelectorAll('.apagada').forEach(function (x) { x.classList.remove('apagada'); }); });
+    }
+    var ultimoAncho = 0;
+    new ResizeObserver(function () { if (lienzo.clientWidth && lienzo.clientWidth !== ultimoAncho) { ultimoAncho = lienzo.clientWidth; dibujar(); } }).observe(lienzo);
+  }
+
   function cargar(archivo, dibujo, avisarEn) {
-    fetch('/tableros/compras-del-estado/datos/' + archivo + '?v=2026-11-11b')
+    fetch('/tableros/compras-del-estado/datos/' + archivo + '?v=2026-11-11c')
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(dibujo)
       .catch(function () { document.getElementById(avisarEn).textContent = 'No se pudieron cargar los datos. Prueba recargando la página.'; });
@@ -319,6 +427,7 @@
   cargar('diciembre.json', diciembre, 'respuesta');
   cargar('sin-licitar.json', sinLicitar, 'sl-respuesta');
   cargar('quien-vende.json', quienVende, 'qv-respuesta');
+  cargar('regiones.json', regiones, 'rg-respuesta');
 
   // ---------- El selector: cada vista con su propia dirección (#nombre) ----------
   var VISTAS = [
@@ -327,7 +436,9 @@
     { id: 'trato-directo', titulo: '¿Cuánto se compra sin licitar?', bajada: 'Trato directo y compra ágil, de 2007 a 2025.', estado: 'real',
       mini: '<svg viewBox="0 0 30 30">' + [[9, 5, 2], [8, 6, 3], [15, 7, 2], [10, 9, 6]].map(function (b, c) { var y = 27, r = ''; b.forEach(function (h, k) { y -= h; r += '<rect x="' + (c * 7 + 2) + '" y="' + y + '" width="5" height="' + (h - 1) + '" rx="1" fill="' + ['#c0834c', '#4a8fe0', '#1f9f74'][k] + '"/>'; }); return r; }).join('') + '</svg>' },
     { id: 'quien-le-vende', titulo: '¿Quién le vende al Estado?', bajada: 'Los proveedores más grandes y cuánto depende cada organismo de pocos.', estado: 'real',
-      mini: '<svg viewBox="0 0 30 30" fill="none"><path d="M3 8 C14 8 16 12 27 12" stroke="#e3ae7a" stroke-width="4" stroke-opacity=".8"/><path d="M3 17 C14 17 16 21 27 21" stroke="#55698a" stroke-width="3"/><path d="M3 24 C14 24 16 15 27 15" stroke="#3d4f6b" stroke-width="2.5"/></svg>' }
+      mini: '<svg viewBox="0 0 30 30" fill="none"><path d="M3 8 C14 8 16 12 27 12" stroke="#e3ae7a" stroke-width="4" stroke-opacity=".8"/><path d="M3 17 C14 17 16 21 27 21" stroke="#55698a" stroke-width="3"/><path d="M3 24 C14 24 16 15 27 15" stroke="#3d4f6b" stroke-width="2.5"/></svg>' },
+    { id: 'regiones', titulo: '¿A quién le compra cada región?', bajada: 'Lo que se queda en la región y lo que va a Santiago.', estado: 'real',
+      mini: '<svg viewBox="0 0 30 30">' + [[10, 9, 4], [6, 13, 4], [9, 8, 6], [12, 7, 4], [14, 6, 3]].map(function (b, f) { var x = 3, r = ''; b.forEach(function (w, k) { r += '<rect x="' + x + '" y="' + (f * 5.4 + 2) + '" width="' + (w - 0.8) + '" height="4" rx="1" fill="' + ['#c0834c', '#4a8fe0', '#1f9f74'][k] + '"/>'; x += w; }); return r; }).join('') + '</svg>' }
   ];
   var ESTADOS = { real: ['Datos reales', 'chip--real'], prep: ['En preparación', 'chip--prep'] };
   var boton = document.getElementById('desp-boton'), lista = document.getElementById('desp-lista'), activa = 0;
