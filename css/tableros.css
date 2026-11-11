@@ -95,6 +95,10 @@
 .lienzo-barras .t-valor { fill: var(--tinta); font-weight: 600; }
 .lienzo-barras .t-evento { fill: var(--cobre); font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
 .lienzo-barras .rejilla { stroke: var(--borde); stroke-width: 1; }
+.lienzo-barras .rejilla--uno { stroke: var(--tenue); stroke-dasharray: 4 4; }
+.lienzo-barras .linea-ordenes { fill: none; stroke: var(--tinta); stroke-width: 2; stroke-linejoin: round; pointer-events: none; }
+.leyenda i.raya { width: 16px; height: 2px; border-radius: 1px; background: var(--tinta); }
+.dic-dias { margin-top: var(--e-6); }
 .lienzo-barras .blanco { fill: transparent; cursor: crosshair; }
 .lienzo-barras .aparece { animation: crecer-barra .7s var(--curva) both; animation-delay: var(--d); transform-box: fill-box; transform-origin: bottom; }
 @keyframes crecer-barra { from { transform: scaleY(0); } to { transform: none; } }

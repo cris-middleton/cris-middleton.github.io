@@ -116,6 +116,48 @@
     svg.addEventListener('pointerleave', limpiar);
   }
 
+  // Dentro de diciembre, día a día (datos/dias.json): barras con el monto, línea con las órdenes
+  function dias(D) {
+    var X = D.diciembre, n = X.length, lienzo = document.getElementById('dic-dias');
+    var ultima = X.filter(function (x) { return x.dia >= 26 && x.dia <= 30; });
+    var mMonto = prom(ultima.map(function (x) { return x.monto; })), mOrd = prom(ultima.map(function (x) { return x.ordenes; }));
+    document.getElementById('dic-dias-nota').textContent = 'Del 26 al 30 de diciembre, un día hábil compra ' + fmt1(mMonto) + ' veces lo de un día normal, con ' + fmt1(mOrd) +
+      ' veces las órdenes. Mediana de ' + D.desde + ' a ' + D.hasta + '; el 8 y el 25 son feriados. El fin de semana se compra el ' + fmt1(D.fin_de_semana * 100) + ' % del año.';
+    var globo = document.createElement('div'); globo.className = 'globo'; globo.hidden = true;
+    var tope = Math.ceil(Math.max.apply(null, X.map(function (x) { return Math.max(x.monto, x.ordenes); })) * 2) / 2;
+    function dibujar() {
+      var W = Math.max(lienzo.clientWidth, 300), H = 200, IZQ = 34, ARR = 10, ABA = 22, angosto = W < 520;
+      var paso = (W - IZQ) / n, ancho = Math.max(3, Math.min(14, paso * 0.62)), y = function (v) { return ARR + (1 - v / tope) * (H - ARR - ABA); };
+      var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '" role="img" aria-label="Barras: monto de cada día de diciembre contra un día hábil normal; línea: número de órdenes">';
+      for (var g = 0; g <= tope + 1e-9; g += 0.5) s += '<line class="rejilla' + (g === 1 ? ' rejilla--uno' : '') + '" x1="' + IZQ + '" x2="' + W + '" y1="' + y(g) + '" y2="' + y(g) + '"/><text x="' + (IZQ - 6) + '" y="' + (y(g) + 4) + '" text-anchor="end">' + fmt1(g).replace(',0', '') + '×</text>';
+      var pts = [];
+      X.forEach(function (x, i) {
+        var cx = IZQ + i * paso + paso / 2, h = y(0) - y(x.monto);
+        s += '<g class="col" data-i="' + i + '">';
+        if (h > 0.5) s += '<rect class="aparece" x="' + (cx - ancho / 2).toFixed(1) + '" y="' + y(x.monto).toFixed(1) + '" width="' + ancho.toFixed(1) + '" height="' + h.toFixed(1) + '" rx="2" fill="' + (x.dia >= 26 && x.dia <= 31 ? '#e3ae7a' : '#9fb8d6') + '" style="--d:' + (i * 20) + 'ms"/>';
+        if (!angosto || x.dia === 1 || (x.dia % 5 === 0 && x.dia !== 30) || x.dia === 31) s += '<text x="' + cx + '" y="' + (H - 6) + '" text-anchor="middle">' + x.dia + '</text>';
+        s += '<rect class="blanco" x="' + (IZQ + i * paso) + '" y="' + ARR + '" width="' + paso + '" height="' + (H - ARR - ABA) + '"/></g>';
+        pts.push((i ? 'L' : 'M') + cx.toFixed(1) + ' ' + y(x.ordenes).toFixed(1));
+      });
+      s += '<path class="linea-ordenes" d="' + pts.join(' ') + '"/>';
+      lienzo.innerHTML = s + '</svg>'; lienzo.appendChild(globo);
+      if (reducido) lienzo.querySelectorAll('.aparece').forEach(function (r) { r.classList.remove('aparece'); });
+      var svg = lienzo.querySelector('svg');
+      svg.addEventListener('pointerover', function (e) {
+        var col = e.target.closest('.col'); if (!col) return;
+        var x = X[+col.dataset.i];
+        svg.classList.add('enfocando'); svg.querySelectorAll('.col').forEach(function (c) { c.classList.toggle('activa', c === col); });
+        globo.innerHTML = '<b>' + x.dia + ' de diciembre</b><br>Monto: <span class="v">' + fmt1(x.monto) + '×</span> un día hábil normal<br>Órdenes: ' + fmt1(x.ordenes) + '×';
+        globo.style.left = Math.min(Math.max(IZQ + (+col.dataset.i + 0.5) * paso, 120), W - 120) + 'px';
+        globo.style.top = y(Math.max(x.monto, x.ordenes)) + 'px';
+        globo.hidden = false;
+      });
+      svg.addEventListener('pointerleave', function () { svg.classList.remove('enfocando'); globo.hidden = true; });
+    }
+    var ultimoAncho = 0;
+    new ResizeObserver(function () { if (lienzo.clientWidth && lienzo.clientWidth !== ultimoAncho) { ultimoAncho = lienzo.clientWidth; dibujar(); } }).observe(lienzo);
+  }
+
   function sinLicitar(D) {
     var A = D.anios, M = D.monto, n = A.length, u = n - 1;
     // Las tres capas de la barra, de abajo hacia arriba (colores validados contra el fondo, también para daltonismo)
@@ -419,12 +461,13 @@
   }
 
   function cargar(archivo, dibujo, avisarEn) {
-    fetch('/tableros/compras-del-estado/datos/' + archivo + '?v=2026-11-11c')
+    fetch('/tableros/compras-del-estado/datos/' + archivo + '?v=2026-11-11d')
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(dibujo)
       .catch(function () { document.getElementById(avisarEn).textContent = 'No se pudieron cargar los datos. Prueba recargando la página.'; });
   }
   cargar('diciembre.json', diciembre, 'respuesta');
+  cargar('dias.json', dias, 'dic-dias-nota');
   cargar('sin-licitar.json', sinLicitar, 'sl-respuesta');
   cargar('quien-vende.json', quienVende, 'qv-respuesta');
   cargar('regiones.json', regiones, 'rg-respuesta');

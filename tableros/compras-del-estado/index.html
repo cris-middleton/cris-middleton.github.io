@@ -26,7 +26,7 @@
   <link rel="preload" href="/fonts/Inter.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/SchibstedGrotesk.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/css/style.css?v=2026-11-10">
-  <link rel="stylesheet" href="/css/tableros.css?v=2026-11-11c">
+  <link rel="stylesheet" href="/css/tableros.css?v=2026-11-11d">
 </head>
 <body>
   <a class="saltar" href="#contenido">Ir al contenido</a>
@@ -76,6 +76,15 @@
             <div class="lienzo-calor" id="calor"></div>
             <p class="desliza" id="desliza" hidden>Desliza para ver todos los meses <span aria-hidden="true">→</span></p>
             <div class="escala"><span>Mes tranquilo</span><i aria-hidden="true"></i><span>Mes de fiebre</span><span>· 1,0 = un mes promedio de ese año</span></div>
+            <figure class="sl-figura dic-dias">
+              <figcaption class="sl-titulo">Día a día: la última semana compra el doble, con las mismas órdenes</figcaption>
+              <ul class="leyenda" aria-label="Series">
+                <li><i style="--c:#9fb8d6"></i>Monto del día</li>
+                <li><i class="raya"></i>Número de órdenes</li>
+              </ul>
+              <div class="lienzo-barras" id="dic-dias"></div>
+              <p class="sl-nota" id="dic-dias-nota"></p>
+            </figure>
           </div>
           <div class="indicadores">
             <div class="indicador">
@@ -102,7 +111,7 @@
           </div>
         </div>
         <div class="metodo">
-          <div><b>Qué se mide</b>El monto de las órdenes de compra de cada mes, dividido por el mes promedio de su año. Así la inflación y el crecimiento del Estado casi no pesan.</div>
+          <div><b>Qué se mide</b>El monto de las órdenes de compra de cada mes, dividido por el mes promedio de su año. Así la inflación y el crecimiento del Estado casi no pesan. Día a día: cada día hábil contra la mediana de los días hábiles de su año (<a class="enlace" href="datos/dias.json">datos</a>).</div>
           <div><b>De dónde sale</b>La descarga masiva de ChileCompra, sin órdenes canceladas y con los montos en UF y UTM saneados como en <a class="enlace" href="https://tordo.cl">Tordo</a>.</div>
           <div><b>Lo que queda fuera</b>Las <a class="enlace" href="datos/diciembre.json">357 órdenes de más de $20.000 millones</a>: errores de tipeo (una de 2008 dice $4.135 billones) o contratos de varios años firmados en un mes. Los <a class="enlace" href="https://github.com/cris-middleton/cris-middleton.github.io/tree/main/tableros/compras-del-estado/datos">scripts</a>, a la vista.</div>
         </div>
@@ -283,6 +292,6 @@
   </footer>
 
   <script src="/js/comun.js?v=2026-11-10"></script>
-  <script src="/js/compras-del-estado.js?v=2026-11-11c"></script>
+  <script src="/js/compras-del-estado.js?v=2026-11-11d"></script>
 </body>
 </html>
