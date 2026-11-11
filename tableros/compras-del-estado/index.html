@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#0f1622">
   <title>Compras del Estado, tableros de Cristóbal Middleton</title>
-  <meta name="description" content="¿El Estado se gasta todo en diciembre? Diecinueve años de órdenes de compra de ChileCompra, mes a mes. Y pronto: quién le vende y cuánto se compra sin licitar.">
+  <meta name="description" content="¿El Estado se gasta todo en diciembre? Diecinueve años de órdenes de compra de ChileCompra, mes a mes, y cuánto se compra sin licitar. Y pronto: quién le vende.">
   <link rel="canonical" href="https://cris-middleton.github.io/tableros/compras-del-estado/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_CL">
@@ -26,7 +26,7 @@
   <link rel="preload" href="/fonts/Inter.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/SchibstedGrotesk.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/css/style.css?v=2026-11-10">
-  <link rel="stylesheet" href="/css/tableros.css?v=2026-11-10">
+  <link rel="stylesheet" href="/css/tableros.css?v=2026-11-11">
 </head>
 <body>
   <a class="saltar" href="#contenido">Ir al contenido</a>
@@ -103,8 +103,8 @@
         </div>
         <div class="metodo">
           <div><b>Qué se mide</b>El monto de las órdenes de compra de cada mes, dividido por el mes promedio de su año. Así la inflación y el crecimiento del Estado casi no pesan.</div>
-          <div><b>De dónde sale</b>La descarga masiva de ChileCompra, sin órdenes canceladas y con los montos en UF y UTM saneados como en <a class="enlace" href="https://tordo.cl">Tordo</a>. Septiembre de 2025 viene vacío desde ChileCompra.</div>
-          <div><b>Lo que queda fuera</b>Las <a class="enlace" href="datos/diciembre.json">355 órdenes de más de $20.000 millones</a>: errores de tipeo (una de 2008 dice $4.135 billones) o contratos de varios años firmados en un mes. Los <a class="enlace" href="https://github.com/cris-middleton/cris-middleton.github.io/tree/main/tableros/compras-del-estado/datos">scripts</a>, a la vista.</div>
+          <div><b>De dónde sale</b>La descarga masiva de ChileCompra, sin órdenes canceladas y con los montos en UF y UTM saneados como en <a class="enlace" href="https://tordo.cl">Tordo</a>.</div>
+          <div><b>Lo que queda fuera</b>Las <a class="enlace" href="datos/diciembre.json">357 órdenes de más de $20.000 millones</a>: errores de tipeo (una de 2008 dice $4.135 billones) o contratos de varios años firmados en un mes. Los <a class="enlace" href="https://github.com/cris-middleton/cris-middleton.github.io/tree/main/tableros/compras-del-estado/datos">scripts</a>, a la vista.</div>
         </div>
       </div>
     </section>
@@ -138,23 +138,54 @@
     <section class="vista" id="v-trato-directo" aria-labelledby="h-trato" hidden>
       <div class="lamina">
         <div class="lamina-cabeza">
-          <span class="estado">En preparación</span>
+          <span class="aviso aviso--real">Datos reales: lo comprado sin licitación, de 2007 a 2025</span>
           <h2 id="h-trato">¿Cuánto se compra sin licitar?</h2>
-          <p class="respuesta">La parte de las compras de cada organismo que llega por trato directo, cómo cambia en el tiempo y quiénes se salen de lo normal.</p>
+          <p class="respuesta" id="sl-respuesta"></p>
         </div>
-        <div class="boceto" aria-hidden="true">
-          <svg viewBox="0 0 640 220" fill="none">
-            <line x1="40" y1="190" x2="620" y2="190" stroke="#364259" stroke-width="2"/>
-            <path d="M40 150 L110 146 L180 152 L250 140 L320 144 L390 130 L460 136 L530 118 L600 112" stroke="#9fb8d6" stroke-width="2.5"/>
-            <path d="M40 170 L110 168 L180 160 L250 162 L320 150 L390 120 L460 96 L530 70 L600 44" stroke="#e3ae7a" stroke-width="3"/>
-            <circle cx="600" cy="44" r="7" stroke="#e3ae7a" stroke-width="2.5"/>
-            <path d="M40 182 L110 180 L180 181 L250 176 L320 178 L390 172 L460 174 L530 170 L600 168" stroke="#364259" stroke-width="2"/>
-          </svg>
+        <div class="cuerpo">
+          <div class="sl-graficos">
+            <figure class="sl-figura">
+              <figcaption class="sl-titulo">Parte del gasto de cada año que no pasó por licitación</figcaption>
+              <ul class="leyenda" aria-label="Formas de compra sin licitar">
+                <li><i style="--c:#c0834c"></i>Trato directo por emergencia</li>
+                <li><i style="--c:#4a8fe0"></i>Trato directo por otras causales</li>
+                <li><i style="--c:#1f9f74"></i>Compra ágil</li>
+              </ul>
+              <div class="lienzo-barras" id="sl-barras"></div>
+            </figure>
+            <figure class="sl-figura">
+              <figcaption class="sl-titulo" id="sl-titulo-org"></figcaption>
+              <ol class="ranking" id="sl-ranking"></ol>
+            </figure>
+          </div>
+          <div class="indicadores">
+            <div class="indicador">
+              <span class="etiqueta" id="sl-ultimo-etq"></span>
+              <span class="cifra cifra--cobre" id="sl-ultimo"></span>
+              <svg id="sl-linea" viewBox="0 0 240 46" preserveAspectRatio="none" aria-hidden="true"></svg>
+              <p id="sl-ultimo-nota"></p>
+            </div>
+            <div class="indicador">
+              <span class="etiqueta">Por emergencia, el año más alto</span>
+              <span class="cifra" id="sl-emergencia"></span>
+              <p id="sl-emergencia-nota"></p>
+            </div>
+            <div class="indicador">
+              <span class="etiqueta">Salud, sin licitar</span>
+              <span class="cifra" id="sl-salud"></span>
+              <p id="sl-salud-nota"></p>
+            </div>
+            <div class="indicador">
+              <span class="etiqueta">La mitad, en pocos organismos</span>
+              <span class="cifra" id="sl-mitad"></span>
+              <p id="sl-mitad-nota"></p>
+            </div>
+          </div>
         </div>
-        <div class="planes">
-          <div class="plan"><b>Forma</b><p>Una línea por organismo, con los que más se alejan de su grupo destacados.</p></div>
-          <div class="plan"><b>La pregunta de fondo</b><p>¿El trato directo crece o es siempre el mismo puñado de organismos?</p></div>
-          <div class="plan"><b>Datos</b><p>Las órdenes de tipo «TD» de la descarga masiva, contadas por orden.</p></div>
+        <div class="metodo">
+          <div><b>Qué se mide</b>La parte del monto de cada año que se compró por trato directo o por compra ágil. El convenio marco cuenta como licitado: lo licita ChileCompra una vez para todos.</div>
+          <div><b>De dónde sale</b>La misma descarga de diciembre. Hasta 2013 el trato directo venía en el tipo de orden; después, en una marca con su causal, y desde diciembre de 2024, en la ficha que pide la ley 21.634.</div>
+          <div><b>Lo que queda fuera</b>Las mismas órdenes de más de $20.000 millones. Las órdenes «para informar», compras que la ley deja fuera, no cuentan como sin licitar. <a class="enlace" href="datos/sin-licitar.json">Los datos</a>, con los 1.177 organismos.</div>
         </div>
       </div>
     </section>
@@ -168,6 +199,6 @@
   </footer>
 
   <script src="/js/comun.js?v=2026-11-10"></script>
-  <script src="/js/compras-del-estado.js?v=2026-11-10"></script>
+  <script src="/js/compras-del-estado.js?v=2026-11-11"></script>
 </body>
 </html>

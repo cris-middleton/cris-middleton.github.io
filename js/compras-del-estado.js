@@ -1,6 +1,6 @@
-// El tablero «Compras del Estado»: el selector de vistas y la vista de diciembre.
-// Los datos de diciembre salen de la descarga masiva de ChileCompra (datos/diciembre.json),
-// con la misma limpieza que usa Tordo. Cómo se calcularon: datos/bajar.py y datos/armar.py.
+// El tablero «Compras del Estado»: el selector de vistas, la vista de diciembre y la de lo comprado sin licitar.
+// Los datos salen de la descarga masiva de ChileCompra (datos/diciembre.json y datos/sin-licitar.json),
+// con la misma limpieza que usa Tordo. Cómo se calcularon: datos/bajar.py, datos/armar.py y datos/armar_sin_licitar.py.
 (function () {
   var reducido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var MESES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
@@ -10,6 +10,17 @@
   function pesos(v) {
     if (v >= 1e12) return '$' + fmt1(v / 1e12) + ' billones';
     return '$' + Math.round(v / 1e9).toLocaleString('es-CL') + ' mil millones';
+  }
+  var pct = function (v) { return fmt1(v * 100) + ' %'; };
+  var suma = function (xs) { return xs.reduce(function (s, v) { return s + v; }, 0); };
+
+  // La línea chica de un indicador: la serie entera, con el último punto marcado
+  function linea(id, xs) {
+    var mx = Math.max.apply(null, xs), mn = Math.min.apply(null, xs);
+    var pts = xs.map(function (v, k) { return [k / (xs.length - 1) * 240, 40 - (v - mn) / (mx - mn) * 34]; });
+    var d = pts.map(function (p, k) { return (k ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1); }).join(' ');
+    var u = pts[pts.length - 1];
+    document.getElementById(id).innerHTML = '<path d="' + d + ' L240 46 L0 46 Z" fill="rgba(227,174,122,.12)"/><path d="' + d + '" fill="none" stroke="#e3ae7a" stroke-width="2" vector-effect="non-scaling-stroke"/><circle cx="' + u[0] + '" cy="' + u[1] + '" r="3.5" fill="#e3ae7a"/>';
   }
 
   function diciembre(D) {
@@ -39,13 +50,7 @@
     document.getElementById('i-anios').textContent = aniosArriba + ' de ' + ANIOS.length;
     document.getElementById('i-tranquilo').textContent = MESES_LARGO[mMin].charAt(0).toUpperCase() + MESES_LARGO[mMin].slice(1);
     document.getElementById('i-tranquilo-nota').textContent = 'Compra ' + fmt1(promMes[mMin]) + ' veces un mes promedio.' + (mMin === 1 || mMin === 0 ? ' Vacaciones también para las compras.' : '');
-    (function () {
-      var mx = Math.max.apply(null, dic), mn = Math.min.apply(null, dic);
-      var pts = dic.map(function (v, k) { return [k / (dic.length - 1) * 240, 40 - (v - mn) / (mx - mn) * 34]; });
-      var d = pts.map(function (p, k) { return (k ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1); }).join(' ');
-      var u = pts[pts.length - 1];
-      document.getElementById('i-linea').innerHTML = '<path d="' + d + ' L240 46 L0 46 Z" fill="rgba(227,174,122,.12)"/><path d="' + d + '" fill="none" stroke="#e3ae7a" stroke-width="2" vector-effect="non-scaling-stroke"/><circle cx="' + u[0] + '" cy="' + u[1] + '" r="3.5" fill="#e3ae7a"/>';
-    })();
+    linea('i-linea', dic);
 
     // ---------- El mapa de calor ----------
     var IZQ = 46, ARR = 22, CW = 40, CH = 19, G = 3, PERFIL_H = 64;
@@ -111,19 +116,123 @@
     svg.addEventListener('pointerleave', limpiar);
   }
 
-  fetch('/tableros/compras-del-estado/datos/diciembre.json?v=2026-11-10')
-    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-    .then(diciembre)
-    .catch(function () { document.getElementById('respuesta').textContent = 'No se pudieron cargar los datos. Prueba recargando la página.'; });
+  function sinLicitar(D) {
+    var A = D.anios, M = D.monto, n = A.length, u = n - 1;
+    // Las tres capas de la barra, de abajo hacia arriba (colores validados contra el fondo, también para daltonismo)
+    var CAPAS = [
+      { k: ['emergencia'], nombre: 'Trato directo por emergencia', color: '#c0834c' },
+      { k: ['unico', 'directo'], nombre: 'Trato directo por otras causales', color: '#4a8fe0' },
+      { k: ['agil'], nombre: 'Compra ágil', color: '#1f9f74' }
+    ];
+    var EVENTOS = { 2010: 'Terremoto', 2020: 'Pandemia', 2025: 'Ley nueva' };
+    var total = A.map(function (_, i) { return suma(Object.keys(M).map(function (f) { return M[f][i]; })); });
+    var capa = CAPAS.map(function (c) { return A.map(function (_, i) { return suma(c.k.map(function (f) { return M[f][i]; })) / total[i]; }); });
+    var sin = A.map(function (_, i) { return suma(capa.map(function (c) { return c[i]; })); });
+    var iMax = sin.indexOf(Math.max.apply(null, sin)), iEm = capa[0].indexOf(Math.max.apply(null, capa[0]));
+    var i2010 = A.indexOf(2010);
+
+    // ---------- La respuesta y los indicadores, calculados de los mismos datos ----------
+    var uno = Math.round(1 / sin[u]);
+    document.getElementById('sl-respuesta').innerHTML = '<b>Uno de cada ' + ['', '', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve', 'diez'][uno] + ' pesos.</b> ' +
+      'En ' + A[u] + ', el ' + pct(sin[u]) + ' de lo que compró el Estado fue por trato directo o compra ágil. ' +
+      'El máximo fue ' + A[iMax] + ', con ' + pct(sin[iMax]) + (EVENTOS[A[iMax]] ? ': la ' + EVENTOS[A[iMax]].toLowerCase() : '') + '. ' +
+      'El otro salto, el terremoto de 2010. Los dos, por compras de emergencia.';
+    document.getElementById('sl-ultimo-etq').textContent = 'Sin licitar en ' + A[u];
+    document.getElementById('sl-ultimo').textContent = pct(sin[u]);
+    linea('sl-linea', sin);
+    document.getElementById('sl-ultimo-nota').textContent = 'De ' + pct(sin[0]) + ' en ' + A[0] + ' a ' + pct(sin[iMax]) + ' en ' + A[iMax] + '.' +
+      (sin[u] < sin[iMax] * 0.85 ? ' Desde ahí, bajando.' : '');
+    document.getElementById('sl-emergencia').textContent = pct(capa[0][iEm]);
+    document.getElementById('sl-emergencia-nota').textContent = A[iEm] + (EVENTOS[A[iEm]] ? ', la ' + EVENTOS[A[iEm]].toLowerCase() : '') + '. En 2010, el terremoto: ' + pct(capa[0][i2010]) + '.';
+    var sector = function (nombre) { return D.sectores.filter(function (x) { return x.sector === nombre; })[0]; };
+    var parte = function (x) { return Math.round(x.sin / x.total * 100) + ' %'; };
+    var tramo = D.recientes[0] + ' y ' + D.recientes[1];
+    document.getElementById('sl-salud').textContent = parte(sector('Salud'));
+    document.getElementById('sl-salud-nota').textContent = 'De lo que compró entre ' + tramo + '. Municipios, ' + parte(sector('Municipalidades')) + '; Obras Públicas, ' + parte(sector('Obras Públicas')) + '.';
+    document.getElementById('sl-mitad').textContent = D.mitad.organismos + ' de ' + D.mitad.de.toLocaleString('es-CL');
+    var primero = D.organismos[0];
+    document.getElementById('sl-mitad-nota').textContent = 'organismos suman la mitad de lo comprado sin licitar entre ' + tramo + '. ' + (primero.corto || primero.nombre) + ' sola, ' + pesos(primero.sin) + '.';
+
+    // ---------- Los que más compran sin licitar ----------
+    document.getElementById('sl-titulo-org').textContent = 'Los que más compraron sin licitar, ' + D.recientes[0] + '–' + D.recientes[1];
+    var top = D.organismos.slice(0, 8);
+    document.getElementById('sl-ranking').innerHTML = top.map(function (o) {
+      return '<li><span class="r-nombre">' + (o.corto || o.nombre) + '</span><span class="r-barra" aria-hidden="true"><i style="width:' + (o.sin / top[0].sin * 100).toFixed(1) + '%"></i></span>' +
+        '<span class="r-valor"><b>' + pesos(o.sin) + '</b>' + Math.round(o.sin / o.total * 100) + ' % de lo que compra</span></li>';
+    }).join('');
+
+    // ---------- Las barras: se dibujan al ancho real, para que el texto no se achique en el teléfono ----------
+    var lienzo = document.getElementById('sl-barras');
+    var globo = document.createElement('div'); globo.className = 'globo'; globo.hidden = true;
+    var tope = Math.ceil(Math.max.apply(null, sin) * 10) / 10;
+    var W0 = function () { return lienzo.clientWidth; };
+    function dibujar() {
+      var angosto = W0() < 520;
+      var W = Math.max(lienzo.clientWidth, 300), H = angosto ? 306 : 290, IZQ = 42, ARR = 28, ABA = angosto ? 58 : 42;
+      var paso = (W - IZQ) / n, ancho = Math.min(26, paso * 0.66), y = function (v) { return ARR + (1 - v / tope) * (H - ARR - ABA); };
+      var bx = function (j) { return IZQ + j * paso + (paso - ancho) / 2; }, kEvento = 0;
+      var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '" role="img" aria-label="Barras: parte del gasto de cada año comprada sin licitar, de ' + A[0] + ' a ' + A[u] + '">';
+      for (var g = 0; g <= tope + 1e-9; g += 0.1) s += '<line class="rejilla" x1="' + IZQ + '" x2="' + W + '" y1="' + y(g) + '" y2="' + y(g) + '"/><text x="' + (IZQ - 6) + '" y="' + (y(g) + 4) + '" text-anchor="end">' + Math.round(g * 100) + ' %</text>';
+      A.forEach(function (anio, i) {
+        var x = IZQ + i * paso + (paso - ancho) / 2, base = 0;
+        s += '<g class="col" data-i="' + i + '">';
+        capa.forEach(function (c, k) {
+          var y1 = y(base + c[i]), y0 = y(base), h = y0 - y1 - (k ? 2 : 0);   // 2 px de fondo entre capas
+          if (h > 0.5) s += '<rect class="aparece" x="' + x.toFixed(1) + '" y="' + y1.toFixed(1) + '" width="' + ancho.toFixed(1) + '" height="' + h.toFixed(1) + '" rx="2" fill="' + CAPAS[k].color + '" style="--d:' + (i * 35) + 'ms"/>';
+          base += c[i];
+        });
+        if (EVENTOS[anio] || (i === 0 && !angosto)) {   // en el teléfono el primer año choca con el eje; está en el indicador
+          // El valor, por encima de las barras que tapa a lo ancho (en el teléfono, las vecinas); el nombre del evento, bajo el año
+          var fin = i === u, tx = fin ? x + ancho : x + ancho / 2, ancla = fin ? 'end' : 'middle';
+          var t0 = tx - (fin ? 28 : 14) + 3, t1 = tx + (fin ? 0 : 14) - 3;   // el texto «29 %» mide ~28 px; 3 px de holgura
+          var tapa = sin.filter(function (_, j) { return bx(j) < t1 && bx(j) + ancho > t0; });
+          s += '<text class="t-valor" x="' + tx + '" y="' + (y(Math.max.apply(null, tapa)) - 8) + '" text-anchor="' + ancla + '">' + Math.round(sin[i] * 100) + ' %</text>';
+          // En el teléfono los eventos van en dos filas alternadas: «Pandemia» y «Ley nueva» no caben lado a lado
+          if (EVENTOS[anio]) s += '<text class="t-evento" x="' + tx + '" y="' + (H - 4 - (angosto && kEvento++ % 2 === 1 ? 0 : angosto ? 16 : 0)) + '" text-anchor="' + ancla + '">' + EVENTOS[anio] + '</text>';
+        }
+        if (!angosto || i % 3 === 0) s += '<text x="' + (i === u ? x + ancho : x + ancho / 2) + '" y="' + (H - ABA + 18) + '" text-anchor="' + (i === u ? 'end' : 'middle') + '">' + (angosto || i === 0 || i === u ? anio : '’' + String(anio).slice(2)) + '</text>';
+        s += '<rect class="blanco" x="' + (IZQ + i * paso) + '" y="' + ARR + '" width="' + paso + '" height="' + (H - ARR - ABA) + '"/></g>';
+      });
+      lienzo.innerHTML = s + '</svg>';
+      lienzo.appendChild(globo);
+      if (reducido) lienzo.querySelectorAll('.aparece').forEach(function (r) { r.classList.remove('aparece'); });
+      var svg = lienzo.querySelector('svg');
+      svg.addEventListener('pointerover', function (e) {
+        var col = e.target.closest('.col'); if (!col) return;
+        var i = +col.dataset.i;
+        svg.classList.add('enfocando');
+        svg.querySelectorAll('.col').forEach(function (c) { c.classList.toggle('activa', c === col); });
+        globo.innerHTML = '<b>' + A[i] + '</b> · <span class="v">' + pct(sin[i]) + '</span> sin licitar<br>' +
+          CAPAS.map(function (c, k) { return '<i class="punto" style="--c:' + c.color + '"></i>' + c.nombre + ': ' + pct(capa[k][i]); }).join('<br>') +
+          '<br>' + pesos(sin[i] * total[i]) + ' de ' + pesos(total[i]);
+        var x = IZQ + i * paso + paso / 2;
+        globo.style.left = Math.min(Math.max(x, 130), W - 130) + 'px';
+        globo.style.top = y(sin[i]) + 'px';
+        globo.hidden = false;
+      });
+      svg.addEventListener('pointerleave', function () { svg.classList.remove('enfocando'); globo.hidden = true; });
+    }
+    var ultimoAncho = 0;
+    new ResizeObserver(function () { if (lienzo.clientWidth && lienzo.clientWidth !== ultimoAncho) { ultimoAncho = lienzo.clientWidth; dibujar(); } }).observe(lienzo);
+  }
+
+  function cargar(archivo, dibujo, avisarEn) {
+    fetch('/tableros/compras-del-estado/datos/' + archivo + '?v=2026-11-11')
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(dibujo)
+      .catch(function () { document.getElementById(avisarEn).textContent = 'No se pudieron cargar los datos. Prueba recargando la página.'; });
+  }
+  cargar('diciembre.json', diciembre, 'respuesta');
+  cargar('sin-licitar.json', sinLicitar, 'sl-respuesta');
 
   // ---------- El selector: cada vista con su propia dirección (#nombre) ----------
   var VISTAS = [
     { id: 'diciembre', titulo: '¿El Estado se gasta todo en diciembre?', bajada: 'El gasto de cada mes, de 2007 a 2025.', estado: 'real',
       mini: '<svg viewBox="0 0 30 30">' + [0, 1, 2, 3].map(function (f) { return [0, 1, 2, 3].map(function (c) { return '<rect x="' + (c * 7.5 + 0.5) + '" y="' + (f * 7.5 + 0.5) + '" width="6.5" height="6.5" rx="1.5" fill="' + (c === 3 ? '#e3ae7a' : ['#2a3750', '#3d4f6b', '#55698a'][(f + c) % 3]) + '"/>'; }).join(''); }).join('') + '</svg>' },
+    { id: 'trato-directo', titulo: '¿Cuánto se compra sin licitar?', bajada: 'Trato directo y compra ágil, de 2007 a 2025.', estado: 'real',
+      mini: '<svg viewBox="0 0 30 30">' + [[9, 5, 2], [8, 6, 3], [15, 7, 2], [10, 9, 6]].map(function (b, c) { var y = 27, r = ''; b.forEach(function (h, k) { y -= h; r += '<rect x="' + (c * 7 + 2) + '" y="' + y + '" width="5" height="' + (h - 1) + '" rx="1" fill="' + ['#c0834c', '#4a8fe0', '#1f9f74'][k] + '"/>'; }); return r; }).join('') + '</svg>' },
     { id: 'quien-le-vende', titulo: '¿Quién le vende al Estado?', bajada: 'Organismo, rubro y proveedor, con el grosor en pesos.', estado: 'prep',
-      mini: '<svg viewBox="0 0 30 30" fill="none"><path d="M3 8 C14 8 16 12 27 12" stroke="#e3ae7a" stroke-width="4" stroke-opacity=".8"/><path d="M3 17 C14 17 16 21 27 21" stroke="#55698a" stroke-width="3"/><path d="M3 24 C14 24 16 15 27 15" stroke="#3d4f6b" stroke-width="2.5"/></svg>' },
-    { id: 'trato-directo', titulo: '¿Cuánto se compra sin licitar?', bajada: 'El trato directo de cada organismo en el tiempo.', estado: 'prep',
-      mini: '<svg viewBox="0 0 30 30" fill="none"><path d="M3 24 L9 22 L15 23 L21 20 L27 19" stroke="#55698a" stroke-width="2"/><path d="M3 22 L9 21 L15 16 L21 11 L27 5" stroke="#e3ae7a" stroke-width="2.5"/><circle cx="27" cy="5" r="2.5" fill="#e3ae7a"/></svg>' }
+      mini: '<svg viewBox="0 0 30 30" fill="none"><path d="M3 8 C14 8 16 12 27 12" stroke="#e3ae7a" stroke-width="4" stroke-opacity=".8"/><path d="M3 17 C14 17 16 21 27 21" stroke="#55698a" stroke-width="3"/><path d="M3 24 C14 24 16 15 27 15" stroke="#3d4f6b" stroke-width="2.5"/></svg>' }
   ];
   var ESTADOS = { real: ['Datos reales', 'chip--real'], prep: ['En preparación', 'chip--prep'] };
   var boton = document.getElementById('desp-boton'), lista = document.getElementById('desp-lista'), activa = 0;
