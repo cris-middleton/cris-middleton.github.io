@@ -11,7 +11,7 @@
     if (v >= 1e12) return '$' + fmt1(v / 1e12) + ' billones';
     return '$' + Math.round(v / 1e9).toLocaleString('es-CL') + ' mil millones';
   }
-  var pct = function (v) { return fmt1(v * 100) + ' %'; };
+  var pct = function (v) { return fmt1(v * 100) + '\u00a0%'; };
   var pesosChico = function (v) { return v >= 1e9 ? pesos(v) : '$' + fmt1(v / 1e6) + ' millones'; };
   var suma = function (xs) { return xs.reduce(function (s, v) { return s + v; }, 0); };
 
@@ -123,7 +123,7 @@
     var ultima = X.filter(function (x) { return x.dia >= 26 && x.dia <= 30; });
     var mMonto = prom(ultima.map(function (x) { return x.monto; })), mOrd = prom(ultima.map(function (x) { return x.ordenes; }));
     document.getElementById('dic-dias-nota').textContent = 'Del 26 al 30 de diciembre, un día hábil compra ' + fmt1(mMonto) + ' veces lo de un día normal, con ' + fmt1(mOrd) +
-      ' veces las órdenes. Mediana de ' + D.desde + ' a ' + D.hasta + '; el 8 y el 25 son feriados. El fin de semana se compra el ' + fmt1(D.fin_de_semana * 100) + ' % del año.';
+      ' veces las órdenes. Mediana de ' + D.desde + ' a ' + D.hasta + '; el 8 y el 25 son feriados. El fin de semana se compra el ' + fmt1(D.fin_de_semana * 100) + '\u00a0% del año.';
     var globo = document.createElement('div'); globo.className = 'globo'; globo.hidden = true;
     var tope = Math.ceil(Math.max.apply(null, X.map(function (x) { return Math.max(x.monto, x.ordenes); })) * 2) / 2;
     function dibujar() {
@@ -209,7 +209,7 @@
     document.getElementById('sl-emergencia').textContent = pct(capa[0][iEm]);
     document.getElementById('sl-emergencia-nota').textContent = A[iEm] + (EVENTOS[A[iEm]] ? ', la ' + EVENTOS[A[iEm]].toLowerCase() : '') + '. En 2010, el terremoto: ' + pct(capa[0][i2010]) + '.';
     var sector = function (nombre) { return D.sectores.filter(function (x) { return x.sector === nombre; })[0]; };
-    var parte = function (x) { return Math.round(x.sin / x.total * 100) + ' %'; };
+    var parte = function (x) { return Math.round(x.sin / x.total * 100) + '\u00a0%'; };
     var tramo = D.recientes[0] + ' y ' + D.recientes[1];
     document.getElementById('sl-salud').textContent = parte(sector('Salud'));
     document.getElementById('sl-salud-nota').textContent = 'De lo que compró entre ' + tramo + '. Municipios, ' + parte(sector('Municipalidades')) + '; Obras Públicas, ' + parte(sector('Obras Públicas')) + '.';
@@ -222,7 +222,7 @@
     var top = D.organismos.slice(0, 8);
     document.getElementById('sl-ranking').innerHTML = top.map(function (o) {
       return '<li><span class="r-nombre">' + (o.corto || o.nombre) + '</span><span class="r-barra" aria-hidden="true"><i style="width:' + (o.sin / top[0].sin * 100).toFixed(1) + '%"></i></span>' +
-        '<span class="r-valor"><b>' + pesos(o.sin) + '</b>' + Math.round(o.sin / o.total * 100) + ' % de lo que compra</span></li>';
+        '<span class="r-valor"><b>' + pesos(o.sin) + '</b>' + Math.round(o.sin / o.total * 100) + '\u00a0% de lo que compra</span></li>';
     }).join('');
 
     // ---------- Las barras: se dibujan al ancho real, para que el texto no se achique en el teléfono ----------
@@ -236,7 +236,7 @@
       var paso = (W - IZQ) / n, ancho = Math.min(26, paso * 0.66), y = function (v) { return ARR + (1 - v / tope) * (H - ARR - ABA); };
       var bx = function (j) { return IZQ + j * paso + (paso - ancho) / 2; }, kEvento = 0;
       var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '" role="img" aria-label="Barras: parte del gasto de cada año comprada sin licitar, de ' + A[0] + ' a ' + A[u] + '">';
-      for (var g = 0; g <= tope + 1e-9; g += 0.1) s += '<line class="rejilla" x1="' + IZQ + '" x2="' + W + '" y1="' + y(g) + '" y2="' + y(g) + '"/><text x="' + (IZQ - 6) + '" y="' + (y(g) + 4) + '" text-anchor="end">' + Math.round(g * 100) + ' %</text>';
+      for (var g = 0; g <= tope + 1e-9; g += 0.1) s += '<line class="rejilla" x1="' + IZQ + '" x2="' + W + '" y1="' + y(g) + '" y2="' + y(g) + '"/><text x="' + (IZQ - 6) + '" y="' + (y(g) + 4) + '" text-anchor="end">' + Math.round(g * 100) + '\u00a0%</text>';
       A.forEach(function (anio, i) {
         var x = IZQ + i * paso + (paso - ancho) / 2, base = 0;
         s += '<g class="col" data-i="' + i + '">';
@@ -250,7 +250,7 @@
           var fin = i === u, tx = fin ? x + ancho : x + ancho / 2, ancla = fin ? 'end' : 'middle';
           var t0 = tx - (fin ? 28 : 14) + 3, t1 = tx + (fin ? 0 : 14) - 3;   // el texto «29 %» mide ~28 px; 3 px de holgura
           var tapa = sin.filter(function (_, j) { return bx(j) < t1 && bx(j) + ancho > t0; });
-          s += '<text class="t-valor" x="' + tx + '" y="' + (y(Math.max.apply(null, tapa)) - 8) + '" text-anchor="' + ancla + '">' + Math.round(sin[i] * 100) + ' %</text>';
+          s += '<text class="t-valor" x="' + tx + '" y="' + (y(Math.max.apply(null, tapa)) - 8) + '" text-anchor="' + ancla + '">' + Math.round(sin[i] * 100) + '\u00a0%</text>';
           // En el teléfono los eventos van en dos filas alternadas: «Pandemia» y «Ley nueva» no caben lado a lado
           if (EVENTOS[anio]) s += '<text class="t-evento" x="' + tx + '" y="' + (H - 4 - (angosto && kEvento++ % 2 === 1 ? 0 : angosto ? 16 : 0)) + '" text-anchor="' + ancla + '">' + EVENTOS[anio] + '</text>';
         }
@@ -288,8 +288,8 @@
       var e = D.emergencias[a], s0 = e.sectores[0], s1 = e.sectores[1];
       return '<div class="em-col"><p class="em-cabeza"><b>' + e.evento + ', ' + a + '</b>' + pesos(e.total) + ' por emergencia, en ' + e.organismos.toLocaleString('es-CL') + ' organismos</p><ol>' +
         e.top.map(function (t) {
-          return '<li><span class="em-nombre">' + (t.corto || t.nombre) + '</span><span class="em-barra"><i style="width:' + (t.monto / e.total / parteMax * 100).toFixed(1) + '%"></i></span><span class="em-valor">' + Math.round(t.monto / e.total * 100) + ' %</span></li>';
-        }).join('') + '</ol><p class="em-pie">Por sector: ' + nombreSector(s0) + ', ' + Math.round(s0.monto / e.total * 100) + ' %; ' + nombreSector(s1) + ', ' + Math.round(s1.monto / e.total * 100) + ' %.</p></div>';
+          return '<li><span class="em-nombre">' + (t.corto || t.nombre) + '</span><span class="em-barra"><i style="width:' + (t.monto / e.total / parteMax * 100).toFixed(1) + '%"></i></span><span class="em-valor">' + Math.round(t.monto / e.total * 100) + '\u00a0%</span></li>';
+        }).join('') + '</ol><p class="em-pie">Por sector: ' + nombreSector(s0) + ', ' + Math.round(s0.monto / e.total * 100) + '\u00a0%; ' + nombreSector(s1) + ', ' + Math.round(s1.monto / e.total * 100) + '\u00a0%.</p></div>';
     }).join('');
 
     // ---------- Contando órdenes: la parte de cada forma de compra en el número de órdenes ----------
@@ -301,14 +301,14 @@
     ].map(function (l) { l.v = AO.map(function (_, k) { return suma(l.k.map(function (f) { return O[f][k + desde]; })) / totO[k]; }); return l; });
     var ag = LINEAS[1], cm = LINEAS[0], iCM = cm.v.indexOf(Math.max.apply(null, cm.v)), uo = AO.length - 1;
     var promAg = M.agil[u] / O.agil[u], promLic = M.licitacion[u] / O.licitacion[u];
-    document.getElementById('sl-lineas-nota').textContent = 'Parte de las órdenes de cada año. El convenio marco llegó al ' + Math.round(cm.v[iCM] * 100) + ' % en ' + AO[iCM] + ' y hoy es el ' + Math.round(cm.v[uo] * 100) +
-      ' %. La compra ágil se lleva el ' + Math.round(ag.v[uo] * 100) + ' % de las órdenes de ' + A[u] + ', pero el ' + pct(capa[2][u]) + ' de la plata: una orden promedio de ' + pesosChico(promAg) + ', contra ' + pesosChico(promLic) + ' en una licitación.';
+    document.getElementById('sl-lineas-nota').textContent = 'Parte de las órdenes de cada año. El convenio marco llegó al ' + Math.round(cm.v[iCM] * 100) + '\u00a0% en ' + AO[iCM] + ' y hoy es el ' + Math.round(cm.v[uo] * 100) +
+      '\u00a0%. La compra ágil se lleva el ' + Math.round(ag.v[uo] * 100) + '\u00a0% de las órdenes de ' + A[u] + ', pero el ' + pct(capa[2][u]) + ' de la plata: una orden promedio de ' + pesosChico(promAg) + ', contra ' + pesosChico(promLic) + ' en una licitación.';
     var lienzoL = document.getElementById('sl-lineas'), globoL = document.createElement('div'); globoL.className = 'globo'; globoL.hidden = true;
     function dibujarLineas() {
       var W = Math.max(lienzoL.clientWidth, 300), H = 240, IZQ = 42, DER = W < 520 ? 12 : 146, ARR = 12, ABA = 24, angosto = W < 520;
       var X = function (k) { return IZQ + k / uo * (W - IZQ - DER); }, Y = function (v) { return ARR + (1 - v / 0.6) * (H - ARR - ABA); };
       var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '" role="img" aria-label="Líneas: parte de las órdenes de cada año por forma de compra, ' + AO[0] + ' a ' + AO[uo] + '">';
-      [0, .2, .4, .6].forEach(function (g) { s += '<line class="rejilla" x1="' + IZQ + '" x2="' + (W - DER) + '" y1="' + Y(g) + '" y2="' + Y(g) + '"/><text x="' + (IZQ - 6) + '" y="' + (Y(g) + 4) + '" text-anchor="end">' + g * 100 + ' %</text>'; });
+      [0, .2, .4, .6].forEach(function (g) { s += '<line class="rejilla" x1="' + IZQ + '" x2="' + (W - DER) + '" y1="' + Y(g) + '" y2="' + Y(g) + '"/><text x="' + (IZQ - 6) + '" y="' + (Y(g) + 4) + '" text-anchor="end">' + g * 100 + '\u00a0%</text>'; });
       AO.forEach(function (a, k) { if (k % (angosto ? 4 : 2) === 0 || k === uo) s += '<text x="' + X(k) + '" y="' + (H - 6) + '" text-anchor="' + (k === uo ? 'end' : 'middle') + '">' + a + '</text>'; });
       LINEAS.slice().reverse().forEach(function (l) {
         s += '<path class="serie' + (l.gris ? ' serie--gris' : '') + '" d="' + l.v.map(function (v, k) { return (k ? 'L' : 'M') + X(k).toFixed(1) + ' ' + Y(v).toFixed(1); }).join(' ') + '" stroke="' + l.color + '"/>';
@@ -318,7 +318,7 @@
       if (!angosto) {
         var ys = LINEAS.map(function (l) { return { l: l, y: Y(l.v[uo]) }; }).sort(function (a, b) { return a.y - b.y; });
         for (var j = 1; j < ys.length; j++) if (ys[j].y - ys[j - 1].y < 15) ys[j].y = ys[j - 1].y + 15;
-        ys.forEach(function (o) { s += '<text class="t-serie" x="' + (X(uo) + 10) + '" y="' + (o.y + 4) + '">' + o.l.nombre + ' ' + Math.round(o.l.v[uo] * 100) + ' %</text>'; });
+        ys.forEach(function (o) { s += '<text class="t-serie" x="' + (X(uo) + 10) + '" y="' + (o.y + 4) + '">' + o.l.nombre + ' ' + Math.round(o.l.v[uo] * 100) + '\u00a0%</text>'; });
       }
       s += '<line class="cruz" y1="' + ARR + '" y2="' + (H - ABA) + '" hidden/><rect class="blanco" x="' + IZQ + '" y="' + ARR + '" width="' + (W - IZQ - DER) + '" height="' + (H - ARR - ABA) + '"/>';
       lienzoL.innerHTML = s + '</svg>'; lienzoL.appendChild(globoL);
@@ -349,19 +349,19 @@
 
     // ---------- La respuesta y los indicadores ----------
     document.getElementById('qv-respuesta').innerHTML = '<b>Miles de proveedores, y cada vez menos personas.</b> En ' + ult.anio + ' le vendieron ' + fmt0(ult.proveedores) +
-      ' proveedores, y los diez más grandes se llevaron apenas el ' + pct(ult.monto_top10 / ult.monto) + '. La concentración está dentro de cada organismo: en uno típico, cinco proveedores se llevan el ' + Math.round(med5 * 100) + ' % de lo que compra.';
+      ' proveedores, y los diez más grandes se llevaron apenas el ' + pct(ult.monto_top10 / ult.monto) + '. La concentración está dentro de cada organismo: en uno típico, cinco proveedores se llevan el ' + Math.round(med5 * 100) + '\u00a0% de lo que compra.';
     document.getElementById('qv-prov-etq').textContent = 'Proveedores en ' + ult.anio;
     document.getElementById('qv-prov').textContent = fmt0(ult.proveedores);
     document.getElementById('qv-prov-nota').textContent = 'Le vendieron al menos una vez. Los diez más grandes se llevaron el ' + pct(ult.monto_top10 / ult.monto) + ' de la plata.';
-    document.getElementById('qv-personas').textContent = Math.round(personas[u] * 100) + ' %';
+    document.getElementById('qv-personas').textContent = Math.round(personas[u] * 100) + '\u00a0%';
     linea('qv-linea', personas);
-    document.getElementById('qv-personas-nota').textContent = 'de los proveedores de ' + ult.anio + '. En ' + pri.anio + ' eran el ' + Math.round(personas[0] * 100) + ' % y se llevaban el ' +
-      Math.round(pri.monto_personas / pri.monto * 100) + ' % de la plata; ahora, el ' + Math.round(ult.monto_personas / ult.monto * 100) + ' %.';
+    document.getElementById('qv-personas-nota').textContent = 'de los proveedores de ' + ult.anio + '. En ' + pri.anio + ' eran el ' + Math.round(personas[0] * 100) + '\u00a0% y se llevaban el ' +
+      Math.round(pri.monto_personas / pri.monto * 100) + '\u00a0% de la plata; ahora, el ' + Math.round(ult.monto_personas / ult.monto * 100) + '\u00a0%.';
     document.getElementById('qv-tipico').textContent = fmt0(medProv);
-    document.getElementById('qv-tipico-nota').textContent = 'proveedores le venden a un organismo típico entre ' + tramo + ', pero cinco de ellos se llevan el ' + Math.round(med5 * 100) + ' % de lo que compra.';
+    document.getElementById('qv-tipico-nota').textContent = 'proveedores le venden a un organismo típico entre ' + tramo + ', pero cinco de ellos se llevan el ' + Math.round(med5 * 100) + '\u00a0% de lo que compra.';
     var g0 = grandes[0];
-    document.getElementById('qv-duenio').textContent = Math.round(g0.parte * 100) + ' %';
-    document.getElementById('qv-duenio-nota').textContent = 'de los ' + g0.rubro.toLowerCase() + ' que compra el Estado se los vende ' + (g0.lider || 'un solo proveedor') + '. En ningún otro mercado de más de $50.000 millones el más grande pasa del ' + Math.round(grandes[1].parte * 100) + ' %.';
+    document.getElementById('qv-duenio').textContent = Math.round(g0.parte * 100) + '\u00a0%';
+    document.getElementById('qv-duenio-nota').textContent = 'de los ' + g0.rubro.toLowerCase() + ' que compra el Estado se los vende ' + (g0.lider || 'un solo proveedor') + '. En ningún otro mercado de más de $50.000 millones el más grande pasa del ' + Math.round(grandes[1].parte * 100) + '\u00a0%.';
 
     // ---------- Los que más le han vendido: una fila con su línea por año ----------
     document.getElementById('qv-titulo-top').textContent = 'Los que más le han vendido, ' + D.anios[0] + '–' + D.anios[D.anios.length - 1];
@@ -397,12 +397,12 @@
       var W = Math.max(lienzo.clientWidth, 300), H = W < 520 ? 300 : 340, IZQ = 42, DER = 12, ARR = 14, ABA = 30;
       var X = function (v) { return IZQ + (Math.log10(v) - xMin) / (xMax - xMin) * (W - IZQ - DER); }, Y = function (p) { return ARR + (1 - p) * (H - ARR - ABA); };
       var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '" role="img" aria-label="Puntos: ' + O.length + ' organismos según cuánto compran y qué parte se llevan sus cinco proveedores más grandes">';
-      [0, .25, .5, .75, 1].forEach(function (p) { s += '<line class="rejilla" x1="' + IZQ + '" x2="' + W + '" y1="' + Y(p) + '" y2="' + Y(p) + '"/><text x="' + (IZQ - 6) + '" y="' + (Y(p) + 4) + '" text-anchor="end">' + p * 100 + ' %</text>'; });
+      [0, .25, .5, .75, 1].forEach(function (p) { s += '<line class="rejilla" x1="' + IZQ + '" x2="' + W + '" y1="' + Y(p) + '" y2="' + Y(p) + '"/><text x="' + (IZQ - 6) + '" y="' + (Y(p) + 4) + '" text-anchor="end">' + p * 100 + '\u00a0%</text>'; });
       [[1e9, '$1.000 M'], [1e10, '$10.000 M'], [1e11, '$100.000 M'], [1e12, '$1 billón']].forEach(function (t, k) {
         if (W < 520 && k % 2) return;
         s += '<text x="' + X(t[0]) + '" y="' + (H - 8) + '" text-anchor="' + (k ? 'middle' : 'start') + '">' + t[1] + '</text>';
       });
-      s += '<line class="mediana" x1="' + IZQ + '" x2="' + W + '" y1="' + Y(med5) + '" y2="' + Y(med5) + '"/><text class="t-mediana" x="' + (W - DER) + '" y="' + (Y(med5) - 6) + '" text-anchor="end">Mediana: ' + Math.round(med5 * 100) + ' %</text>';
+      s += '<line class="mediana" x1="' + IZQ + '" x2="' + W + '" y1="' + Y(med5) + '" y2="' + Y(med5) + '"/><text class="t-mediana" x="' + (W - DER) + '" y="' + (Y(med5) - 6) + '" text-anchor="end">Mediana: ' + Math.round(med5 * 100) + '\u00a0%</text>';
       var pos = O.map(function (o, k) { return [X(o.total), Y(parte5[k])]; });
       // Los chicos primero, para que los grandes queden encima
       for (var k = O.length - 1; k >= 0; k--) s += '<circle class="punto' + (corto(O[k]) ? ' punto--nombrado' : '') + '" cx="' + pos[k][0].toFixed(1) + '" cy="' + pos[k][1].toFixed(1) + '" r="3.5"/>';
@@ -420,7 +420,7 @@
         if (mejor < 0) { globo.hidden = true; activo.setAttribute('hidden', ''); return; }
         var o = O[mejor];
         activo.setAttribute('cx', pos[mejor][0]); activo.setAttribute('cy', pos[mejor][1]); activo.removeAttribute('hidden');
-        globo.innerHTML = '<b>' + (corto(o) || o.nombre) + '</b><br>Compró ' + pesos(o.total) + ' a ' + fmt0(o.proveedores) + ' proveedores<br><span class="v">' + Math.round(parte5[mejor] * 100) + ' %</span> para los cinco más grandes';
+        globo.innerHTML = '<b>' + (corto(o) || o.nombre) + '</b><br>Compró ' + pesos(o.total) + ' a ' + fmt0(o.proveedores) + ' proveedores<br><span class="v">' + Math.round(parte5[mejor] * 100) + '\u00a0%</span> para los cinco más grandes';
         globo.style.left = Math.min(Math.max(pos[mejor][0] * r.width / W, 140), r.width - 140) + 'px';
         globo.style.top = (pos[mejor][1] * r.height / H) + 'px';
         globo.hidden = false;
@@ -461,17 +461,17 @@
     var tramo = D.recientes[0] + ' y ' + D.recientes[1];
 
     document.getElementById('rg-respuesta').innerHTML = '<b>Casi tanto a Santiago como a sí mismas.</b> Entre ' + tramo + ', los organismos de regiones le compraron el ' + Math.round(localReg * 100) +
-      ' % a empresas de su región y el ' + Math.round(rmReg * 100) + ' % a empresas con dirección en Santiago. En ' + mayorRM.length + ' de las ' + reg.length +
-      ' regiones, Santiago gana. ' + masRM.r + ' le compra más a Santiago (' + Math.round(masRM.rm * 100) + ' %) que a sí misma (' + Math.round(masRM.local * 100) + ' %).';
-    document.getElementById('rg-local').textContent = Math.round(localReg * 100) + ' %';
+      '\u00a0% a empresas de su región y el ' + Math.round(rmReg * 100) + '\u00a0% a empresas con dirección en Santiago. En ' + mayorRM.length + ' de las ' + reg.length +
+      ' regiones, Santiago gana. ' + masRM.r + ' le compra más a Santiago (' + Math.round(masRM.rm * 100) + '\u00a0%) que a sí misma (' + Math.round(masRM.local * 100) + '\u00a0%).';
+    document.getElementById('rg-local').textContent = Math.round(localReg * 100) + '\u00a0%';
     linea('rg-linea', serie);
-    document.getElementById('rg-local-nota').textContent = 'de lo que compran las regiones (sin Santiago) entre ' + tramo + '. En ' + anios[0] + ' era el ' + Math.round(serie[0] * 100) + ' %.';
+    document.getElementById('rg-local-nota').textContent = 'de lo que compran las regiones (sin Santiago) entre ' + tramo + '. En ' + anios[0] + ' era el ' + Math.round(serie[0] * 100) + '\u00a0%.';
     document.getElementById('rg-mas').textContent = masLocal.r;
-    document.getElementById('rg-mas-nota').textContent = 'Le compra el ' + Math.round(masLocal.local * 100) + ' % a empresas de la región. La distancia también compra.';
+    document.getElementById('rg-mas-nota').textContent = 'Le compra el ' + Math.round(masLocal.local * 100) + '\u00a0% a empresas de la región. La distancia también compra.';
     document.getElementById('rg-rm').textContent = masRM.r;
-    document.getElementById('rg-rm-nota').textContent = 'El ' + Math.round(masRM.rm * 100) + ' % de lo que compra lo venden empresas con dirección en Santiago.';
-    document.getElementById('rg-stgo').textContent = Math.round(stgo.local * 100) + ' %';
-    document.getElementById('rg-stgo-nota').textContent = 'de lo que compran los organismos de Santiago se queda en Santiago. Compra el ' + Math.round(stgo.t / suma(filas.map(function (f) { return f.t; })) * 100) + ' % de todo.';
+    document.getElementById('rg-rm-nota').textContent = 'El ' + Math.round(masRM.rm * 100) + '\u00a0% de lo que compra lo venden empresas con dirección en Santiago.';
+    document.getElementById('rg-stgo').textContent = Math.round(stgo.local * 100) + '\u00a0%';
+    document.getElementById('rg-stgo-nota').textContent = 'de lo que compran los organismos de Santiago se queda en Santiago. Compra el ' + Math.round(stgo.t / suma(filas.map(function (f) { return f.t; })) * 100) + '\u00a0% de todo.';
 
     // ---------- Las barras: una región por fila, de norte a sur ----------
     document.getElementById('rg-titulo-barras').textContent = 'De dónde son los proveedores de cada región, ' + D.recientes[0] + '–' + D.recientes[1];
@@ -480,7 +480,7 @@
     cont.innerHTML = filas.map(function (f, i) {
       return '<div class="rg-fila' + (f.r === 'Metropolitana' ? ' rg-fila--rm' : '') + '" data-i="' + i + '"><span class="rg-nombre">' + NOMBRE(f.r) + '</span><span class="rg-barra">' +
         f.partes.map(function (v, k) { return v > 0 ? '<i style="width:' + (v * 100).toFixed(2) + '%;background:' + COLORES[k] + '"></i>' : ''; }).join('') +
-        '</span><span class="rg-valor">' + Math.round(f.partes[0] * 100) + ' %</span></div>';
+        '</span><span class="rg-valor">' + Math.round(f.partes[0] * 100) + '\u00a0%</span></div>';
     }).join('');
     var globoB = document.createElement('div'); globoB.className = 'globo'; globoB.hidden = true; cont.appendChild(globoB);
     cont.addEventListener('pointermove', function (e) {
@@ -548,18 +548,18 @@
     var i2010 = A.indexOf(2010), pts = function (v) { return fmt1(v * 100).replace(',0', ''); };
 
     document.getElementById('ru-respuesta').innerHTML = '<b>Cada vez más en salud.</b> Medicamentos, equipos médicos y servicios de salud se llevan el ' + Math.round(pSalud * 100) +
-      ' % de lo que compra el Estado (' + tramo(D.ahora) + '); en ' + tramo(D.antes) + ' era el ' + Math.round(pSaludAntes * 100) + ' %. Construcción sigue primera, pero pierde peso, y el retiro de basura ya pesa más que los vehículos.';
+      '\u00a0% de lo que compra el Estado (' + tramo(D.ahora) + '); en ' + tramo(D.antes) + ' era el ' + Math.round(pSaludAntes * 100) + '\u00a0%. Construcción sigue primera, pero pierde peso, y el retiro de basura ya pesa más que los vehículos.';
     document.getElementById('ru-salud-etq').textContent = 'Salud en ' + A[u];
-    document.getElementById('ru-salud').textContent = Math.round(S.salud[u] * 100) + ' %';
+    document.getElementById('ru-salud').textContent = Math.round(S.salud[u] * 100) + '\u00a0%';
     linea('ru-linea', S.salud.slice(i2010));
-    document.getElementById('ru-salud-nota').textContent = 'del gasto, contando medicamentos, equipos e insumos médicos y servicios de salud. En 2010 era el ' + Math.round(S.salud[i2010] * 100) + ' %.';
-    document.getElementById('ru-basura').textContent = fmt1(S.basura[u] * 100) + ' %';
-    document.getElementById('ru-basura-nota').textContent = 'se va en retirar y tratar desechos. En 2010 era el ' + fmt1(S.basura[i2010] * 100) + ' %: ' + Math.round(S.basura[u] / S.basura[i2010]) + ' veces más.';
+    document.getElementById('ru-salud-nota').textContent = 'del gasto, contando medicamentos, equipos e insumos médicos y servicios de salud. En 2010 era el ' + Math.round(S.salud[i2010] * 100) + '\u00a0%.';
+    document.getElementById('ru-basura').textContent = fmt1(S.basura[u] * 100) + '\u00a0%';
+    document.getElementById('ru-basura-nota').textContent = 'se va en retirar y tratar desechos. En 2010 era el ' + fmt1(S.basura[i2010] * 100) + '\u00a0%: ' + Math.round(S.basura[u] / S.basura[i2010]) + ' veces más.';
     var constr = G.filter(function (g) { return g.nombre === 'Construcción y mantención'; })[0];
-    document.getElementById('ru-constr').textContent = Math.round(constr.parte * 100) + ' %';
-    document.getElementById('ru-constr-nota').textContent = 'del gasto de ' + tramo(D.ahora) + ' fue construcción y mantención. Sigue siendo el rubro más grande, pero en ' + tramo(D.antes) + ' pesaba ' + Math.round(constr.antes * 100) + ' %.';
-    document.getElementById('ru-impresos').textContent = fmt1(S.impresos[u] * 100) + ' %';
-    document.getElementById('ru-impresos-nota').textContent = 'se gasta en impresos y publicaciones. En 2010, el ' + fmt1(S.impresos[i2010] * 100) + ' %.';
+    document.getElementById('ru-constr').textContent = Math.round(constr.parte * 100) + '\u00a0%';
+    document.getElementById('ru-constr-nota').textContent = 'del gasto de ' + tramo(D.ahora) + ' fue construcción y mantención. Sigue siendo el rubro más grande, pero en ' + tramo(D.antes) + ' pesaba ' + Math.round(constr.antes * 100) + '\u00a0%.';
+    document.getElementById('ru-impresos').textContent = fmt1(S.impresos[u] * 100) + '\u00a0%';
+    document.getElementById('ru-impresos-nota').textContent = 'se gasta en impresos y publicaciones. En 2010, el ' + fmt1(S.impresos[i2010] * 100) + '\u00a0%.';
 
     // ---------- Ganaron y perdieron peso ----------
     document.getElementById('ru-titulo-cambio').textContent = 'Lo que ganó y perdió peso, de ' + tramo(D.antes) + ' a ' + tramo(D.ahora);
@@ -604,7 +604,7 @@
       rects.forEach(function (r, k) {
         var c = color(r.g), txt = claro(c) ? 'oscuro' : '';
         s += '<g class="hoja" data-k="' + k + '"><rect x="' + (r.x + 1).toFixed(1) + '" y="' + (r.y + 1).toFixed(1) + '" width="' + Math.max(0, r.w - 2).toFixed(1) + '" height="' + Math.max(0, r.h - 2).toFixed(1) + '" rx="4" fill="' + c + '"/>';
-        if (r.w > 70 && r.h > 34) s += '<text class="h-nombre ' + txt + '" x="' + (r.x + 8) + '" y="' + (r.y + 19) + '">' + recortar(r.g.nombre, (r.w - 14) / 7) + '</text><text class="h-valor ' + txt + '" x="' + (r.x + 8) + '" y="' + (r.y + 35) + '">' + fmt1(r.g.parte * 100) + ' %</text>';
+        if (r.w > 70 && r.h > 34) s += '<text class="h-nombre ' + txt + '" x="' + (r.x + 8) + '" y="' + (r.y + 19) + '">' + recortar(r.g.nombre, (r.w - 14) / 7) + '</text><text class="h-valor ' + txt + '" x="' + (r.x + 8) + '" y="' + (r.y + 35) + '">' + fmt1(r.g.parte * 100) + '\u00a0%</text>';
         else if (r.w > 40 && r.h > 18) s += '<text class="h-valor ' + txt + '" x="' + (r.x + 6) + '" y="' + (r.y + 15) + '">' + fmt1(r.g.parte * 100).replace(',0', '') + '%</text>';
         s += '</g>';
       });
@@ -616,7 +616,7 @@
         svg.classList.add('enfocando'); svg.querySelectorAll('.hoja').forEach(function (x) { x.classList.toggle('activa', x === h); });
         globo.innerHTML = '<b>' + g.nombre + '</b>' + (g.catalogo !== g.nombre ? '<br><small>' + g.catalogo + '</small>' : '') + '<br><span class="v">' + pct(g.parte) + '</span> del gasto · ' + pesos(g.monto) +
           (g.antes > 0 && g.nombre !== 'Otros' ? '<br>En ' + tramo(D.antes) + ': ' + pct(g.antes) + ' (' + (dif(g) >= 0 ? '+' : '−') + pts(Math.abs(dif(g))) + ' pts)' : '') +
-          (g.detalle.length ? '<br>' + g.detalle.map(function (d) { return '· ' + d[0] + ': ' + Math.round(d[1] * 100) + ' %'; }).join('<br>') : '');
+          (g.detalle.length ? '<br>' + g.detalle.map(function (d) { return '· ' + d[0] + ': ' + Math.round(d[1] * 100) + '\u00a0%'; }).join('<br>') : '');
         globo.style.left = Math.min(Math.max(r.x + r.w / 2, 150), W - 150) + 'px';
         globo.style.top = r.y + 'px';
         globo.hidden = false;
