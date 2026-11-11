@@ -12,6 +12,7 @@
     return '$' + Math.round(v / 1e9).toLocaleString('es-CL') + ' mil millones';
   }
   var pct = function (v) { return fmt1(v * 100) + ' %'; };
+  var pesosChico = function (v) { return v >= 1e9 ? pesos(v) : '$' + fmt1(v / 1e6) + ' millones'; };
   var suma = function (xs) { return xs.reduce(function (s, v) { return s + v; }, 0); };
 
   // La línea chica de un indicador: la serie entera, con el último punto marcado
@@ -256,6 +257,50 @@
     }
     var ultimoAncho = 0;
     new ResizeObserver(function () { if (lienzo.clientWidth && lienzo.clientWidth !== ultimoAncho) { ultimoAncho = lienzo.clientWidth; dibujar(); } }).observe(lienzo);
+
+    // ---------- Contando órdenes: la parte de cada forma de compra en el número de órdenes ----------
+    var O = D.ordenes, desde = A.indexOf(2009), AO = A.slice(desde);
+    var totO = AO.map(function (_, k) { return suma(Object.keys(O).map(function (f) { return O[f][k + desde]; })); });
+    var LINEAS = [
+      { k: ['convenio'], nombre: 'Convenio marco', color: '#d95926' }, { k: ['agil'], nombre: 'Compra ágil', color: '#1f9f74' },
+      { k: ['emergencia', 'unico', 'directo'], nombre: 'Trato directo', color: '#4a8fe0' }, { k: ['licitacion'], nombre: 'Licitación', color: '#a8a299', gris: true }
+    ].map(function (l) { l.v = AO.map(function (_, k) { return suma(l.k.map(function (f) { return O[f][k + desde]; })) / totO[k]; }); return l; });
+    var ag = LINEAS[1], cm = LINEAS[0], iCM = cm.v.indexOf(Math.max.apply(null, cm.v)), uo = AO.length - 1;
+    var promAg = M.agil[u] / O.agil[u], promLic = M.licitacion[u] / O.licitacion[u];
+    document.getElementById('sl-lineas-nota').textContent = 'Parte de las órdenes de cada año. El convenio marco llegó al ' + Math.round(cm.v[iCM] * 100) + ' % en ' + AO[iCM] + ' y hoy es el ' + Math.round(cm.v[uo] * 100) +
+      ' %. La compra ágil se lleva el ' + Math.round(ag.v[uo] * 100) + ' % de las órdenes de ' + A[u] + ', pero el ' + pct(capa[2][u]) + ' de la plata: una orden promedio de ' + pesosChico(promAg) + ', contra ' + pesosChico(promLic) + ' en una licitación.';
+    var lienzoL = document.getElementById('sl-lineas'), globoL = document.createElement('div'); globoL.className = 'globo'; globoL.hidden = true;
+    function dibujarLineas() {
+      var W = Math.max(lienzoL.clientWidth, 300), H = 240, IZQ = 42, DER = W < 520 ? 12 : 146, ARR = 12, ABA = 24, angosto = W < 520;
+      var X = function (k) { return IZQ + k / uo * (W - IZQ - DER); }, Y = function (v) { return ARR + (1 - v / 0.6) * (H - ARR - ABA); };
+      var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '" role="img" aria-label="Líneas: parte de las órdenes de cada año por forma de compra, ' + AO[0] + ' a ' + AO[uo] + '">';
+      [0, .2, .4, .6].forEach(function (g) { s += '<line class="rejilla" x1="' + IZQ + '" x2="' + (W - DER) + '" y1="' + Y(g) + '" y2="' + Y(g) + '"/><text x="' + (IZQ - 6) + '" y="' + (Y(g) + 4) + '" text-anchor="end">' + g * 100 + ' %</text>'; });
+      AO.forEach(function (a, k) { if (k % (angosto ? 4 : 2) === 0 || k === uo) s += '<text x="' + X(k) + '" y="' + (H - 6) + '" text-anchor="' + (k === uo ? 'end' : 'middle') + '">' + a + '</text>'; });
+      LINEAS.slice().reverse().forEach(function (l) {
+        s += '<path class="serie' + (l.gris ? ' serie--gris' : '') + '" d="' + l.v.map(function (v, k) { return (k ? 'L' : 'M') + X(k).toFixed(1) + ' ' + Y(v).toFixed(1); }).join(' ') + '" stroke="' + l.color + '"/>';
+        s += '<circle cx="' + X(uo) + '" cy="' + Y(l.v[uo]) + '" r="4" fill="' + l.color + '" class="fin"/>';
+      });
+      // Nombres al final de cada línea (en escritorio), separados si quedan encima
+      if (!angosto) {
+        var ys = LINEAS.map(function (l) { return { l: l, y: Y(l.v[uo]) }; }).sort(function (a, b) { return a.y - b.y; });
+        for (var j = 1; j < ys.length; j++) if (ys[j].y - ys[j - 1].y < 15) ys[j].y = ys[j - 1].y + 15;
+        ys.forEach(function (o) { s += '<text class="t-serie" x="' + (X(uo) + 10) + '" y="' + (o.y + 4) + '">' + o.l.nombre + ' ' + Math.round(o.l.v[uo] * 100) + ' %</text>'; });
+      }
+      s += '<line class="cruz" y1="' + ARR + '" y2="' + (H - ABA) + '" hidden/><rect class="blanco" x="' + IZQ + '" y="' + ARR + '" width="' + (W - IZQ - DER) + '" height="' + (H - ARR - ABA) + '"/>';
+      lienzoL.innerHTML = s + '</svg>'; lienzoL.appendChild(globoL);
+      var svg = lienzoL.querySelector('svg'), cruz = svg.querySelector('.cruz');
+      svg.addEventListener('pointermove', function (e) {
+        var r = svg.getBoundingClientRect(), mx = (e.clientX - r.left) * W / r.width, k = Math.max(0, Math.min(uo, Math.round((mx - IZQ) / (W - IZQ - DER) * uo)));
+        cruz.setAttribute('x1', X(k)); cruz.setAttribute('x2', X(k)); cruz.removeAttribute('hidden');
+        globoL.innerHTML = '<b>' + AO[k] + '</b> · ' + totO[k].toLocaleString('es-CL') + ' órdenes<br>' + LINEAS.map(function (l) { return '<i class="punto" style="--c:' + l.color + '"></i>' + l.nombre + ': ' + pct(l.v[k]); }).join('<br>');
+        globoL.style.left = Math.min(Math.max(X(k) * r.width / W, 120), r.width - 120) + 'px';
+        globoL.style.top = (Y(Math.max.apply(null, LINEAS.map(function (l) { return l.v[k]; }))) * r.height / H) + 'px';
+        globoL.hidden = false;
+      });
+      svg.addEventListener('pointerleave', function () { globoL.hidden = true; cruz.setAttribute('hidden', ''); });
+    }
+    var anchoL = 0;
+    new ResizeObserver(function () { if (lienzoL.clientWidth && lienzoL.clientWidth !== anchoL) { anchoL = lienzoL.clientWidth; dibujarLineas(); } }).observe(lienzoL);
   }
 
   function quienVende(D) {
@@ -550,7 +595,7 @@
   }
 
   function cargar(archivo, dibujo, avisarEn) {
-    fetch('/tableros/compras-del-estado/datos/' + archivo + '?v=2026-11-11e')
+    fetch('/tableros/compras-del-estado/datos/' + archivo + '?v=2026-11-11f')
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(dibujo)
       .catch(function () { document.getElementById(avisarEn).textContent = 'No se pudieron cargar los datos. Prueba recargando la página.'; });
@@ -616,6 +661,18 @@
       }
     });
   }
+  // Al pie de cada vista, la anterior y la siguiente: el tablero se puede leer de corrido
+  VISTAS.forEach(function (x, k) {
+    var ant = VISTAS[(k - 1 + VISTAS.length) % VISTAS.length], sig = VISTAS[(k + 1) % VISTAS.length];
+    var nav = document.createElement('nav'); nav.className = 'pasar'; nav.setAttribute('aria-label', 'Otras vistas');
+    nav.innerHTML = '<a href="#' + ant.id + '" class="pasar-ant"><small>← Anterior</small>' + ant.titulo + '</a>' +
+      '<a href="#' + sig.id + '" class="pasar-sig"><small>' + (k === VISTAS.length - 1 ? 'Volver a la primera →' : 'Siguiente →') + '</small>' + sig.titulo + '</a>';
+    document.querySelector('#v-' + x.id + ' .lamina').appendChild(nav);
+    nav.addEventListener('click', function (e) {
+      if (!e.target.closest('a')) return;
+      document.querySelector('.selector').scrollIntoView({ behavior: reducido ? 'auto' : 'smooth', block: 'start' });
+    });
+  });
   window.addEventListener('hashchange', function () { ver(location.hash.slice(1)); });
   ver(location.hash.slice(1));
 })();
