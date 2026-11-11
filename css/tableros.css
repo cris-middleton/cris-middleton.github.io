@@ -165,6 +165,28 @@
   .rg-fila { grid-template-columns: 112px minmax(0, 1fr) 38px; gap: 8px; font-size: 12px; }
 }
 
+/* Rubros: el mapa de rectángulos y lo que ganó y perdió peso */
+.escala--divergente i { background: linear-gradient(90deg, #4a8fe0, #3a4458 50%, #c0834c); }
+.escala--divergente span:last-child { white-space: normal; }   /* la nota larga se parte, si no ensancha la figura */
+.lienzo-mapa { position: relative; min-width: 0; }
+.lienzo-mapa svg { display: block; width: 100%; height: auto; }
+.lienzo-mapa .hoja { cursor: crosshair; transition: opacity .15s; }
+.lienzo-mapa .enfocando .hoja:not(.activa), .enfocando .hoja:not(.activa) { opacity: .45; }
+.h-nombre { font-family: var(--f-texto); font-size: 12.5px; font-weight: 600; fill: var(--tinta); pointer-events: none; }
+.h-valor { font-family: var(--f-texto); font-size: 12px; fill: var(--texto); font-variant-numeric: tabular-nums; pointer-events: none; }
+.h-nombre.oscuro, .h-valor.oscuro { fill: #0f1622; }
+.globo--ancho { white-space: normal; width: max-content; max-width: 280px; }
+.globo small { color: var(--tenue); }
+.cambios { display: grid; gap: 6px; }
+.cambio { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) 64px; gap: 12px; align-items: center; font-size: 13px; }
+.c-nombre { color: var(--texto); text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.c-eje { position: relative; height: 14px; background: linear-gradient(var(--borde-2), var(--borde-2)) 50% 0 / 1px 100% no-repeat; }
+.c-eje i { position: absolute; top: 0; height: 100%; border-radius: 3px; }
+.c-eje i.sube { background: #c0834c; }
+.c-eje i.baja { background: #4a8fe0; }
+.c-valor { color: var(--tinta); font-weight: 600; font-variant-numeric: tabular-nums; font-size: 12px; }
+@media (max-width: 560px) { .cambio { grid-template-columns: 118px minmax(0, 1fr) 58px; gap: 8px; } }
+
 /* Tableros en preparación: un boceto que se dibuja */
 .boceto { background: var(--hundido); border: 1px dashed var(--borde-2); border-radius: var(--radio-3); padding: var(--e-5); }
 .boceto svg { width: 100%; height: auto; }

@@ -1,4 +1,4 @@
-// El tablero «Compras del Estado»: el selector de vistas y una función por vista (diciembre, sin licitar, quién le vende, regiones).
+// El tablero «Compras del Estado»: el selector de vistas y una función por vista (diciembre, sin licitar, quién le vende, regiones, rubros).
 // Los datos salen de la descarga masiva de ChileCompra (datos/*.json),
 // con la misma limpieza que usa Tordo. Cómo se calcularon: datos/bajar.py y los datos/armar*.py.
 (function () {
@@ -460,8 +460,97 @@
     new ResizeObserver(function () { if (lienzo.clientWidth && lienzo.clientWidth !== ultimoAncho) { ultimoAncho = lienzo.clientWidth; dibujar(); } }).observe(lienzo);
   }
 
+  function rubros(D) {
+    var G = D.grupos, A = D.anios, u = A.length - 1, S = D.series;
+    var tramo = function (t) { return t[0] + '–' + t[1]; };
+    var comparables = G.filter(function (g) { return g.antes > 0 && g.nombre !== 'Otros'; });
+    var dif = function (g) { return g.parte - g.antes; };
+    var salud = G.filter(function (g) { return g.salud; }), pSalud = suma(salud.map(function (g) { return g.parte; })), pSaludAntes = suma(salud.map(function (g) { return g.antes; }));
+    var i2010 = A.indexOf(2010), pts = function (v) { return fmt1(v * 100).replace(',0', ''); };
+
+    document.getElementById('ru-respuesta').innerHTML = '<b>Cada vez más en salud.</b> Medicamentos, equipos médicos y servicios de salud se llevan el ' + Math.round(pSalud * 100) +
+      ' % de lo que compra el Estado (' + tramo(D.ahora) + '); en ' + tramo(D.antes) + ' era el ' + Math.round(pSaludAntes * 100) + ' %. Construcción sigue primera, pero pierde peso, y el retiro de basura ya pesa más que los vehículos.';
+    document.getElementById('ru-salud-etq').textContent = 'Salud en ' + A[u];
+    document.getElementById('ru-salud').textContent = Math.round(S.salud[u] * 100) + ' %';
+    linea('ru-linea', S.salud.slice(i2010));
+    document.getElementById('ru-salud-nota').textContent = 'del gasto, contando medicamentos, equipos e insumos médicos y servicios de salud. En 2010 era el ' + Math.round(S.salud[i2010] * 100) + ' %.';
+    document.getElementById('ru-basura').textContent = fmt1(S.basura[u] * 100) + ' %';
+    document.getElementById('ru-basura-nota').textContent = 'se va en retirar y tratar desechos. En 2010 era el ' + fmt1(S.basura[i2010] * 100) + ' %: ' + Math.round(S.basura[u] / S.basura[i2010]) + ' veces más.';
+    var constr = G.filter(function (g) { return g.nombre === 'Construcción y mantención'; })[0];
+    document.getElementById('ru-constr').textContent = Math.round(constr.parte * 100) + ' %';
+    document.getElementById('ru-constr-nota').textContent = 'del gasto de ' + tramo(D.ahora) + ' fue construcción y mantención. Sigue siendo el rubro más grande, pero en ' + tramo(D.antes) + ' pesaba ' + Math.round(constr.antes * 100) + ' %.';
+    document.getElementById('ru-impresos').textContent = fmt1(S.impresos[u] * 100) + ' %';
+    document.getElementById('ru-impresos-nota').textContent = 'se gasta en impresos y publicaciones. En 2010, el ' + fmt1(S.impresos[i2010] * 100) + ' %.';
+
+    // ---------- Ganaron y perdieron peso ----------
+    document.getElementById('ru-titulo-cambio').textContent = 'Lo que ganó y perdió peso, de ' + tramo(D.antes) + ' a ' + tramo(D.ahora);
+    var orden = comparables.slice().sort(function (a, b) { return dif(b) - dif(a); });
+    var lista = orden.slice(0, 6).concat(orden.slice(-6)), mx = Math.max.apply(null, lista.map(function (g) { return Math.abs(dif(g)); }));
+    document.getElementById('ru-cambios').innerHTML = lista.map(function (g) {
+      var d = dif(g), w = Math.abs(d) / mx * 50;
+      return '<div class="cambio"><span class="c-nombre">' + g.nombre + '</span><span class="c-eje"><i class="' + (d > 0 ? 'sube' : 'baja') + '" style="width:' + w.toFixed(1) + '%;' + (d > 0 ? 'left:50%' : 'right:50%') + '"></i></span>' +
+        '<span class="c-valor">' + (d > 0 ? '+' : '−') + pts(Math.abs(d)) + ' pts</span></div>';
+    }).join('');
+
+    // ---------- El mapa: un rectángulo por rubro, del tamaño de su parte; el color, lo que cambió ----------
+    document.getElementById('ru-titulo-mapa').textContent = 'Cómo se reparte el gasto, ' + tramo(D.ahora);
+    document.getElementById('ru-escala-nota').textContent = '· de ' + tramo(D.antes) + ' a ' + tramo(D.ahora) + '; en gris, lo que no se compara';
+    var NEUTRO = [58, 68, 88], SUBE = [192, 131, 76], BAJA = [74, 143, 224], tope = 4;
+    function color(g) {
+      if (!(g.antes > 0) || g.nombre === 'Otros') return 'rgb(' + NEUTRO + ')';
+      var t = Math.max(-1, Math.min(1, dif(g) * 100 / tope)), b = t > 0 ? SUBE : BAJA, k = Math.abs(t);
+      return 'rgb(' + NEUTRO.map(function (c, j) { return Math.round(c + (b[j] - c) * k); }) + ')';
+    }
+    function claro(rgb) { var c = rgb.match(/\d+/g).map(Number); return (0.299 * c[0] + 0.587 * c[1] + 0.114 * c[2]) > 115; }   // sobre cobre o azul fuerte, el texto claro no se lee
+    // Treemap «squarified»: filas que mantienen los rectángulos lo más cuadrados posible
+    function squarify(items, x, y, w, h) {
+      var out = [], resto = items.slice(), totalArea = w * h, totalValor = suma(items.map(function (i) { return i.v; }));
+      resto.forEach(function (i) { i.a = i.v / totalValor * totalArea; });
+      function peor(fila, lado) { var s = suma(fila.map(function (i) { return i.a; })), mx = Math.max.apply(null, fila.map(function (i) { return i.a; })), mn = Math.min.apply(null, fila.map(function (i) { return i.a; })); return Math.max(lado * lado * mx / (s * s), s * s / (lado * lado * mn)); }
+      while (resto.length) {
+        var lado = Math.min(w, h), fila = [resto.shift()];
+        while (resto.length && peor(fila.concat(resto[0]), lado) <= peor(fila, lado)) fila.push(resto.shift());
+        var s = suma(fila.map(function (i) { return i.a; }));
+        if (w >= h) { var ancho = s / h, yy = y; fila.forEach(function (i) { var hh = i.a / ancho; out.push({ g: i.g, x: x, y: yy, w: ancho, h: hh }); yy += hh; }); x += ancho; w -= ancho; }
+        else { var alto = s / w, xx = x; fila.forEach(function (i) { var ww = i.a / alto; out.push({ g: i.g, x: xx, y: y, w: ww, h: alto }); xx += ww; }); y += alto; h -= alto; }
+      }
+      return out;
+    }
+    var lienzo = document.getElementById('ru-mapa'), globo = document.createElement('div'); globo.className = 'globo globo--ancho'; globo.hidden = true;
+    function dibujar() {
+      var W = Math.max(lienzo.clientWidth, 300), H = W < 520 ? 420 : 400;
+      // De mayor a menor, con «Otros» al final aunque sume más
+      var rects = squarify(G.map(function (g) { return { g: g, v: g.parte }; }).sort(function (a, b) { return (a.g.nombre === 'Otros') - (b.g.nombre === 'Otros') || b.v - a.v; }), 0, 0, W, H);
+      var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '" role="img" aria-label="Mapa de rectángulos: la parte de cada rubro en el gasto y cuánto cambió">';
+      rects.forEach(function (r, k) {
+        var c = color(r.g), txt = claro(c) ? 'oscuro' : '';
+        s += '<g class="hoja" data-k="' + k + '"><rect x="' + (r.x + 1).toFixed(1) + '" y="' + (r.y + 1).toFixed(1) + '" width="' + Math.max(0, r.w - 2).toFixed(1) + '" height="' + Math.max(0, r.h - 2).toFixed(1) + '" rx="4" fill="' + c + '"/>';
+        if (r.w > 70 && r.h > 34) s += '<text class="h-nombre ' + txt + '" x="' + (r.x + 8) + '" y="' + (r.y + 19) + '">' + recortar(r.g.nombre, (r.w - 14) / 7) + '</text><text class="h-valor ' + txt + '" x="' + (r.x + 8) + '" y="' + (r.y + 35) + '">' + fmt1(r.g.parte * 100) + ' %</text>';
+        else if (r.w > 40 && r.h > 18) s += '<text class="h-valor ' + txt + '" x="' + (r.x + 6) + '" y="' + (r.y + 15) + '">' + fmt1(r.g.parte * 100).replace(',0', '') + '%</text>';
+        s += '</g>';
+      });
+      lienzo.innerHTML = s + '</svg>'; lienzo.appendChild(globo);
+      var svg = lienzo.querySelector('svg');
+      svg.addEventListener('pointerover', function (e) {
+        var h = e.target.closest('.hoja'); if (!h) return;
+        var r = rects[+h.dataset.k], g = r.g;
+        svg.classList.add('enfocando'); svg.querySelectorAll('.hoja').forEach(function (x) { x.classList.toggle('activa', x === h); });
+        globo.innerHTML = '<b>' + g.nombre + '</b>' + (g.catalogo !== g.nombre ? '<br><small>' + g.catalogo + '</small>' : '') + '<br><span class="v">' + pct(g.parte) + '</span> del gasto · ' + pesos(g.monto) +
+          (g.antes > 0 && g.nombre !== 'Otros' ? '<br>En ' + tramo(D.antes) + ': ' + pct(g.antes) + ' (' + (dif(g) >= 0 ? '+' : '−') + pts(Math.abs(dif(g))) + ' pts)' : '') +
+          (g.detalle.length ? '<br>' + g.detalle.map(function (d) { return '· ' + d[0] + ': ' + Math.round(d[1] * 100) + ' %'; }).join('<br>') : '');
+        globo.style.left = Math.min(Math.max(r.x + r.w / 2, 150), W - 150) + 'px';
+        globo.style.top = r.y + 'px';
+        globo.hidden = false;
+      });
+      svg.addEventListener('pointerleave', function () { svg.classList.remove('enfocando'); globo.hidden = true; });
+    }
+    function recortar(t, n) { n = Math.floor(n); return t.length <= n ? t : t.slice(0, Math.max(1, n - 1)) + '…'; }
+    var ultimoAncho = 0;
+    new ResizeObserver(function () { if (lienzo.clientWidth && lienzo.clientWidth !== ultimoAncho) { ultimoAncho = lienzo.clientWidth; dibujar(); } }).observe(lienzo);
+  }
+
   function cargar(archivo, dibujo, avisarEn) {
-    fetch('/tableros/compras-del-estado/datos/' + archivo + '?v=2026-11-11d')
+    fetch('/tableros/compras-del-estado/datos/' + archivo + '?v=2026-11-11e')
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(dibujo)
       .catch(function () { document.getElementById(avisarEn).textContent = 'No se pudieron cargar los datos. Prueba recargando la página.'; });
@@ -471,6 +560,7 @@
   cargar('sin-licitar.json', sinLicitar, 'sl-respuesta');
   cargar('quien-vende.json', quienVende, 'qv-respuesta');
   cargar('regiones.json', regiones, 'rg-respuesta');
+  cargar('rubros.json', rubros, 'ru-respuesta');
 
   // ---------- El selector: cada vista con su propia dirección (#nombre) ----------
   var VISTAS = [
@@ -481,7 +571,9 @@
     { id: 'quien-le-vende', titulo: '¿Quién le vende al Estado?', bajada: 'Los proveedores más grandes y cuánto depende cada organismo de pocos.', estado: 'real',
       mini: '<svg viewBox="0 0 30 30" fill="none"><path d="M3 8 C14 8 16 12 27 12" stroke="#e3ae7a" stroke-width="4" stroke-opacity=".8"/><path d="M3 17 C14 17 16 21 27 21" stroke="#55698a" stroke-width="3"/><path d="M3 24 C14 24 16 15 27 15" stroke="#3d4f6b" stroke-width="2.5"/></svg>' },
     { id: 'regiones', titulo: '¿A quién le compra cada región?', bajada: 'Lo que se queda en la región y lo que va a Santiago.', estado: 'real',
-      mini: '<svg viewBox="0 0 30 30">' + [[10, 9, 4], [6, 13, 4], [9, 8, 6], [12, 7, 4], [14, 6, 3]].map(function (b, f) { var x = 3, r = ''; b.forEach(function (w, k) { r += '<rect x="' + x + '" y="' + (f * 5.4 + 2) + '" width="' + (w - 0.8) + '" height="4" rx="1" fill="' + ['#c0834c', '#4a8fe0', '#1f9f74'][k] + '"/>'; x += w; }); return r; }).join('') + '</svg>' }
+      mini: '<svg viewBox="0 0 30 30">' + [[10, 9, 4], [6, 13, 4], [9, 8, 6], [12, 7, 4], [14, 6, 3]].map(function (b, f) { var x = 3, r = ''; b.forEach(function (w, k) { r += '<rect x="' + x + '" y="' + (f * 5.4 + 2) + '" width="' + (w - 0.8) + '" height="4" rx="1" fill="' + ['#c0834c', '#4a8fe0', '#1f9f74'][k] + '"/>'; x += w; }); return r; }).join('') + '</svg>' },
+    { id: 'rubros', titulo: '¿En qué gasta el Estado?', bajada: 'Cómo se reparte el gasto y qué gana peso.', estado: 'real',
+      mini: '<svg viewBox="0 0 30 30"><rect x="1" y="1" width="16" height="17" rx="2" fill="#c0834c"/><rect x="18" y="1" width="11" height="10" rx="2" fill="#4a8fe0"/><rect x="18" y="12" width="11" height="6" rx="1.5" fill="#3a4458"/><rect x="1" y="19" width="10" height="10" rx="2" fill="#a8835f"/><rect x="12" y="19" width="9" height="10" rx="2" fill="#3a4458"/><rect x="22" y="19" width="7" height="10" rx="1.5" fill="#5a7fb8"/></svg>' }
   ];
   var ESTADOS = { real: ['Datos reales', 'chip--real'], prep: ['En preparación', 'chip--prep'] };
   var boton = document.getElementById('desp-boton'), lista = document.getElementById('desp-lista'), activa = 0;

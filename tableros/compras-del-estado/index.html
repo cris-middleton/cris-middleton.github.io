@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#0f1622">
   <title>Compras del Estado, tableros de Cristóbal Middleton</title>
-  <meta name="description" content="¿El Estado se gasta todo en diciembre? Diecinueve años de órdenes de compra de ChileCompra, mes a mes: cuánto se compra sin licitar, quién le vende y a quién le compra cada región.">
+  <meta name="description" content="¿El Estado se gasta todo en diciembre? Diecinueve años de órdenes de compra de ChileCompra, mes a mes: cuánto se compra sin licitar, quién le vende, a quién le compra cada región y en qué se gasta.">
   <link rel="canonical" href="https://cris-middleton.github.io/tableros/compras-del-estado/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_CL">
@@ -26,7 +26,7 @@
   <link rel="preload" href="/fonts/Inter.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/SchibstedGrotesk.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/css/style.css?v=2026-11-10">
-  <link rel="stylesheet" href="/css/tableros.css?v=2026-11-11d">
+  <link rel="stylesheet" href="/css/tableros.css?v=2026-11-11e">
 </head>
 <body>
   <a class="saltar" href="#contenido">Ir al contenido</a>
@@ -282,6 +282,58 @@
         </div>
       </div>
     </section>
+    <!-- Vista 5 -->
+    <section class="vista" id="v-rubros" aria-labelledby="h-rubros" hidden>
+      <div class="lamina">
+        <div class="lamina-cabeza">
+          <span class="aviso aviso--real">Datos reales: cada línea de cada orden, de 2007 a 2025</span>
+          <h2 id="h-rubros">¿En qué gasta el Estado?</h2>
+          <p class="respuesta" id="ru-respuesta"></p>
+        </div>
+        <div class="cuerpo">
+          <div class="sl-graficos">
+            <figure class="sl-figura">
+              <figcaption class="sl-titulo" id="ru-titulo-mapa"></figcaption>
+              <div class="escala escala--divergente"><span>Perdió peso</span><i aria-hidden="true"></i><span>Ganó peso</span><span id="ru-escala-nota"></span></div>
+              <div class="lienzo-mapa" id="ru-mapa"></div>
+            </figure>
+            <figure class="sl-figura">
+              <figcaption class="sl-titulo" id="ru-titulo-cambio"></figcaption>
+              <p class="sl-nota">Puntos de la torta del gasto que ganó o perdió cada rubro.</p>
+              <div class="cambios" id="ru-cambios"></div>
+            </figure>
+          </div>
+          <div class="indicadores">
+            <div class="indicador">
+              <span class="etiqueta" id="ru-salud-etq"></span>
+              <span class="cifra cifra--cobre" id="ru-salud"></span>
+              <svg id="ru-linea" viewBox="0 0 240 46" preserveAspectRatio="none" aria-hidden="true"></svg>
+              <p id="ru-salud-nota"></p>
+            </div>
+            <div class="indicador">
+              <span class="etiqueta">La basura</span>
+              <span class="cifra" id="ru-basura"></span>
+              <p id="ru-basura-nota"></p>
+            </div>
+            <div class="indicador">
+              <span class="etiqueta">Construcción</span>
+              <span class="cifra" id="ru-constr"></span>
+              <p id="ru-constr-nota"></p>
+            </div>
+            <div class="indicador">
+              <span class="etiqueta">El papel se va</span>
+              <span class="cifra" id="ru-impresos"></span>
+              <p id="ru-impresos-nota"></p>
+            </div>
+          </div>
+        </div>
+        <div class="metodo">
+          <div><b>Qué se mide</b>La parte de cada rubro en el gasto de cada año, para que la inflación no pese. El monto de una orden se reparte entre sus líneas, así que una orden con ítems de varios rubros cuenta en cada uno lo suyo.</div>
+          <div><b>De dónde sale</b>El rubro del catálogo de ChileCompra (el primer nivel), con nombres cortos. «Salud» junta medicamentos, equipos e insumos médicos y servicios de salud.</div>
+          <div><b>Lo que queda fuera</b>Las mismas órdenes de más de $20.000 millones. «Sin rubro» y «Obras Minvu» no existían en 2010–2012 y no se comparan. <a class="enlace" href="datos/rubros.json">Los datos</a>.</div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="pie">
@@ -292,6 +344,6 @@
   </footer>
 
   <script src="/js/comun.js?v=2026-11-10"></script>
-  <script src="/js/compras-del-estado.js?v=2026-11-11d"></script>
+  <script src="/js/compras-del-estado.js?v=2026-11-11e"></script>
 </body>
 </html>
