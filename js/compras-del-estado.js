@@ -1,6 +1,6 @@
-// El tablero «Compras del Estado»: el selector de vistas, la vista de diciembre y la de lo comprado sin licitar.
-// Los datos salen de la descarga masiva de ChileCompra (datos/diciembre.json y datos/sin-licitar.json),
-// con la misma limpieza que usa Tordo. Cómo se calcularon: datos/bajar.py, datos/armar.py y datos/armar_sin_licitar.py.
+// El tablero «Compras del Estado»: el selector de vistas y una función por vista (diciembre, sin licitar, quién le vende).
+// Los datos salen de la descarga masiva de ChileCompra (datos/*.json),
+// con la misma limpieza que usa Tordo. Cómo se calcularon: datos/bajar.py y los datos/armar*.py.
 (function () {
   var reducido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var MESES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
@@ -216,14 +216,109 @@
     new ResizeObserver(function () { if (lienzo.clientWidth && lienzo.clientWidth !== ultimoAncho) { ultimoAncho = lienzo.clientWidth; dibujar(); } }).observe(lienzo);
   }
 
+  function quienVende(D) {
+    var P = D.por_anio, u = P.length - 1, ult = P[u], pri = P[0];
+    var fmt0 = function (v) { return Math.round(v).toLocaleString('es-CL'); };
+    var mediana = function (xs) { xs = xs.slice().sort(function (a, b) { return a - b; }); var m = xs.length >> 1; return xs.length % 2 ? xs[m] : (xs[m - 1] + xs[m]) / 2; };
+    var O = D.organismos, parte5 = O.map(function (o) { return o.top5 / o.total; });
+    var med5 = mediana(parte5), medProv = mediana(O.map(function (o) { return o.proveedores; }));
+    var grandes = D.mercados.filter(function (m) { return m.total > 50e9; }).sort(function (a, b) { return b.parte - a.parte; });
+    var personas = P.map(function (r) { return r.personas / r.proveedores; });
+    var tramo = D.recientes[0] + ' y ' + D.recientes[1];
+
+    // ---------- La respuesta y los indicadores ----------
+    document.getElementById('qv-respuesta').innerHTML = '<b>Miles de proveedores, y cada vez menos personas.</b> En ' + ult.anio + ' le vendieron ' + fmt0(ult.proveedores) +
+      ' proveedores, y los diez más grandes se llevaron apenas el ' + pct(ult.monto_top10 / ult.monto) + '. La concentración está dentro de cada organismo: en uno típico, cinco proveedores se llevan el ' + Math.round(med5 * 100) + ' % de lo que compra.';
+    document.getElementById('qv-prov-etq').textContent = 'Proveedores en ' + ult.anio;
+    document.getElementById('qv-prov').textContent = fmt0(ult.proveedores);
+    document.getElementById('qv-prov-nota').textContent = 'Le vendieron al menos una vez. Los diez más grandes se llevaron el ' + pct(ult.monto_top10 / ult.monto) + ' de la plata.';
+    document.getElementById('qv-personas').textContent = Math.round(personas[u] * 100) + ' %';
+    linea('qv-linea', personas);
+    document.getElementById('qv-personas-nota').textContent = 'de los proveedores de ' + ult.anio + '. En ' + pri.anio + ' eran el ' + Math.round(personas[0] * 100) + ' % y se llevaban el ' +
+      Math.round(pri.monto_personas / pri.monto * 100) + ' % de la plata; ahora, el ' + Math.round(ult.monto_personas / ult.monto * 100) + ' %.';
+    document.getElementById('qv-tipico').textContent = fmt0(medProv);
+    document.getElementById('qv-tipico-nota').textContent = 'proveedores le venden a un organismo típico entre ' + tramo + ', pero cinco de ellos se llevan el ' + Math.round(med5 * 100) + ' % de lo que compra.';
+    var g0 = grandes[0];
+    document.getElementById('qv-duenio').textContent = Math.round(g0.parte * 100) + ' %';
+    document.getElementById('qv-duenio-nota').textContent = 'de los ' + g0.rubro.toLowerCase() + ' que compra el Estado se los vende ' + (g0.lider || 'un solo proveedor') + '. En ningún otro mercado de más de $50.000 millones el más grande pasa del ' + Math.round(grandes[1].parte * 100) + ' %.';
+
+    // ---------- Los que más le han vendido: una fila con su línea por año ----------
+    document.getElementById('qv-titulo-top').textContent = 'Los que más le han vendido, ' + D.anios[0] + '–' + D.anios[D.anios.length - 1];
+    var lista = document.getElementById('qv-top');
+    lista.innerHTML = D.top.map(function (t, k) {
+      var mx = Math.max.apply(null, t.serie), n = t.serie.length;
+      var pts = t.serie.map(function (v, j) { return [j / (n - 1) * 200, 26 - v / mx * 22]; });
+      var d = pts.map(function (q, j) { return (j ? 'L' : 'M') + q[0].toFixed(1) + ' ' + q[1].toFixed(1); }).join(' '), z = pts[n - 1];
+      return '<li><span class="tp-nombre"><b>' + t.nombre + '</b><small>' + t.rubro + '</small></span>' +
+        '<svg class="tp-linea" data-k="' + k + '" viewBox="0 0 200 30" preserveAspectRatio="none" aria-hidden="true"><path d="' + d + ' L200 30 L0 30 Z" fill="rgba(159,184,214,.14)"/>' +
+        '<path d="' + d + '" fill="none" stroke="#9fb8d6" stroke-width="1.6" vector-effect="non-scaling-stroke"/><circle cx="' + z[0] + '" cy="' + z[1] + '" r="2.5" fill="#9fb8d6"/></svg>' +
+        '<span class="tp-total">' + pesos(t.total) + '</span></li>';
+    }).join('');
+    var globoTop = document.createElement('div'); globoTop.className = 'globo'; globoTop.hidden = true; lista.appendChild(globoTop);
+    lista.addEventListener('pointermove', function (e) {
+      var sv = e.target.closest('.tp-linea'); if (!sv) { globoTop.hidden = true; return; }
+      var r = sv.getBoundingClientRect(), base = lista.getBoundingClientRect(), t = D.top[+sv.dataset.k];
+      var j = Math.max(0, Math.min(D.anios.length - 1, Math.round((e.clientX - r.left) / r.width * (D.anios.length - 1))));
+      globoTop.innerHTML = '<b>' + t.nombre + ', ' + D.anios[j] + '</b><br>' + pesos(t.serie[j]);
+      globoTop.style.left = (r.left - base.left + j / (D.anios.length - 1) * r.width) + 'px';
+      globoTop.style.top = (r.top - base.top) + 'px';
+      globoTop.hidden = false;
+    });
+    lista.addEventListener('pointerleave', function () { globoTop.hidden = true; });
+
+    // ---------- Organismos: lo que compran contra lo que se llevan sus cinco proveedores más grandes ----------
+    document.getElementById('qv-titulo-org').textContent = 'Cuánto se llevan los cinco proveedores más grandes de cada organismo, ' + D.recientes[0] + '–' + D.recientes[1];
+    var CORTOS = [[/^Central de Abastecimiento/, 'Cenabast'], [/^Fondo Nacional de Salud/, 'Fonasa'], [/^SERVIU Region de Magallanes/, 'Serviu Magallanes']];
+    var corto = function (o) { for (var c = 0; c < CORTOS.length; c++) if (CORTOS[c][0].test(o.nombre)) return CORTOS[c][1]; return null; };
+    var lienzo = document.getElementById('qv-puntos'), globo = document.createElement('div'); globo.className = 'globo'; globo.hidden = true;
+    var xMin = 9, xMax = Math.log10(Math.max.apply(null, O.map(function (o) { return o.total; })));
+    function dibujar() {
+      var W = Math.max(lienzo.clientWidth, 300), H = W < 520 ? 300 : 340, IZQ = 42, DER = 12, ARR = 14, ABA = 30;
+      var X = function (v) { return IZQ + (Math.log10(v) - xMin) / (xMax - xMin) * (W - IZQ - DER); }, Y = function (p) { return ARR + (1 - p) * (H - ARR - ABA); };
+      var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '" role="img" aria-label="Puntos: ' + O.length + ' organismos según cuánto compran y qué parte se llevan sus cinco proveedores más grandes">';
+      [0, .25, .5, .75, 1].forEach(function (p) { s += '<line class="rejilla" x1="' + IZQ + '" x2="' + W + '" y1="' + Y(p) + '" y2="' + Y(p) + '"/><text x="' + (IZQ - 6) + '" y="' + (Y(p) + 4) + '" text-anchor="end">' + p * 100 + ' %</text>'; });
+      [[1e9, '$1.000 M'], [1e10, '$10.000 M'], [1e11, '$100.000 M'], [1e12, '$1 billón']].forEach(function (t, k) {
+        if (W < 520 && k % 2) return;
+        s += '<text x="' + X(t[0]) + '" y="' + (H - 8) + '" text-anchor="' + (k ? 'middle' : 'start') + '">' + t[1] + '</text>';
+      });
+      s += '<line class="mediana" x1="' + IZQ + '" x2="' + W + '" y1="' + Y(med5) + '" y2="' + Y(med5) + '"/><text class="t-mediana" x="' + (W - DER) + '" y="' + (Y(med5) - 6) + '" text-anchor="end">Mediana: ' + Math.round(med5 * 100) + ' %</text>';
+      var pos = O.map(function (o, k) { return [X(o.total), Y(parte5[k])]; });
+      // Los chicos primero, para que los grandes queden encima
+      for (var k = O.length - 1; k >= 0; k--) s += '<circle class="punto' + (corto(O[k]) ? ' punto--nombrado' : '') + '" cx="' + pos[k][0].toFixed(1) + '" cy="' + pos[k][1].toFixed(1) + '" r="3.5"/>';
+      O.forEach(function (o, k) {
+        var c = corto(o); if (!c) return;
+        var der = pos[k][0] > W - 110;
+        s += '<text class="t-nombre" x="' + (pos[k][0] + (der ? -8 : 8)) + '" y="' + (pos[k][1] + 4) + '" text-anchor="' + (der ? 'end' : 'start') + '">' + c + '</text>';
+      });
+      s += '<circle class="punto-activo" r="6" hidden/></svg>';
+      lienzo.innerHTML = s; lienzo.appendChild(globo);
+      var svg = lienzo.querySelector('svg'), activo = svg.querySelector('.punto-activo');
+      svg.addEventListener('pointermove', function (e) {
+        var r = svg.getBoundingClientRect(), mx = (e.clientX - r.left) * W / r.width, my = (e.clientY - r.top) * H / r.height, mejor = -1, dist = 14 * 14;
+        pos.forEach(function (q, k) { var dd = (q[0] - mx) * (q[0] - mx) + (q[1] - my) * (q[1] - my); if (dd < dist) { dist = dd; mejor = k; } });
+        if (mejor < 0) { globo.hidden = true; activo.setAttribute('hidden', ''); return; }
+        var o = O[mejor];
+        activo.setAttribute('cx', pos[mejor][0]); activo.setAttribute('cy', pos[mejor][1]); activo.removeAttribute('hidden');
+        globo.innerHTML = '<b>' + (corto(o) || o.nombre) + '</b><br>Compró ' + pesos(o.total) + ' a ' + fmt0(o.proveedores) + ' proveedores<br><span class="v">' + Math.round(parte5[mejor] * 100) + ' %</span> para los cinco más grandes';
+        globo.style.left = Math.min(Math.max(pos[mejor][0] * r.width / W, 140), r.width - 140) + 'px';
+        globo.style.top = (pos[mejor][1] * r.height / H) + 'px';
+        globo.hidden = false;
+      });
+      svg.addEventListener('pointerleave', function () { globo.hidden = true; activo.setAttribute('hidden', ''); });
+    }
+    var ultimoAncho = 0;
+    new ResizeObserver(function () { if (lienzo.clientWidth && lienzo.clientWidth !== ultimoAncho) { ultimoAncho = lienzo.clientWidth; dibujar(); } }).observe(lienzo);
+  }
+
   function cargar(archivo, dibujo, avisarEn) {
-    fetch('/tableros/compras-del-estado/datos/' + archivo + '?v=2026-11-11')
+    fetch('/tableros/compras-del-estado/datos/' + archivo + '?v=2026-11-11b')
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(dibujo)
       .catch(function () { document.getElementById(avisarEn).textContent = 'No se pudieron cargar los datos. Prueba recargando la página.'; });
   }
   cargar('diciembre.json', diciembre, 'respuesta');
   cargar('sin-licitar.json', sinLicitar, 'sl-respuesta');
+  cargar('quien-vende.json', quienVende, 'qv-respuesta');
 
   // ---------- El selector: cada vista con su propia dirección (#nombre) ----------
   var VISTAS = [
@@ -231,7 +326,7 @@
       mini: '<svg viewBox="0 0 30 30">' + [0, 1, 2, 3].map(function (f) { return [0, 1, 2, 3].map(function (c) { return '<rect x="' + (c * 7.5 + 0.5) + '" y="' + (f * 7.5 + 0.5) + '" width="6.5" height="6.5" rx="1.5" fill="' + (c === 3 ? '#e3ae7a' : ['#2a3750', '#3d4f6b', '#55698a'][(f + c) % 3]) + '"/>'; }).join(''); }).join('') + '</svg>' },
     { id: 'trato-directo', titulo: '¿Cuánto se compra sin licitar?', bajada: 'Trato directo y compra ágil, de 2007 a 2025.', estado: 'real',
       mini: '<svg viewBox="0 0 30 30">' + [[9, 5, 2], [8, 6, 3], [15, 7, 2], [10, 9, 6]].map(function (b, c) { var y = 27, r = ''; b.forEach(function (h, k) { y -= h; r += '<rect x="' + (c * 7 + 2) + '" y="' + y + '" width="5" height="' + (h - 1) + '" rx="1" fill="' + ['#c0834c', '#4a8fe0', '#1f9f74'][k] + '"/>'; }); return r; }).join('') + '</svg>' },
-    { id: 'quien-le-vende', titulo: '¿Quién le vende al Estado?', bajada: 'Organismo, rubro y proveedor, con el grosor en pesos.', estado: 'prep',
+    { id: 'quien-le-vende', titulo: '¿Quién le vende al Estado?', bajada: 'Los proveedores más grandes y cuánto depende cada organismo de pocos.', estado: 'real',
       mini: '<svg viewBox="0 0 30 30" fill="none"><path d="M3 8 C14 8 16 12 27 12" stroke="#e3ae7a" stroke-width="4" stroke-opacity=".8"/><path d="M3 17 C14 17 16 21 27 21" stroke="#55698a" stroke-width="3"/><path d="M3 24 C14 24 16 15 27 15" stroke="#3d4f6b" stroke-width="2.5"/></svg>' }
   ];
   var ESTADOS = { real: ['Datos reales', 'chip--real'], prep: ['En preparación', 'chip--prep'] };

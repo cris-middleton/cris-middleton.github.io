@@ -113,6 +113,34 @@
   .r-valor { text-align: right; }
 }
 
+/* Quién le vende: los más grandes con su línea por año, y un punto por organismo */
+.sl-nota { font-size: 13px; color: var(--tenue); margin-top: -6px; }
+.top-prov { list-style: none; display: grid; gap: 2px; position: relative; }
+.top-prov li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(90px, 1.3fr) 128px; gap: 14px; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--borde); }
+.top-prov li:last-of-type { border-bottom: 0; }
+.tp-nombre { display: grid; line-height: 1.25; min-width: 0; }
+.tp-nombre b { color: var(--tinta); font-weight: 600; font-size: 14px; }
+.tp-nombre small { color: var(--tenue); font-size: 12px; }
+.tp-linea { width: 100%; height: 30px; overflow: visible; cursor: crosshair; }
+.tp-total { font-size: 13px; color: var(--texto); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.lienzo-puntos { position: relative; min-width: 0; }
+.lienzo-puntos svg { display: block; width: 100%; height: auto; overflow: visible; }
+.lienzo-puntos text { font-family: var(--f-texto); font-size: 12px; fill: var(--tenue); font-variant-numeric: tabular-nums; }
+.lienzo-puntos .rejilla { stroke: var(--borde); stroke-width: 1; }
+.lienzo-puntos .mediana { stroke: var(--cobre); stroke-width: 1.5; stroke-dasharray: 5 4; }
+.lienzo-puntos .t-mediana { fill: var(--cobre); font-weight: 600; }
+.lienzo-puntos .t-nombre { fill: var(--tinta); font-weight: 600; }
+.punto { fill: #9fb8d6; fill-opacity: .45; stroke: var(--superficie); stroke-width: 1; }
+.punto--nombrado { fill: var(--tinta); fill-opacity: 1; }
+.punto-activo { fill: none; stroke: var(--tinta); stroke-width: 2; pointer-events: none; }
+.punto-activo[hidden] { display: none; }
+.lienzo-puntos svg { cursor: crosshair; }
+@media (max-width: 560px) {
+  .top-prov li { grid-template-columns: minmax(0, 1fr) auto; }
+  .tp-total { width: auto; }
+  .tp-linea { grid-column: 1 / -1; grid-row: 2; }
+}
+
 /* Tableros en preparación: un boceto que se dibuja */
 .boceto { background: var(--hundido); border: 1px dashed var(--borde-2); border-radius: var(--radio-3); padding: var(--e-5); }
 .boceto svg { width: 100%; height: auto; }

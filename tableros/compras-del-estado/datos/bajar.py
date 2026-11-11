@@ -8,9 +8,11 @@ volver a bajar 20 GB:
     proveedores/<mes>.parquet monto y órdenes por organismo y proveedor
     rubros/<mes>.parquet      monto por rubro y proveedor, repartido por línea
     ruts/<mes>.parquet        código y RUT de cada proveedor, para tapar a las personas naturales
+    dias/<mes>.parquet        monto y órdenes de cada día, por forma de compra
+    regiones/<mes>.parquet    monto y órdenes por región del comprador y región del proveedor
 Lo que pasa del tope no se suma: queda marcado con `sobre_tope`. Estos archivos tienen nombres
 de proveedores, también de personas: se quedan en TRABAJO y no se publican tal cual.
-Reanudable: salta los meses que ya tienen resultado. Con meses como argumento («2025-10»), sólo esos.
+Reanudable: salta los meses que ya tienen resultado y todas sus tablas. Con meses como argumento («2025-10»), sólo esos.
 Uso, con el repo de Tordo (github.com/cris-middleton/tordo) al lado:
     TORDO=../tordo uv run --project $TORDO python bajar.py
 """
@@ -27,7 +29,7 @@ from analytics.personas import numero_rut
 
 AQUI = Path(os.environ.get('TRABAJO', '.')).resolve()   # dónde quedan los ZIP y los resultados por mes
 ZIPS, RES = AQUI / 'zip', AQUI / 'resultados'
-TABLAS = ('organismos', 'proveedores', 'rubros', 'ruts')
+TABLAS = ('organismos', 'proveedores', 'rubros', 'ruts', 'dias', 'regiones')
 for d in (ZIPS, RES, *(AQUI / t for t in TABLAS)):
     d.mkdir(parents=True, exist_ok=True)
 LOCALES = TORDO / 'etl/data/raw/oc'
@@ -35,7 +37,7 @@ URL = 'https://transparenciachc.blob.core.windows.net/oc-da/{}.zip'
 COLS = ['Codigo', 'Estado', 'FechaCreacion', 'MontoTotalOC', 'TipoMonedaOC', 'MontoTotalOC_PesosChilenos',
         'totalLineaNeto', 'monedaItem', 'OrganismoPublico', 'sector', 'EsTratoDirecto', 'CodigoAbreviadoTipoOC', 'Nombre',
         'CodigoOrganismoPublico', 'EsCompraAgil', 'ProcedenciaOC', 'DescripcionTipoOC', 'CodigoLicitacion', 'Codigo_ConvenioMarco',
-        'CodigoProveedor', 'NombreProveedor', 'RutSucursal', 'RubroN1', 'RubroN2']
+        'CodigoProveedor', 'NombreProveedor', 'RutSucursal', 'RubroN1', 'RubroN2', 'RegionUnidadCompra', 'RegionProveedor']
 GRANDE = 1_000_000_000   # las órdenes sobre esto se guardan una a una, para auditar y elegir el corte
 TOPE = 20_000_000_000    # sobre esto, error de tipeo o contrato de varios años (ver armar.py)
 logging.basicConfig(filename=AQUI / 'bajar.log', level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
@@ -93,11 +95,15 @@ def tablas(periodo, lineas, ordenes):
         .write_parquet(AQUI / 'rubros' / f'{periodo}.parquet')
     lineas.select('CodigoProveedor', numero_rut('RutSucursal').alias('rut')).unique() \
         .write_parquet(AQUI / 'ruts' / f'{periodo}.parquet')
+    ordenes.group_by(pl.col('FechaCreacion').cast(pl.Utf8).str.slice(0, 10).alias('dia'), 'EsTratoDirecto', 'CodigoAbreviadoTipoOC', 'sobre_tope') \
+        .agg(suma).write_parquet(AQUI / 'dias' / f'{periodo}.parquet')
+    ordenes.group_by(['RegionUnidadCompra', 'RegionProveedor', 'sector', 'sobre_tope']).agg(suma) \
+        .write_parquet(AQUI / 'regiones' / f'{periodo}.parquet')
 
 
 def procesar(periodo):
     salida = RES / f'{periodo}.json'
-    if salida.exists():
+    if salida.exists() and ('error' in json.loads(salida.read_text()) or all((AQUI / t / f'{periodo}.parquet').exists() for t in TABLAS)):
         return periodo, 'ya estaba'
     t = time.time()
     zip_path, temporal = bajar(periodo)
@@ -138,6 +144,6 @@ if __name__ == '__main__':
                 p, msg = f.result(); log.info('%s: %s', p, msg)
             except Exception as e:
                 errores += 1; log.exception('%s: %s', futuros[f], e)
-    hechos = len(list(RES.glob('*.json')))
+    hechos = sum((RES / f'{p}.json').exists() for p in periodos)
     log.info('LISTO: %d de %d meses con resultado, %d errores', hechos, len(periodos), errores)
     print(f'LISTO: {hechos} de {len(periodos)} meses, {errores} errores')

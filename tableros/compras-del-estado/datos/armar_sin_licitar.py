@@ -53,7 +53,7 @@ rec = o.filter(pl.col('anio').is_between(*RECIENTES))
 org = (rec.group_by('CodigoOrganismoPublico')
        .agg(pl.col('OrganismoPublico').first(), pl.col('sector').first(), pl.col('monto').sum().alias('total'),
             pl.col('monto').filter(pl.col('sin')).sum().alias('sin'))
-       .filter(pl.col('total') > 0).sort('sin', descending=True))
+       .filter(pl.col('total') > 0).sort(['sin', 'total', 'CodigoOrganismoPublico'], descending=True))   # orden fijo: hay empates en 0
 sectores = (rec.group_by(pl.col('sector').fill_null('Sin sector')).agg(pl.col('monto').sum().alias('total'), pl.col('monto').filter(pl.col('sin')).sum().alias('sin'),
                                                 pl.col('CodigoOrganismoPublico').n_unique().alias('organismos')).sort('total', descending=True))
 acumulado = (org['sin'].cum_sum() / org['sin'].sum()).to_list()

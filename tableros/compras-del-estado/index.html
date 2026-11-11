@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#0f1622">
   <title>Compras del Estado, tableros de Cristóbal Middleton</title>
-  <meta name="description" content="¿El Estado se gasta todo en diciembre? Diecinueve años de órdenes de compra de ChileCompra, mes a mes, y cuánto se compra sin licitar. Y pronto: quién le vende.">
+  <meta name="description" content="¿El Estado se gasta todo en diciembre? Diecinueve años de órdenes de compra de ChileCompra, mes a mes: cuánto se compra sin licitar y quién le vende.">
   <link rel="canonical" href="https://cris-middleton.github.io/tableros/compras-del-estado/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_CL">
@@ -26,7 +26,7 @@
   <link rel="preload" href="/fonts/Inter.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/SchibstedGrotesk.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/css/style.css?v=2026-11-10">
-  <link rel="stylesheet" href="/css/tableros.css?v=2026-11-11">
+  <link rel="stylesheet" href="/css/tableros.css?v=2026-11-11b">
 </head>
 <body>
   <a class="saltar" href="#contenido">Ir al contenido</a>
@@ -113,23 +113,51 @@
     <section class="vista" id="v-quien-le-vende" aria-labelledby="h-vende" hidden>
       <div class="lamina">
         <div class="lamina-cabeza">
-          <span class="estado">En preparación</span>
+          <span class="aviso aviso--real">Datos reales: todos los proveedores, de 2007 a 2025</span>
           <h2 id="h-vende">¿Quién le vende al Estado?</h2>
-          <p class="respuesta">De cada peso que gasta un organismo, cuánto termina en sus cinco proveedores más grandes, y en qué rubros manda uno solo.</p>
+          <p class="respuesta" id="qv-respuesta"></p>
         </div>
-        <div class="boceto" aria-hidden="true">
-          <svg viewBox="0 0 640 220" fill="none">
-            <rect x="20" y="20" width="18" height="60" stroke="#9fb8d6" stroke-width="2"/><rect x="20" y="92" width="18" height="44" stroke="#9fb8d6" stroke-width="2"/><rect x="20" y="148" width="18" height="52" stroke="#9fb8d6" stroke-width="2"/>
-            <rect x="311" y="30" width="18" height="70" stroke="#364259" stroke-width="2"/><rect x="311" y="116" width="18" height="74" stroke="#364259" stroke-width="2"/>
-            <rect x="602" y="20" width="18" height="34" stroke="#e3ae7a" stroke-width="2"/><rect x="602" y="66" width="18" height="24" stroke="#f1ece4" stroke-width="2"/><rect x="602" y="102" width="18" height="40" stroke="#f1ece4" stroke-width="2"/><rect x="602" y="154" width="18" height="46" stroke="#f1ece4" stroke-width="2"/>
-            <path d="M38 50 C170 50 180 65 311 65" stroke="#9fb8d6" stroke-width="16" stroke-opacity=".25"/><path d="M38 114 C170 114 180 150 311 150" stroke="#9fb8d6" stroke-width="12" stroke-opacity=".25"/><path d="M38 174 C170 174 180 160 311 160" stroke="#9fb8d6" stroke-width="14" stroke-opacity=".25"/>
-            <path d="M329 60 C460 60 470 37 602 37" stroke="#e3ae7a" stroke-width="18" stroke-opacity=".35"/><path d="M329 85 C460 85 470 78 602 78" stroke="#364259" stroke-width="8"/><path d="M329 150 C460 150 470 122 602 122" stroke="#364259" stroke-width="10"/><path d="M329 175 C460 175 470 177 602 177" stroke="#364259" stroke-width="12"/>
-          </svg>
+        <div class="cuerpo">
+          <div class="sl-graficos">
+            <figure class="sl-figura">
+              <figcaption class="sl-titulo" id="qv-titulo-top"></figcaption>
+              <p class="sl-nota">Cada línea es lo que vendió cada año, en pesos de ese año, con su propia escala.</p>
+              <ol class="top-prov" id="qv-top"></ol>
+            </figure>
+            <figure class="sl-figura">
+              <figcaption class="sl-titulo" id="qv-titulo-org"></figcaption>
+              <p class="sl-nota">Cada punto es un organismo. A la derecha, los que más compran; arriba, los que más dependen de pocos proveedores.</p>
+              <div class="lienzo-puntos" id="qv-puntos"></div>
+            </figure>
+          </div>
+          <div class="indicadores">
+            <div class="indicador">
+              <span class="etiqueta" id="qv-prov-etq"></span>
+              <span class="cifra" id="qv-prov"></span>
+              <p id="qv-prov-nota"></p>
+            </div>
+            <div class="indicador">
+              <span class="etiqueta">Personas naturales</span>
+              <span class="cifra cifra--cobre" id="qv-personas"></span>
+              <svg id="qv-linea" viewBox="0 0 240 46" preserveAspectRatio="none" aria-hidden="true"></svg>
+              <p id="qv-personas-nota"></p>
+            </div>
+            <div class="indicador">
+              <span class="etiqueta">Un organismo típico</span>
+              <span class="cifra" id="qv-tipico"></span>
+              <p id="qv-tipico-nota"></p>
+            </div>
+            <div class="indicador">
+              <span class="etiqueta">El mercado con dueño</span>
+              <span class="cifra" id="qv-duenio"></span>
+              <p id="qv-duenio-nota"></p>
+            </div>
+          </div>
         </div>
-        <div class="planes">
-          <div class="plan"><b>Forma</b><p>Un flujo de organismo a rubro y a proveedor, con el grosor en pesos.</p></div>
-          <div class="plan"><b>La pregunta de fondo</b><p>¿Cuántos mercados tienen un solo proveedor en la práctica?</p></div>
-          <div class="plan"><b>Datos</b><p>Los mismos de Tordo: concentración por rubro y la red de compradores.</p></div>
+        <div class="metodo">
+          <div><b>Qué se mide</b>Lo que cada proveedor vendió en órdenes de compra, sin las canceladas. Un proveedor es su RUT: el que más se repite en sus órdenes, porque algunas traen RUT mal escritos.</div>
+          <div><b>Quién no aparece</b>Las personas naturales (RUT bajo 50 millones) cuentan, pero sus nombres no se publican. Los nombres de esta página son de empresas y están revisados a mano.</div>
+          <div><b>Lo que queda fuera</b>Las mismas órdenes de más de $20.000 millones. En el gráfico de organismos, los que compraron menos de $1.000 millones entre 2023 y 2025. <a class="enlace" href="datos/quien-vende.json">Los datos</a>.</div>
         </div>
       </div>
     </section>
@@ -199,6 +227,6 @@
   </footer>
 
   <script src="/js/comun.js?v=2026-11-10"></script>
-  <script src="/js/compras-del-estado.js?v=2026-11-11"></script>
+  <script src="/js/compras-del-estado.js?v=2026-11-11b"></script>
 </body>
 </html>
