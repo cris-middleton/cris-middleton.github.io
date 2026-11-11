@@ -58,6 +58,18 @@ sectores = (rec.group_by(pl.col('sector').fill_null('Sin sector')).agg(pl.col('m
                                                 pl.col('CodigoOrganismoPublico').n_unique().alias('organismos')).sort('total', descending=True))
 acumulado = (org['sin'].cum_sum() / org['sin'].sum()).to_list()
 
+# Las dos emergencias grandes: quién compró por trato directo de emergencia en 2010 y en 2020
+NOMBRES.update({'7180': 'Onemi', '7242': 'Obras Públicas (dirección general)', '7141': 'Servicio de Salud del Maule', '6979': 'Serviu Biobío',
+                '7195': 'Delegación Presidencial de Santiago', '7029': 'Servicio de Salud Metropolitano Occidente', '7002': 'Junaeb'})
+emergencias = {}
+for anio, evento in ((2010, 'Terremoto'), (2020, 'Pandemia')):
+    em = o.filter((pl.col('anio') == anio) & (pl.col('forma') == 'emergencia'))
+    g = em.group_by('CodigoOrganismoPublico').agg(pl.col('OrganismoPublico').first(), pl.col('monto').sum()).sort(['monto', 'CodigoOrganismoPublico'], descending=True)
+    sec = em.group_by(pl.col('sector').fill_null('Sin sector')).agg(pl.col('monto').sum()).sort('monto', descending=True)
+    emergencias[str(anio)] = {'evento': evento, 'total': round(em['monto'].sum()), 'organismos': g.height,
+                              'top': [{'nombre': r['OrganismoPublico'], 'corto': NOMBRES.get(r['CodigoOrganismoPublico']), 'monto': round(r['monto'])} for r in g.head(5).to_dicts()],
+                              'sectores': [{'sector': r['sector'], 'monto': round(r['monto'])} for r in sec.to_dicts()]}
+
 SALIDA.write_text(json.dumps({
     'fuente': 'Descarga masiva de órdenes de compra de ChileCompra (transparenciachc.blob.core.windows.net/oc-da)',
     'limpieza': 'Sin órdenes canceladas; montos con coma decimal y en UF/UTM saneados como en Tordo; una fila por orden.',
@@ -67,6 +79,7 @@ SALIDA.write_text(json.dumps({
                'licitacion': 'Licitación pública o privada', 'informar': 'Orden «para informar» (fuera de la ley de compras)', 'otra': 'Otras'},
     'monto': serie('monto'), 'ordenes': serie('n'),
     'sectores': [{'sector': r['sector'], 'total': round(r['total']), 'sin': round(r['sin']), 'organismos': r['organismos']} for r in sectores.to_dicts()],
+    'emergencias': emergencias,
     'mitad': {'organismos': next(k for k, c in enumerate(acumulado) if c >= 0.5) + 1, 'de': int((org['sin'] > 0).sum())},
     'organismos': [{'codigo': r['CodigoOrganismoPublico'], 'nombre': r['OrganismoPublico'], 'corto': NOMBRES.get(r['CodigoOrganismoPublico']),
                     'sector': r['sector'], 'total': round(r['total']), 'sin': round(r['sin'])} for r in org.to_dicts()],

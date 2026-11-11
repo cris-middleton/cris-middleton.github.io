@@ -279,6 +279,19 @@
     var ultimoAncho = 0;
     new ResizeObserver(function () { if (lienzo.clientWidth && lienzo.clientWidth !== ultimoAncho) { ultimoAncho = lienzo.clientWidth; dibujar(); } }).observe(lienzo);
 
+    // ---------- Quién compró en la emergencia: 2010 y 2020, lado a lado ----------
+    // Las dos columnas con la misma escala: la parte de cada organismo en el total de su año
+    var SECTOR = { 'Gob. Central, Universidades': 'gobierno central y universidades', 'Municipalidades': 'municipios', 'FFAA': 'Fuerzas Armadas y policías' };
+    var parteMax = Math.max.apply(null, Object.keys(D.emergencias).map(function (a) { var e = D.emergencias[a]; return e.top[0].monto / e.total; }));
+    var nombreSector = function (x) { return SECTOR[x.sector] || x.sector; };
+    document.getElementById('sl-emergencias').innerHTML = Object.keys(D.emergencias).map(function (a) {
+      var e = D.emergencias[a], s0 = e.sectores[0], s1 = e.sectores[1];
+      return '<div class="em-col"><p class="em-cabeza"><b>' + e.evento + ', ' + a + '</b>' + pesos(e.total) + ' por emergencia, en ' + e.organismos.toLocaleString('es-CL') + ' organismos</p><ol>' +
+        e.top.map(function (t) {
+          return '<li><span class="em-nombre">' + (t.corto || t.nombre) + '</span><span class="em-barra"><i style="width:' + (t.monto / e.total / parteMax * 100).toFixed(1) + '%"></i></span><span class="em-valor">' + Math.round(t.monto / e.total * 100) + ' %</span></li>';
+        }).join('') + '</ol><p class="em-pie">Por sector: ' + nombreSector(s0) + ', ' + Math.round(s0.monto / e.total * 100) + ' %; ' + nombreSector(s1) + ', ' + Math.round(s1.monto / e.total * 100) + ' %.</p></div>';
+    }).join('');
+
     // ---------- Contando órdenes: la parte de cada forma de compra en el número de órdenes ----------
     var O = D.ordenes, desde = A.indexOf(2009), AO = A.slice(desde);
     var totO = AO.map(function (_, k) { return suma(Object.keys(O).map(function (f) { return O[f][k + desde]; })); });
@@ -616,7 +629,7 @@
   }
 
   function cargar(archivo, dibujo, avisarEn) {
-    fetch('/tableros/compras-del-estado/datos/' + archivo + '?v=2026-11-11g')
+    fetch('/tableros/compras-del-estado/datos/' + archivo + '?v=2026-11-11h')
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(dibujo)
       .catch(function () { document.getElementById(avisarEn).textContent = 'No se pudieron cargar los datos. Prueba recargando la página.'; });

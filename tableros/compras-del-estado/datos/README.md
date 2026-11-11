@@ -32,7 +32,7 @@ en tu disco. Los JSON publicados sólo tienen cuentas de personas y nombres de e
 | `diciembre.json` | ¿El Estado se gasta todo en diciembre? | Monto y órdenes de cada mes; las órdenes fuera del tope, una a una |
 | `dias.json` | Diciembre, día a día | Cada día de diciembre contra un día hábil normal (medianas) |
 | `sectores.json` | Diciembre, por sector | La fiebre de diciembre de cada sector en 2007–2011, 2021–2025 y en total |
-| `sin-licitar.json` | ¿Cuánto se compra sin licitar? | Monto y órdenes por forma de compra y año; los 1.177 organismos |
+| `sin-licitar.json` | ¿Cuánto se compra sin licitar? | Monto y órdenes por forma de compra y año; los 1.177 organismos; quién compró por emergencia en 2010 y 2020 |
 | `quien-vende.json` | ¿Quién le vende al Estado? | Proveedores por año, los doce más grandes, organismos y mercados |
 | `regiones.json` | ¿A quién le compra cada región? | Matriz región que compra × región que vende, y la serie por año |
 | `rubros.json` | ¿En qué gasta el Estado? | La parte de cada rubro en 2010–2012 y 2023–2025, y algunas series |
