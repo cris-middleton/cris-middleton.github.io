@@ -77,8 +77,8 @@
             <div class="periodo">Nov 2026<span>Hoy</span></div>
             <div>
               <h3>Productos propios</h3>
-              <p class="empresa">Tordo, PixelFrame y tableros</p>
-              <p>Estoy enfocado en mis proyectos: <a class="enlace" href="https://tordo.cl">Tordo</a>, las compras del Estado de Chile en abierto; <a class="enlace" href="https://pixelframe.cl">PixelFrame</a>, cuadros de mosaico para armar, y los <a class="enlace" href="/tableros/">tableros</a>, historias con datos públicos de Chile. Lo construyo, lo pongo en producción y lo mantengo yo.</p>
+              <p class="empresa">PixelFrame, Finisher y tableros</p>
+              <p>Estoy enfocado en mis proyectos: <a class="enlace" href="https://pixelframe.cl">PixelFrame</a>, cuadros de mosaico para armar; <a class="enlace" href="https://pixelframe.cl/finisher/">Finisher</a>, mapas en relieve de tu carrera impresos en 3D, y los <a class="enlace" href="/tableros/">tableros</a>, historias con datos públicos de Chile. Lo construyo, lo pongo en producción y lo mantengo yo.</p>
             </div>
           </li>
           <li class="hito">
@@ -151,39 +151,27 @@
 
         <h3 class="subtitulo">Propios</h3>
         <div class="propios">
+
           <article class="tarjeta proyecto">
             <div class="proyecto-cabeza">
-              <img class="insignia" src="/images/tordo-insignia.png" width="48" height="48" alt="">
+              <span class="insignia insignia--finisher" aria-hidden="true">
+                <svg viewBox="6 6 88 88"><path fill="#F5F0E8" d="M10 10H58V21H21V90H10ZM90 90H42V79H79V10H90Z"/><path fill="none" stroke="#ee5a52" stroke-width="7" stroke-linejoin="round" d="M21 39H43Q50 39 50 46V54Q50 61 57 61H79"/></svg>
+              </span>
               <div>
-                <h3>Tordo</h3>
-                <p>En producción desde el 13 de octubre de 2026</p>
+                <h3>Finisher</h3>
+                <p>Mapas de carrera en relieve, by Pixelframe</p>
               </div>
             </div>
-            <p>Los datos de Mercado Público ordenados para las pymes que le venden al Estado: a qué precio se compró cada producto, quién lo compra y qué está abierto hoy. Es gratis, tiene una API pública y un servidor MCP para asistentes de IA, y el catálogo se actualiza cuatro veces cada día hábil.</p>
-            <p>Cada error que encuentro en los datos, o en mi propio análisis, sale publicado como <a class="enlace" href="https://tordo.cl/notas">nota de datos</a>: qué vimos, cómo lo medimos y qué cambió. Tres de ellos:</p>
-            <ul class="hallazgos">
-              <li>
-                <span class="cifra">$16.850</span>
-                es lo que se paga por un paquete de papel higiénico jumbo, y Tordo lo mostraba «entre $843 y $2.106». El precio unitario se dividía dos veces por la cantidad. <a class="enlace" href="https://tordo.cl/notas/precio-unitario-dividido-dos-veces">La nota</a>
-              </li>
-              <li>
-                <span class="cifra">$14 billones</span>
-                al año sumaban las Municipalidades, contra $4,15&nbsp;billones de la cifra oficial. 144 órdenes traían el monto en pesos y la moneda en UF o UTM. <a class="enlace" href="https://tordo.cl/notas/pesos-marcados-como-uf-inflaban-municipios">La nota</a>
-              </li>
-              <li>
-                <span class="cifra">2.700</span>
-                de 5.675 mercados con un solo proveedor salían como los más abiertos del índice de concentración. <a class="enlace" href="https://tordo.cl/notas/mercados-de-un-proveedor-salian-como-abiertos">La nota</a>
-              </li>
-            </ul>
-            <ul class="chips" aria-label="Stack de Tordo">
-              <li>Python</li><li>Polars</li><li>PostgreSQL</li><li>FastAPI</li><li>Next.js</li><li>TypeScript</li><li>MCP</li><li>Railway</li><li>Vercel</li>
+            <p>Tu maratón, media o 10K en un mapa en relieve: el recorrido, las calles y la ciudad impresos en 3D, con tu nombre y tu tiempo en la placa. Llega enmarcado y listo para colgar.</p>
+            <p>Buscas tu carrera en un catálogo de más de 800, la ves en 3D en el navegador mientras la personalizas y la compras. Cada ruta la trazamos nosotros sobre OpenStreetMap, y el mismo motor que dibuja la vista previa genera los archivos que van a la impresora.</p>
+            <img class="foto-proyecto" src="/images/finisher.webp" alt="Mapa en relieve del maratón de Nueva York, con la ruta en naranja y el nombre y el tiempo del corredor en la placa" width="800" height="508" loading="lazy">
+            <ul class="chips" aria-label="Stack de Finisher">
+              <li>Astro</li><li>TypeScript</li><li>three.js</li><li>MapLibre</li><li>OpenStreetMap</li><li>Impresión 3D</li><li>Supabase</li><li>Vercel</li>
             </ul>
             <div class="enlaces-proyecto">
-              <a class="boton" href="https://tordo.cl">tordo.cl<svg aria-hidden="true"><use href="#i-salir"/></svg></a>
-              <a class="boton" href="https://github.com/cris-middleton/tordo"><svg aria-hidden="true"><use href="#i-github"/></svg>Código</a>
+              <a class="boton" href="https://pixelframe.cl/finisher/">pixelframe.cl/finisher<svg aria-hidden="true"><use href="#i-salir"/></svg></a>
             </div>
           </article>
-
           <article class="tarjeta proyecto">
             <div class="proyecto-cabeza">
               <span class="insignia insignia--pixelframe" aria-hidden="true">
@@ -202,6 +190,37 @@
             </ul>
             <div class="enlaces-proyecto">
               <a class="boton" href="https://pixelframe.cl">pixelframe.cl<svg aria-hidden="true"><use href="#i-salir"/></svg></a>
+            </div>
+          </article>
+          <article class="tarjeta proyecto proyecto--ancho">
+            <div class="proyecto-cabeza">
+              <img class="insignia" src="/images/tordo-insignia.png" width="48" height="48" alt="">
+              <div>
+                <h3>Tordo</h3>
+                <p>En producción desde octubre de 2026, hoy en pausa</p>
+              </div>
+            </div>
+            <p>Los datos de Mercado Público ordenados para las pymes que le venden al Estado: a qué precio se compró cada producto, quién lo compra y qué está abierto hoy. Era gratis, con una API pública y un servidor MCP para asistentes de IA, y el catálogo se actualizaba cuatro veces cada día hábil.</p>
+            <p>Cada error que encontraba en los datos, o en mi propio análisis, salía publicado como nota de datos: qué vimos, cómo lo medimos y qué cambió. Tres de ellos:</p>
+            <ul class="hallazgos">
+              <li>
+                <span class="cifra">$16.850</span>
+                es lo que se paga por un paquete de papel higiénico jumbo, y Tordo lo mostraba «entre $843 y $2.106». El precio unitario se dividía dos veces por la cantidad.
+              </li>
+              <li>
+                <span class="cifra">$14 billones</span>
+                al año sumaban las Municipalidades, contra $4,15&nbsp;billones de la cifra oficial. 144 órdenes traían el monto en pesos y la moneda en UF o UTM.
+              </li>
+              <li>
+                <span class="cifra">2.700</span>
+                de 5.675 mercados con un solo proveedor salían como los más abiertos del índice de concentración.
+              </li>
+            </ul>
+            <ul class="chips" aria-label="Stack de Tordo">
+              <li>Python</li><li>Polars</li><li>PostgreSQL</li><li>FastAPI</li><li>Next.js</li><li>TypeScript</li><li>MCP</li><li>Railway</li><li>Vercel</li>
+            </ul>
+            <div class="enlaces-proyecto">
+              <a class="boton" href="https://github.com/cris-middleton/tordo"><svg aria-hidden="true"><use href="#i-github"/></svg>Código</a>
             </div>
           </article>
         </div>
@@ -300,12 +319,12 @@
               <ul class="chips">
                 <li>Python</li><li>Pandas</li><li>Polars</li><li>NumPy</li><li>Scikit-learn</li><li>Modelos predictivos</li><li>Evaluación de modelos</li><li>MLOps</li><li>MLflow</li><li>Prefect</li><li>GCP Cloud Run</li><li>APIs REST</li><li>Playwright</li><li>Git</li>
               </ul>
-              <p class="detalle">Los modelos de precio de departamentos y de monto de venta de vehículos en Macal, orquestados y monitoreados con MLflow y Prefect; el de departamentos, desplegado en Cloud Run. En Puig, la carga de cada mañana manejaba el portal de SAP con Playwright y Excel desde Python. Polars calcula el pipeline semanal de Tordo.</p>
+              <p class="detalle">Los modelos de precio de departamentos y de monto de venta de vehículos en Macal, orquestados y monitoreados con MLflow y Prefect; el de departamentos, desplegado en Cloud Run. En Puig, la carga de cada mañana manejaba el portal de SAP con Playwright y Excel desde Python. Polars calculaba el pipeline semanal de Tordo.</p>
             </div>
             <div class="tarjeta habilidad">
               <h3>Desarrollo de productos</h3>
               <ul class="chips"><li>PostgreSQL</li><li>DuckDB</li><li>FastAPI</li><li>Streamlit</li><li>Servidores MCP</li><li>Docker</li><li>Next.js</li><li>TypeScript</li><li>Astro</li></ul>
-              <p class="detalle">Tordo: tres años de órdenes de compra servidos desde PostgreSQL, con una API pública en FastAPI, en contenedores en Railway, y el sitio en Next.js. En Puig, la base de demanda en DuckDB, con su esquema versionado en más de 120 migraciones y la app en Streamlit. PixelFrame: la tienda, en Astro y TypeScript.</p>
+              <p class="detalle">Tordo: tres años de órdenes de compra, servidos desde PostgreSQL, con una API pública en FastAPI, en contenedores en Railway, y el sitio en Next.js. En Puig, la base de demanda en DuckDB, con su esquema versionado en más de 120 migraciones y la app en Streamlit. PixelFrame y Finisher: la tienda y el configurador 3D, en Astro, TypeScript y three.js.</p>
             </div>
             <div class="tarjeta habilidad">
               <h3>Visualización y BI</h3>

@@ -1,11 +1,11 @@
-// La portada: el mosaico que se arma, el tordo, la muestra de tableros, la red de Tordo,
+// La portada: el mosaico que se arma, el tordo, la muestra de tableros,
 // la línea de la trayectoria y la racha de Duolingo. Usa CUADROS (datos-cuadros.js) y PAJARO (datos-pajaro.js).
 (function () {
   var reducido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var fmt = function (n) { return n.toLocaleString('es-CL'); };
   var dpr = function () { return Math.min(window.devicePixelRatio || 1, 2); };
 
-  // Generador con semilla, para que la red y el orden de las piezas sean siempre iguales
+  // Generador con semilla, para que el orden de las piezas sea siempre igual
   function semilla(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; var t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
 
   // ---------------- El mosaico que se arma ----------------
@@ -159,62 +159,6 @@
   }).join('');
   var barras = document.getElementById('barras');
   new IntersectionObserver(function (es, obs) { if (es[0].isIntersecting) { barras.classList.add('anima'); obs.disconnect(); } }, { threshold: 0.5 }).observe(barras);
-
-  // ---------------- La red de Tordo: compradores a la izquierda, proveedores a la derecha ----------------
-  var red = document.getElementById('red'), rc = red.getContext('2d'), rw = 0, rh = 0, rd = 1, redVisible = false, redCorre = false;
-  var RED_DURA = 8000, redHasta = 0; // corre 8 s al aparecer o al pasar el mouse, y se queda quieta
-  var ar = semilla(11), izq = [], der = [], enlaces = [], chispas = [];
-  for (var i = 0; i < 7; i++) izq.push({ y: (i + 0.8) / 7.6, r: 3 + ar() * 5 });
-  for (var j = 0; j < 11; j++) der.push({ y: (j + 0.8) / 11.6, r: 2 + ar() * 3 });
-  izq.forEach(function (n, a) { var k = 2 + Math.floor(ar() * 3); for (var m = 0; m < k; m++) enlaces.push([a, Math.floor(ar() * der.length), 0.4 + ar() * 0.6]); });
-  for (var s = 0; s < 46; s++) chispas.push({ e: Math.floor(ar() * enlaces.length), t: ar(), v: 0.0018 + ar() * 0.0035 });
-  function medirRed() { rd = dpr(); rw = red.clientWidth; rh = red.clientHeight; red.width = rw * rd; red.height = rh * rd; }
-  function extremos(e) {
-    var x0 = rw * 0.12, x1 = rw * 0.88;
-    return { x0: x0, x1: x1, cx: (x0 + x1) / 2, y0: izq[e[0]].y * (rh - 44) + 8, y1: der[e[1]].y * (rh - 44) + 8 };
-  }
-  function punto(e, t) {
-    var z = extremos(e), u = 1 - t;
-    return [u * u * u * z.x0 + 3 * u * u * t * z.cx + 3 * u * t * t * z.cx + t * t * t * z.x1,
-      u * u * u * z.y0 + 3 * u * u * t * z.y0 + 3 * u * t * t * z.y1 + t * t * t * z.y1];
-  }
-  function pintarRed() {
-    rc.setTransform(rd, 0, 0, rd, 0, 0); rc.clearRect(0, 0, rw, rh);
-    enlaces.forEach(function (e) {
-      var z = extremos(e);
-      rc.beginPath(); rc.moveTo(z.x0, z.y0); rc.bezierCurveTo(z.cx, z.y0, z.cx, z.y1, z.x1, z.y1);
-      rc.strokeStyle = 'rgba(159,184,214,' + (0.08 + e[2] * 0.12) + ')'; rc.lineWidth = 0.6 + e[2] * 1.4; rc.stroke();
-    });
-    chispas.forEach(function (c) {
-      for (var k = 0; k < 5; k++) {
-        var tt = c.t - k * 0.018; if (tt < 0) break;
-        var p = punto(enlaces[c.e], Math.min(tt, 1));
-        rc.beginPath(); rc.arc(p[0], p[1], 2.1 - k * 0.35, 0, 2 * Math.PI); rc.fillStyle = 'rgba(227,174,122,' + (0.95 - k * 0.2) + ')'; rc.fill();
-      }
-    });
-    izq.forEach(function (n) { rc.beginPath(); rc.arc(rw * 0.12, n.y * (rh - 44) + 8, n.r, 0, 2 * Math.PI); rc.fillStyle = '#9fb8d6'; rc.fill(); });
-    der.forEach(function (n) { rc.beginPath(); rc.arc(rw * 0.88, n.y * (rh - 44) + 8, n.r, 0, 2 * Math.PI); rc.fillStyle = '#f1ece4'; rc.fill(); });
-  }
-  function moverRed() {
-    chispas.forEach(function (c) { c.t += c.v; if (c.t > 1.08) { c.t = 0; c.e = Math.floor(ar() * enlaces.length); } });
-    pintarRed();
-    if (redVisible && !document.hidden && performance.now() < redHasta) requestAnimationFrame(moverRed); else redCorre = false;
-  }
-  function arrancarRed(nueva) {
-    if (reducido || !redVisible) return;
-    if (nueva) redHasta = performance.now() + RED_DURA;
-    if (redCorre || performance.now() >= redHasta) return;
-    redCorre = true; requestAnimationFrame(moverRed);
-  }
-  medirRed(); pintarRed();
-  new ResizeObserver(function () { medirRed(); pintarRed(); }).observe(red);
-  var redVista = false;
-  new IntersectionObserver(function (es) {
-    redVisible = es[0].isIntersecting;
-    if (redVisible && !redVista) { redVista = true; arrancarRed(true); } else arrancarRed();
-  }).observe(red);
-  red.parentElement.addEventListener('pointerenter', function () { arrancarRed(true); });
-  document.addEventListener('visibilitychange', function () { if (!document.hidden) arrancarRed(); });
 
   // ---------------- La línea de la trayectoria se dibuja al llegar ----------------
   var linea = document.getElementById('linea');
